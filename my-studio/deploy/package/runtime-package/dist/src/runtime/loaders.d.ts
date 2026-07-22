@@ -1,0 +1,12 @@
+import type { ProviderExecutionPlan } from '../adapters/types.js';
+import type { CredentialResolutionPlan } from '../auth/types.js';
+import type { ApprovalProof, AuthorizedExecutionEnvelope, BudgetAuthorization, RuntimePolicyDecision, RuntimeTrustStore } from './types.js';
+import type { SignedDispatchReceipt } from '../dispatch/types.js';
+export declare function loadAuthorizedExecutionEnvelope(path: string): Promise<AuthorizedExecutionEnvelope>;
+export declare function loadSignedDispatchReceipt(path: string): Promise<SignedDispatchReceipt>;
+export declare function loadProviderExecutionPlan(path: string): Promise<ProviderExecutionPlan>;
+export declare function loadCredentialResolutionPlan(path: string): Promise<CredentialResolutionPlan>;
+export declare function loadRuntimePolicyDecision(path: string): Promise<RuntimePolicyDecision>;
+export declare function loadApprovalProof(path: string): Promise<ApprovalProof>;
+export declare function loadBudgetAuthorization(path: string): Promise<BudgetAuthorization>;
+export declare function loadRuntimeTrustStore(path: string): Promise<RuntimeTrustStore>;

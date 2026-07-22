@@ -1,0 +1,16 @@
+const CODE_PRIORITY = {
+    SCHEMA_MIN_LENGTH: 10,
+    SCHEMA_REQUIRED: 20,
+    SCHEMA_PATTERN: 30
+};
+export function sortValidationIssues(issues) {
+    return [...issues].sort((left, right) => {
+        const leftPriority = CODE_PRIORITY[left.code] ?? 100;
+        const rightPriority = CODE_PRIORITY[right.code] ?? 100;
+        return (leftPriority - rightPriority ||
+            left.path.localeCompare(right.path) ||
+            left.code.localeCompare(right.code) ||
+            left.message.localeCompare(right.message));
+    });
+}
+//# sourceMappingURL=issues.js.map

@@ -1,6 +1,7 @@
 .worktrees/
 node_modules/
 dist/
+!my-studio/deploy/package/runtime-package/dist/
 coverage/
 
 release/*.tgz
