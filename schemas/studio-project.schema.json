@@ -1,0 +1,16 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://numtema.local/schemas/studio-project.schema.json",
+  "type": "object",
+  "required": ["artifact_type", "artifact_version", "name", "source", "provider", "chatgpt_app", "paths"],
+  "properties": {
+    "artifact_type": { "const": "studio_project" },
+    "artifact_version": { "const": "1.2" },
+    "name": { "type": "string", "minLength": 1 },
+    "source": { "type": "object", "required": ["file"] },
+    "provider": { "type": "object", "required": ["base_url", "provider_ref", "provider_account_ref", "auth_mode", "credential_handle", "credential_environment"] },
+    "chatgpt_app": { "type": "object", "required": ["public_base_url", "allowed_origins", "baseline_scopes"] },
+    "paths": { "type": "object" }
+  },
+  "additionalProperties": true
+}

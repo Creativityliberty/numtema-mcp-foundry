@@ -1,0 +1,441 @@
+{
+  "initialized": {
+    "jsonrpc": "2.0",
+    "id": 1,
+    "result": {
+      "protocolVersion": "2025-11-25",
+      "capabilities": {
+        "tools": {
+          "listChanged": false
+        }
+      },
+      "serverInfo": {
+        "name": "numtema-mcp-demo",
+        "version": "1.0.0"
+      },
+      "instructions": "Nümtema MCP Foundry exposes governed provider tools. High-risk calls require exact approval artifacts."
+    }
+  },
+  "listed": {
+    "jsonrpc": "2.0",
+    "id": 2,
+    "result": {
+      "tools": [
+        {
+          "name": "customer_create",
+          "title": "Create customer",
+          "description": "POST /customers — Create customer. Compiled as a governed Nümtema Foundry capability from source operation createCustomer.",
+          "inputSchema": {
+            "type": "object",
+            "properties": {
+              "body": {
+                "additionalProperties": false,
+                "properties": {
+                  "email": {
+                    "format": "email",
+                    "type": "string"
+                  },
+                  "name": {
+                    "minLength": 1,
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "email"
+                ],
+                "type": "object"
+              }
+            },
+            "required": [
+              "body"
+            ],
+            "additionalProperties": false
+          },
+          "outputSchema": {
+            "properties": {
+              "email": {
+                "format": "email",
+                "type": "string"
+              },
+              "id": {
+                "format": "uuid",
+                "type": "string"
+              },
+              "name": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "id",
+              "email"
+            ],
+            "type": "object"
+          },
+          "annotations": {
+            "readOnlyHint": false,
+            "destructiveHint": false,
+            "idempotentHint": false,
+            "openWorldHint": false
+          },
+          "_meta": {
+            "toolId": "tool:customer_create",
+            "toolRevision": "1da35b60758705a55983f4c3c21c05d31dfe2396f4019214578b4a4b8b134817",
+            "riskClass": "R2",
+            "approvalRequired": false,
+            "requiredScopes": []
+          }
+        },
+        {
+          "name": "customer_get",
+          "title": "Get customer",
+          "description": "GET /customers/{customerId} — Get customer. Compiled as a governed Nümtema Foundry capability from source operation getCustomer.",
+          "inputSchema": {
+            "type": "object",
+            "properties": {
+              "customerId": {
+                "format": "uuid",
+                "type": "string",
+                "description": "Customer UUID"
+              },
+              "expand": {
+                "items": {
+                  "type": "string"
+                },
+                "type": "array"
+              }
+            },
+            "required": [
+              "customerId"
+            ],
+            "additionalProperties": false
+          },
+          "outputSchema": {
+            "properties": {
+              "email": {
+                "format": "email",
+                "type": "string"
+              },
+              "id": {
+                "format": "uuid",
+                "type": "string"
+              },
+              "name": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "id",
+              "email"
+            ],
+            "type": "object"
+          },
+          "annotations": {
+            "readOnlyHint": true,
+            "destructiveHint": false,
+            "idempotentHint": true,
+            "openWorldHint": false
+          },
+          "_meta": {
+            "toolId": "tool:customer_get",
+            "toolRevision": "customer-get-auth-rev-1",
+            "riskClass": "R1",
+            "approvalRequired": false,
+            "requiredScopes": [
+              "customer:read"
+            ]
+          }
+        },
+        {
+          "name": "customer_list",
+          "title": "List customers",
+          "description": "GET /customers — List customers. Compiled as a governed Nümtema Foundry capability from source operation listCustomers.",
+          "inputSchema": {
+            "type": "object",
+            "properties": {
+              "X-Trace-ID": {
+                "type": "string"
+              },
+              "cursor": {
+                "type": "string"
+              },
+              "limit": {
+                "default": 20,
+                "maximum": 100,
+                "minimum": 1,
+                "type": "integer"
+              }
+            },
+            "required": [],
+            "additionalProperties": false
+          },
+          "outputSchema": {
+            "properties": {
+              "items": {
+                "items": {
+                  "properties": {
+                    "email": {
+                      "format": "email",
+                      "type": "string"
+                    },
+                    "id": {
+                      "format": "uuid",
+                      "type": "string"
+                    },
+                    "name": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "id",
+                    "email"
+                  ],
+                  "type": "object"
+                },
+                "type": "array"
+              },
+              "next_cursor": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "total": {
+                "type": "integer"
+              }
+            },
+            "required": [
+              "items"
+            ],
+            "type": "object"
+          },
+          "annotations": {
+            "readOnlyHint": true,
+            "destructiveHint": false,
+            "idempotentHint": true,
+            "openWorldHint": false
+          },
+          "_meta": {
+            "toolId": "tool:customer_list",
+            "toolRevision": "b282cc69488651cb97ce14f73a7aafb29b4d2fc12283cf92862f9aa0f4c5b018",
+            "riskClass": "R1",
+            "approvalRequired": false,
+            "requiredScopes": []
+          }
+        },
+        {
+          "name": "file_upload",
+          "title": "Upload file",
+          "description": "POST /files — Upload file. Compiled as a governed Nümtema Foundry capability from source operation uploadFile.",
+          "inputSchema": {
+            "type": "object",
+            "properties": {
+              "body": {
+                "properties": {
+                  "file": {
+                    "format": "binary",
+                    "type": "string"
+                  },
+                  "label": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "file"
+                ],
+                "type": "object"
+              }
+            },
+            "required": [
+              "body"
+            ],
+            "additionalProperties": false
+          },
+          "outputSchema": {
+            "properties": {
+              "job_id": {
+                "type": "string"
+              },
+              "status": {
+                "enum": [
+                  "queued",
+                  "running",
+                  "completed",
+                  "failed"
+                ],
+                "type": "string"
+              }
+            },
+            "required": [
+              "job_id",
+              "status"
+            ],
+            "type": "object"
+          },
+          "annotations": {
+            "readOnlyHint": false,
+            "destructiveHint": false,
+            "idempotentHint": false,
+            "openWorldHint": false
+          },
+          "_meta": {
+            "toolId": "tool:file_upload",
+            "toolRevision": "e2fc1f6b7a63b321ac1e7608aedec5a73b6374aaf08924fc051b7ab79695fcd8",
+            "riskClass": "R2",
+            "approvalRequired": false,
+            "requiredScopes": []
+          }
+        }
+      ]
+    }
+  },
+  "called": {
+    "jsonrpc": "2.0",
+    "id": 3,
+    "result": {
+      "content": [
+        {
+          "type": "text",
+          "text": "Tool customer_get completed with provider HTTP 200."
+        }
+      ],
+      "structuredContent": {
+        "id": "customer 7",
+        "name": "Demo Customer",
+        "expand": "orders,invoices"
+      },
+      "isError": false,
+      "_meta": {
+        "foundry": {
+          "executionReceipt": {
+            "artifact_type": "signed_execution_receipt",
+            "artifact_version": "1.0",
+            "receipt_id": "exec_b9503dfd370382ee91bcf27a53c36f78",
+            "authorization_id": "authz_8a6094f6555d53384f070a5b13526ded",
+            "reservation_id": "res_4250ed99986e15dc13b9a3623fde0ea0",
+            "binding": {
+              "tool_id": "tool:customer_get",
+              "tool_revision": "customer-get-auth-rev-1",
+              "adapter_id": "adapter:customer_get",
+              "adapter_revision": "890e77b35d1dcd1d716d29cf47c25b5e049fc5ccca2747e8ed1adf7ded07d75e",
+              "arguments_hash": "324b343694674e1f58dbfefc27bf2bdea48a3bcb6379dfdd0d789908e945eb87",
+              "context_hash": "2db6ea41ad3899f5e551f49fe67ab6eab14c2393415aaaedaebccc719ec703bc",
+              "subject_ref": "user-001",
+              "client_ref": "chatgpt-client",
+              "workspace_ref": "workspace-001"
+            },
+            "status": "succeeded",
+            "started_at": "2026-07-22T18:31:29.423Z",
+            "completed_at": "2026-07-22T18:31:29.451Z",
+            "duration_ms": 28,
+            "provider": {
+              "response_received": true,
+              "http_status": 200,
+              "media_type": "application/json",
+              "retryable": false,
+              "result_digest": "61479332ade006f7e5a5a791c84997dac5a4e798a0bc83a3fb579793ee21b1a5"
+            },
+            "dispatch": {
+              "transition": "reserved_to_dispatched",
+              "state": "dispatched",
+              "receipt_id": "dispatch_receipt_61b360866e0b4b2b7ab3d1ed8d9eacda",
+              "receipt_digest": "6aae92567d9d63a1a6f21642e8c4e1bba95208e2b58fb1551f1a64189731095c"
+            },
+            "redaction": {
+              "secret_material_included": false,
+              "credential_handle_included": false
+            },
+            "integrity": {
+              "algorithm": "sha256",
+              "digest": "64bef4f125aa91e528eee64fed415e2aea08a754388fe07a30e00d74521806c3"
+            },
+            "signature": {
+              "algorithm": "ed25519",
+              "key_id": "execution-key",
+              "value": "ULDVZNO+fnx3TsGEcnjzbi6d5JdeDOOpEy6BmkDjIDfUOrArj0INfT2WE9OIyhGBrhqpUbs7QeLFNjL2XPTGCA=="
+            }
+          },
+          "reservationReceipt": {
+            "artifact_type": "signed_dispatch_receipt",
+            "artifact_version": "0.9",
+            "receipt_id": "dispatch_receipt_7ec30ad65846458cce5115aff7132dd5",
+            "ledger_id": "ledger_189bdd6838f9ba7a02861787",
+            "sequence": 1,
+            "reservation_id": "res_4250ed99986e15dc13b9a3623fde0ea0",
+            "authorization_id": "authz_8a6094f6555d53384f070a5b13526ded",
+            "transition": "authorized_to_reserved",
+            "state": "reserved",
+            "replayed": false,
+            "occurred_at": "2026-07-22T18:31:29.423Z",
+            "binding": {
+              "tool_id": "tool:customer_get",
+              "tool_revision": "customer-get-auth-rev-1",
+              "adapter_id": "adapter:customer_get",
+              "adapter_revision": "890e77b35d1dcd1d716d29cf47c25b5e049fc5ccca2747e8ed1adf7ded07d75e",
+              "arguments_hash": "324b343694674e1f58dbfefc27bf2bdea48a3bcb6379dfdd0d789908e945eb87",
+              "context_hash": "2db6ea41ad3899f5e551f49fe67ab6eab14c2393415aaaedaebccc719ec703bc",
+              "subject_ref": "user-001",
+              "client_ref": "chatgpt-client",
+              "workspace_ref": "workspace-001"
+            },
+            "execution_nonce": "dispatch_1c55c36d803c4086a47ee79ce87fe61b",
+            "approval_nonce": null,
+            "idempotency_key": null,
+            "budget": null,
+            "envelope_digest": "2b81c1973765910d007cca2f564d0c69f128b31461683f6efff8ee2c07d1d2a7",
+            "ledger_event_digest": "976460bf213d83e597fdc8a6f15d7c0fc44be86b216bfd35e939a6b5cf0a1650",
+            "integrity": {
+              "algorithm": "sha256",
+              "digest": "96e89499972057ca3d49503376895ffea430efd7f83cac2e7e7409590807f7dd"
+            },
+            "signature": {
+              "algorithm": "ed25519",
+              "key_id": "dispatch-key",
+              "value": "Hv2BUGtBnlJqbotF5vintXkCM0Gch5qPUTTLGwBpyXOROzDb9lbG4Xili4fwHuGXCBcvZCJjed/Ku+0tr9C0DA=="
+            }
+          },
+          "dispatchReceipt": {
+            "artifact_type": "signed_dispatch_receipt",
+            "artifact_version": "0.9",
+            "receipt_id": "dispatch_receipt_61b360866e0b4b2b7ab3d1ed8d9eacda",
+            "ledger_id": "ledger_189bdd6838f9ba7a02861787",
+            "sequence": 2,
+            "reservation_id": "res_4250ed99986e15dc13b9a3623fde0ea0",
+            "authorization_id": "authz_8a6094f6555d53384f070a5b13526ded",
+            "transition": "reserved_to_dispatched",
+            "state": "dispatched",
+            "replayed": false,
+            "occurred_at": "2026-07-22T18:31:29.451Z",
+            "binding": {
+              "adapter_id": "adapter:customer_get",
+              "adapter_revision": "890e77b35d1dcd1d716d29cf47c25b5e049fc5ccca2747e8ed1adf7ded07d75e",
+              "arguments_hash": "324b343694674e1f58dbfefc27bf2bdea48a3bcb6379dfdd0d789908e945eb87",
+              "client_ref": "chatgpt-client",
+              "context_hash": "2db6ea41ad3899f5e551f49fe67ab6eab14c2393415aaaedaebccc719ec703bc",
+              "subject_ref": "user-001",
+              "tool_id": "tool:customer_get",
+              "tool_revision": "customer-get-auth-rev-1",
+              "workspace_ref": "workspace-001"
+            },
+            "execution_nonce": "dispatch_1c55c36d803c4086a47ee79ce87fe61b",
+            "approval_nonce": null,
+            "idempotency_key": null,
+            "budget": null,
+            "envelope_digest": "2b81c1973765910d007cca2f564d0c69f128b31461683f6efff8ee2c07d1d2a7",
+            "ledger_event_digest": "2e1a666b2733e57ee777194f97a9e7327e64908e1a2a280cce96657139e8c528",
+            "integrity": {
+              "algorithm": "sha256",
+              "digest": "6aae92567d9d63a1a6f21642e8c4e1bba95208e2b58fb1551f1a64189731095c"
+            },
+            "signature": {
+              "algorithm": "ed25519",
+              "key_id": "dispatch-key",
+              "value": "aEDyVthZQze4QLOg+woYoDpcRC/3Y5jYP/cYKIiL4SEklPMRpWToQjPD2JYhhv40VvGtao47HjWnBZaF1oB9Cg=="
+            }
+          }
+        }
+      }
+    }
+  },
+  "network_call_requested": true
+}
+

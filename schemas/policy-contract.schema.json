@@ -1,0 +1,30 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.numtema.dev/foundry/policy-contract.schema.json",
+  "title": "PolicyContract",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["id", "version", "risk_class", "default_decision", "rules"],
+  "properties": {
+    "id": {"type": "string", "minLength": 1},
+    "version": {"type": "string", "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$"},
+    "risk_class": {"enum": ["R0", "R1", "R2", "R3", "R4", "R5"]},
+    "default_decision": {"enum": ["allow", "deny", "require_scope", "require_confirmation", "require_widget", "require_approver"]},
+    "rules": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["id", "when", "decision"],
+        "properties": {
+          "id": {"type": "string"},
+          "when": {"type": "object", "additionalProperties": true},
+          "decision": {"enum": ["allow", "deny", "require_scope", "require_confirmation", "require_widget", "require_approver"]},
+          "required_scopes": {"type": "array", "items": {"type": "string"}, "uniqueItems": true},
+          "reason": {"type": "string"}
+        }
+      }
+    },
+    "extensions": {"type": "object", "additionalProperties": true}
+  }
+}

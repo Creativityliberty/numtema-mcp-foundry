@@ -1,0 +1,507 @@
+{
+  "artifact_type": "capability_map",
+  "artifact_version": "0.3",
+  "source_ref": "examples/openapi-reference.json",
+  "source_title": "Commerce Operations API",
+  "domains": [
+    {
+      "name": "Assets",
+      "capability_names": [
+        "asset_upload"
+      ],
+      "operation_count": 1
+    },
+    {
+      "name": "Customers",
+      "capability_names": [
+        "customer_create",
+        "customer_list"
+      ],
+      "operation_count": 2
+    },
+    {
+      "name": "Messaging",
+      "capability_names": [
+        "email_message_send"
+      ],
+      "operation_count": 1
+    },
+    {
+      "name": "Payments",
+      "capability_names": [
+        "payment_refund"
+      ],
+      "operation_count": 1
+    },
+    {
+      "name": "Rendering",
+      "capability_names": [
+        "render_create",
+        "render_status_get"
+      ],
+      "operation_count": 2
+    },
+    {
+      "name": "Security",
+      "capability_names": [
+        "api_key_delete"
+      ],
+      "operation_count": 1
+    }
+  ],
+  "capabilities": [
+    {
+      "id": "cap:api_key_delete",
+      "name": "api_key_delete",
+      "title": "Revoke an API credential",
+      "description": "DELETE /api-keys/{keyId} — Revoke an API credential",
+      "source_operation_id": "deleteApiKey",
+      "domain": "Security",
+      "method": "delete",
+      "path": "/api-keys/{keyId}",
+      "risk_class": "R5",
+      "governance": {
+        "decision": "require_approver",
+        "approval_mode": "dual_control",
+        "reasons": [
+          "Classified R5 from source inspection signals.",
+          "Critical credential or irreversible destructive behavior requires an approver and dual control."
+        ]
+      },
+      "required_scopes": [
+        "customers:read"
+      ],
+      "annotations": {
+        "read_only": false,
+        "destructive": true,
+        "idempotent": true,
+        "open_world": false
+      },
+      "execution": {
+        "mode": "synchronous",
+        "task_support": "forbidden",
+        "idempotency": "supported"
+      },
+      "evidence": [
+        {
+          "code": "WRITE_HTTP_METHOD",
+          "message": "DELETE implies server-side effects.",
+          "source": "http_method"
+        },
+        {
+          "code": "DESTRUCTIVE_SIGNAL",
+          "message": "Method or metadata indicates destructive behavior.",
+          "source": "http_method"
+        },
+        {
+          "code": "CREDENTIAL_SIGNAL",
+          "message": "Operation metadata references credentials or authorization state.",
+          "source": "operation_metadata"
+        },
+        {
+          "code": "AUTH_REQUIRED",
+          "message": "Security schemes required: oauth.",
+          "source": "security"
+        }
+      ]
+    },
+    {
+      "id": "cap:asset_upload",
+      "name": "asset_upload",
+      "title": "Upload a media asset",
+      "description": "POST /assets/upload — Upload a media asset",
+      "source_operation_id": "uploadAsset",
+      "domain": "Assets",
+      "method": "post",
+      "path": "/assets/upload",
+      "risk_class": "R2",
+      "governance": {
+        "decision": "require_scope",
+        "approval_mode": "none",
+        "reasons": [
+          "Classified R2 from source inspection signals.",
+          "Write behavior requires scoped authorization when scopes are declared."
+        ]
+      },
+      "required_scopes": [
+        "customers:read"
+      ],
+      "annotations": {
+        "read_only": false,
+        "destructive": false,
+        "idempotent": false,
+        "open_world": false
+      },
+      "execution": {
+        "mode": "synchronous",
+        "task_support": "forbidden",
+        "idempotency": "required"
+      },
+      "evidence": [
+        {
+          "code": "WRITE_HTTP_METHOD",
+          "message": "POST implies server-side effects.",
+          "source": "http_method"
+        },
+        {
+          "code": "UPLOAD_SIGNAL",
+          "message": "Request media type or operation metadata indicates upload.",
+          "source": "request_body"
+        },
+        {
+          "code": "AUTH_REQUIRED",
+          "message": "Security schemes required: oauth.",
+          "source": "security"
+        }
+      ]
+    },
+    {
+      "id": "cap:customer_list",
+      "name": "customer_list",
+      "title": "List customer profiles",
+      "description": "GET /customers — List customer profiles",
+      "source_operation_id": "listCustomers",
+      "domain": "Customers",
+      "method": "get",
+      "path": "/customers",
+      "risk_class": "R1",
+      "governance": {
+        "decision": "require_scope",
+        "approval_mode": "none",
+        "reasons": [
+          "Classified R1 from source inspection signals.",
+          "Authenticated or personal-data read requires least-privilege access."
+        ]
+      },
+      "required_scopes": [
+        "customers:read"
+      ],
+      "annotations": {
+        "read_only": true,
+        "destructive": false,
+        "idempotent": true,
+        "open_world": false
+      },
+      "execution": {
+        "mode": "synchronous",
+        "task_support": "forbidden",
+        "idempotency": "not_applicable"
+      },
+      "evidence": [
+        {
+          "code": "READ_HTTP_METHOD",
+          "message": "GET implies a read-oriented operation.",
+          "source": "http_method"
+        },
+        {
+          "code": "PERSONAL_DATA_SIGNAL",
+          "message": "Operation metadata references a person or personal profile.",
+          "source": "operation_metadata"
+        },
+        {
+          "code": "AUTH_REQUIRED",
+          "message": "Security schemes required: oauth.",
+          "source": "security"
+        },
+        {
+          "code": "PAGINATION_SIGNAL",
+          "message": "Pagination parameters detected: cursor, limit.",
+          "source": "parameter"
+        }
+      ]
+    },
+    {
+      "id": "cap:customer_create",
+      "name": "customer_create",
+      "title": "Create a customer profile",
+      "description": "POST /customers — Create a customer profile",
+      "source_operation_id": "createCustomer",
+      "domain": "Customers",
+      "method": "post",
+      "path": "/customers",
+      "risk_class": "R2",
+      "governance": {
+        "decision": "require_scope",
+        "approval_mode": "none",
+        "reasons": [
+          "Classified R2 from source inspection signals.",
+          "Write behavior requires scoped authorization when scopes are declared."
+        ]
+      },
+      "required_scopes": [
+        "customers:write"
+      ],
+      "annotations": {
+        "read_only": false,
+        "destructive": false,
+        "idempotent": false,
+        "open_world": false
+      },
+      "execution": {
+        "mode": "synchronous",
+        "task_support": "forbidden",
+        "idempotency": "required"
+      },
+      "evidence": [
+        {
+          "code": "WRITE_HTTP_METHOD",
+          "message": "POST implies server-side effects.",
+          "source": "http_method"
+        },
+        {
+          "code": "PERSONAL_DATA_SIGNAL",
+          "message": "Operation metadata references a person or personal profile.",
+          "source": "operation_metadata"
+        },
+        {
+          "code": "AUTH_REQUIRED",
+          "message": "Security schemes required: oauth.",
+          "source": "security"
+        }
+      ]
+    },
+    {
+      "id": "cap:email_message_send",
+      "name": "email_message_send",
+      "title": "Send an email notification",
+      "description": "POST /messages/email — Send an email notification",
+      "source_operation_id": "sendEmailMessage",
+      "domain": "Messaging",
+      "method": "post",
+      "path": "/messages/email",
+      "risk_class": "R3",
+      "governance": {
+        "decision": "require_confirmation",
+        "approval_mode": "chat_explicit",
+        "reasons": [
+          "Classified R3 from source inspection signals.",
+          "Destructive, credential, or external communication behavior requires explicit confirmation."
+        ]
+      },
+      "required_scopes": [
+        "customers:read"
+      ],
+      "annotations": {
+        "read_only": false,
+        "destructive": false,
+        "idempotent": false,
+        "open_world": true
+      },
+      "execution": {
+        "mode": "synchronous",
+        "task_support": "forbidden",
+        "idempotency": "required"
+      },
+      "evidence": [
+        {
+          "code": "WRITE_HTTP_METHOD",
+          "message": "POST implies server-side effects.",
+          "source": "http_method"
+        },
+        {
+          "code": "EXTERNAL_COMMUNICATION_SIGNAL",
+          "message": "Operation metadata indicates outbound communication or publication.",
+          "source": "operation_metadata"
+        },
+        {
+          "code": "AUTH_REQUIRED",
+          "message": "Security schemes required: oauth.",
+          "source": "security"
+        }
+      ]
+    },
+    {
+      "id": "cap:payment_refund",
+      "name": "payment_refund",
+      "title": "Refund a completed payment",
+      "description": "POST /payments/{paymentId}/refund — Refund a completed payment",
+      "source_operation_id": "refundPayment",
+      "domain": "Payments",
+      "method": "post",
+      "path": "/payments/{paymentId}/refund",
+      "risk_class": "R4",
+      "governance": {
+        "decision": "require_widget",
+        "approval_mode": "secure_widget",
+        "reasons": [
+          "Classified R4 from source inspection signals.",
+          "Financial behavior requires a secure confirmation surface."
+        ]
+      },
+      "required_scopes": [
+        "payments:refund"
+      ],
+      "annotations": {
+        "read_only": false,
+        "destructive": false,
+        "idempotent": false,
+        "open_world": false
+      },
+      "execution": {
+        "mode": "asynchronous",
+        "task_support": "required",
+        "idempotency": "required"
+      },
+      "evidence": [
+        {
+          "code": "WRITE_HTTP_METHOD",
+          "message": "POST implies server-side effects.",
+          "source": "http_method"
+        },
+        {
+          "code": "FINANCIAL_SIGNAL",
+          "message": "Operation metadata contains a financial action or resource.",
+          "source": "operation_metadata"
+        },
+        {
+          "code": "CALLBACK_SIGNAL",
+          "message": "Callbacks or webhooks are declared.",
+          "source": "callback"
+        },
+        {
+          "code": "ASYNC_SIGNAL",
+          "message": "Response codes, callbacks, or metadata indicate asynchronous execution.",
+          "source": "response"
+        },
+        {
+          "code": "AUTH_REQUIRED",
+          "message": "Security schemes required: oauth.",
+          "source": "security"
+        }
+      ]
+    },
+    {
+      "id": "cap:render_create",
+      "name": "render_create",
+      "title": "Generate a render job",
+      "description": "POST /renders — Generate a render job",
+      "source_operation_id": "createRender",
+      "domain": "Rendering",
+      "method": "post",
+      "path": "/renders",
+      "risk_class": "R2",
+      "governance": {
+        "decision": "require_scope",
+        "approval_mode": "none",
+        "reasons": [
+          "Classified R2 from source inspection signals.",
+          "Write behavior requires scoped authorization when scopes are declared."
+        ]
+      },
+      "required_scopes": [
+        "customers:read"
+      ],
+      "annotations": {
+        "read_only": false,
+        "destructive": false,
+        "idempotent": false,
+        "open_world": false
+      },
+      "execution": {
+        "mode": "asynchronous",
+        "task_support": "required",
+        "idempotency": "required"
+      },
+      "evidence": [
+        {
+          "code": "WRITE_HTTP_METHOD",
+          "message": "POST implies server-side effects.",
+          "source": "http_method"
+        },
+        {
+          "code": "ASYNC_SIGNAL",
+          "message": "Response codes, callbacks, or metadata indicate asynchronous execution.",
+          "source": "response"
+        },
+        {
+          "code": "AUTH_REQUIRED",
+          "message": "Security schemes required: oauth.",
+          "source": "security"
+        }
+      ]
+    },
+    {
+      "id": "cap:render_status_get",
+      "name": "render_status_get",
+      "title": "Get render job status",
+      "description": "GET /renders/{renderId} — Get render job status",
+      "source_operation_id": "getRenderStatus",
+      "domain": "Rendering",
+      "method": "get",
+      "path": "/renders/{renderId}",
+      "risk_class": "R1",
+      "governance": {
+        "decision": "require_scope",
+        "approval_mode": "none",
+        "reasons": [
+          "Classified R1 from source inspection signals.",
+          "Authenticated or personal-data read requires least-privilege access."
+        ]
+      },
+      "required_scopes": [
+        "customers:read"
+      ],
+      "annotations": {
+        "read_only": true,
+        "destructive": false,
+        "idempotent": true,
+        "open_world": false
+      },
+      "execution": {
+        "mode": "asynchronous",
+        "task_support": "required",
+        "idempotency": "not_applicable"
+      },
+      "evidence": [
+        {
+          "code": "READ_HTTP_METHOD",
+          "message": "GET implies a read-oriented operation.",
+          "source": "http_method"
+        },
+        {
+          "code": "ASYNC_SIGNAL",
+          "message": "Response codes, callbacks, or metadata indicate asynchronous execution.",
+          "source": "operation_metadata"
+        },
+        {
+          "code": "AUTH_REQUIRED",
+          "message": "Security schemes required: oauth.",
+          "source": "security"
+        }
+      ]
+    }
+  ],
+  "workflow_hints": [
+    {
+      "id": "workflow:rendering:async-status:createRender",
+      "kind": "async_create_status",
+      "domain": "Rendering",
+      "steps": [
+        "createRender",
+        "getRenderStatus"
+      ],
+      "confidence": "high",
+      "evidence": [
+        "Asynchronous write operation and status-oriented GET operation share a domain/resource signal."
+      ]
+    }
+  ],
+  "summary": {
+    "capability_count": 8,
+    "workflow_hint_count": 1,
+    "risk_counts": {
+      "R0": 0,
+      "R1": 2,
+      "R2": 3,
+      "R3": 1,
+      "R4": 1,
+      "R5": 1
+    },
+    "approval_required_count": 3
+  },
+  "limitations": [
+    "Capability candidates are proposals and are not executable ToolContracts.",
+    "Risk and governance classifications require review before compilation.",
+    "Workflow hints represent likely relations, not guaranteed provider state machines."
+  ]
+}

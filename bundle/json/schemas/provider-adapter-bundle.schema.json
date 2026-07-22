@@ -1,0 +1,117 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://numtema.dev/schemas/provider-adapter-bundle.schema.json",
+  "title": "ProviderAdapterBundle",
+  "type": "object",
+  "required": ["artifact_type", "artifact_version", "source_bundle_version", "adapters", "summary", "warnings", "integrity"],
+  "properties": {
+    "artifact_type": { "const": "provider_adapter_bundle" },
+    "artifact_version": { "const": "0.6" },
+    "source_bundle_version": { "type": "string" },
+    "adapters": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "version", "revision", "provider_kind", "tool_id", "tool_name", "tool_revision", "credential", "request", "response", "integrity"],
+        "properties": {
+          "id": { "type": "string", "minLength": 1 },
+          "version": { "const": "0.6.0" },
+          "revision": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+          "provider_kind": { "const": "http_openapi" },
+          "tool_id": { "type": "string", "minLength": 1 },
+          "tool_name": { "type": "string", "minLength": 1 },
+          "tool_revision": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+          "credential": {
+            "type": "object",
+            "required": ["auth_ref", "required_scopes"],
+            "properties": {
+              "auth_ref": { "type": ["string", "null"] },
+              "required_scopes": { "type": "array", "items": { "type": "string" }, "uniqueItems": true }
+            },
+            "additionalProperties": false
+          },
+          "request": {
+            "type": "object",
+            "required": ["method", "path_template", "parameters", "body", "idempotency"],
+            "properties": {
+              "method": { "enum": ["GET", "POST", "PUT", "PATCH", "DELETE", "HEAD", "OPTIONS", "TRACE"] },
+              "path_template": { "type": "string", "minLength": 1 },
+              "parameters": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "required": ["argument_name", "source_name", "location", "required", "deprecated"],
+                  "properties": {
+                    "argument_name": { "type": "string" },
+                    "source_name": { "type": "string" },
+                    "location": { "enum": ["path", "query", "header", "cookie"] },
+                    "required": { "type": "boolean" },
+                    "deprecated": { "type": "boolean" },
+                    "style": { "type": "string" },
+                    "explode": { "type": "boolean" }
+                  },
+                  "additionalProperties": false
+                }
+              },
+              "body": { "type": ["object", "null"] },
+              "idempotency": {
+                "type": "object",
+                "required": ["mode", "header_name"],
+                "properties": {
+                  "mode": { "enum": ["none", "optional", "required"] },
+                  "header_name": { "const": "Idempotency-Key" }
+                },
+                "additionalProperties": false
+              }
+            },
+            "additionalProperties": false
+          },
+          "response": {
+            "type": "object",
+            "required": ["success", "errors", "other"],
+            "properties": {
+              "success": { "type": "array", "items": { "type": "object" } },
+              "errors": { "type": "array", "items": { "type": "object" } },
+              "other": { "type": "array", "items": { "type": "object" } }
+            },
+            "additionalProperties": false
+          },
+          "integrity": {
+            "type": "object",
+            "required": ["algorithm", "digest"],
+            "properties": {
+              "algorithm": { "const": "sha256" },
+              "digest": { "type": "string", "pattern": "^[a-f0-9]{64}$" }
+            },
+            "additionalProperties": false
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "summary": {
+      "type": "object",
+      "required": ["adapter_count", "authenticated_count", "idempotency_required_count", "body_binding_count", "binary_binding_count", "skipped_tool_count"],
+      "properties": {
+        "adapter_count": { "type": "integer", "minimum": 0 },
+        "authenticated_count": { "type": "integer", "minimum": 0 },
+        "idempotency_required_count": { "type": "integer", "minimum": 0 },
+        "body_binding_count": { "type": "integer", "minimum": 0 },
+        "binary_binding_count": { "type": "integer", "minimum": 0 },
+        "skipped_tool_count": { "type": "integer", "minimum": 0 }
+      },
+      "additionalProperties": false
+    },
+    "warnings": { "type": "array", "items": { "type": "object" } },
+    "integrity": {
+      "type": "object",
+      "required": ["algorithm", "digest"],
+      "properties": {
+        "algorithm": { "const": "sha256" },
+        "digest": { "type": "string", "pattern": "^[a-f0-9]{64}$" }
+      },
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": false
+}

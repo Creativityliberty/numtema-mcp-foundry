@@ -1,0 +1,113 @@
+{
+  "openapi": "3.1.0",
+  "info": { "title": "Commerce Operations API", "version": "1.4.0" },
+  "servers": [{ "url": "https://api.example.test/v1" }],
+  "security": [{ "oauth": ["customers:read"] }],
+  "components": {
+    "securitySchemes": {
+      "oauth": {
+        "type": "oauth2",
+        "flows": {
+          "authorizationCode": {
+            "authorizationUrl": "https://auth.example.test/authorize",
+            "tokenUrl": "https://auth.example.test/token",
+            "scopes": {
+              "customers:read": "Read customers",
+              "customers:write": "Write customers",
+              "payments:refund": "Refund payments"
+            }
+          }
+        }
+      }
+    }
+  },
+  "paths": {
+    "/customers": {
+      "get": {
+        "operationId": "listCustomers",
+        "summary": "List customer profiles",
+        "tags": ["Customers"],
+        "parameters": [
+          { "name": "cursor", "in": "query", "schema": { "type": "string" } },
+          { "name": "limit", "in": "query", "schema": { "type": "integer" } }
+        ],
+        "responses": { "200": { "description": "Customers" } }
+      },
+      "post": {
+        "operationId": "createCustomer",
+        "summary": "Create a customer profile",
+        "tags": ["Customers"],
+        "security": [{ "oauth": ["customers:write"] }],
+        "requestBody": {
+          "required": true,
+          "content": { "application/json": { "schema": { "type": "object" } } }
+        },
+        "responses": { "201": { "description": "Created" } }
+      }
+    },
+    "/payments/{paymentId}/refund": {
+      "post": {
+        "operationId": "refundPayment",
+        "summary": "Refund a completed payment",
+        "tags": ["Payments"],
+        "security": [{ "oauth": ["payments:refund"] }],
+        "parameters": [
+          { "name": "paymentId", "in": "path", "required": true, "schema": { "type": "string" } }
+        ],
+        "responses": { "202": { "description": "Refund queued" } },
+        "callbacks": { "refundCompleted": {} }
+      }
+    },
+    "/messages/email": {
+      "post": {
+        "operationId": "sendEmailMessage",
+        "summary": "Send an email notification",
+        "tags": ["Messaging"],
+        "responses": { "200": { "description": "Sent" } }
+      }
+    },
+    "/api-keys/{keyId}": {
+      "delete": {
+        "operationId": "deleteApiKey",
+        "summary": "Revoke an API credential",
+        "tags": ["Security"],
+        "parameters": [
+          { "name": "keyId", "in": "path", "required": true, "schema": { "type": "string" } }
+        ],
+        "responses": { "204": { "description": "Deleted" } }
+      }
+    },
+    "/assets/upload": {
+      "post": {
+        "operationId": "uploadAsset",
+        "summary": "Upload a media asset",
+        "tags": ["Assets"],
+        "requestBody": {
+          "content": {
+            "multipart/form-data": { "schema": { "type": "object" } }
+          }
+        },
+        "responses": { "201": { "description": "Uploaded" } }
+      }
+    },
+    "/renders": {
+      "post": {
+        "operationId": "createRender",
+        "summary": "Generate a render job",
+        "tags": ["Rendering"],
+        "responses": { "202": { "description": "Queued" } }
+      }
+    },
+    "/renders/{renderId}": {
+      "get": {
+        "operationId": "getRenderStatus",
+        "summary": "Get render job status",
+        "tags": ["Rendering"],
+        "parameters": [
+          { "name": "renderId", "in": "path", "required": true, "schema": { "type": "string" } }
+        ],
+        "responses": { "200": { "description": "Status" } }
+      }
+    }
+  }
+}

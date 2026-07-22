@@ -1,0 +1,46 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.numtema.dev/foundry/receipt-contract.schema.json",
+  "title": "ReceiptContract",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["receipt_id", "trace_id", "tool_id", "tool_revision", "subject_ref", "workspace_ref", "arguments_hash", "policy_decision", "status", "started_at", "completed_at", "result_hash", "signature"],
+  "properties": {
+    "receipt_id": {"type": "string", "minLength": 1},
+    "trace_id": {"type": "string", "minLength": 1},
+    "mission_id": {"type": "string"},
+    "job_id": {"type": "string"},
+    "tool_id": {"type": "string", "minLength": 1},
+    "tool_revision": {"type": "string", "minLength": 1},
+    "subject_ref": {"type": "string", "minLength": 1},
+    "client_ref": {"type": "string"},
+    "workspace_ref": {"type": "string", "minLength": 1},
+    "provider_ref": {"type": "string"},
+    "arguments_hash": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "policy_decision": {"enum": ["allow", "deny", "require_scope", "require_confirmation", "require_widget", "require_approver"]},
+    "approval_ref": {"type": ["string", "null"]},
+    "status": {"enum": ["succeeded", "failed", "cancelled", "expired"]},
+    "started_at": {"type": "string", "format": "date-time"},
+    "completed_at": {"type": "string", "format": "date-time"},
+    "cost": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "amount": {"type": "number", "minimum": 0},
+        "currency": {"type": "string", "minLength": 3, "maxLength": 3}
+      }
+    },
+    "result_hash": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "signature": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["algorithm", "key_id", "value"],
+      "properties": {
+        "algorithm": {"type": "string"},
+        "key_id": {"type": "string"},
+        "value": {"type": "string"}
+      }
+    },
+    "extensions": {"type": "object", "additionalProperties": true}
+  }
+}

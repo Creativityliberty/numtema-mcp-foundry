@@ -1,0 +1,18 @@
+openapi: 3.0.3
+info:
+  title: Minimal Contacts API
+  version: 1.0.0
+paths:
+  /contacts:
+    get:
+      operationId: listContacts
+      summary: List contacts
+      tags: ["Contacts"]
+      parameters:
+        - name: page
+          in: query
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Contacts

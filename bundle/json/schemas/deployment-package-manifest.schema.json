@@ -1,0 +1,15 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://numtema.local/schemas/deployment-package-manifest.schema.json",
+  "type": "object",
+  "required": ["artifact_type", "artifact_version", "project_name", "source_digest", "files", "environment", "endpoints", "private_keys_included"],
+  "properties": {
+    "artifact_type": { "const": "deployment_package_manifest" },
+    "artifact_version": { "const": "1.2" },
+    "private_keys_included": { "const": false },
+    "files": { "type": "array" },
+    "environment": { "type": "array" },
+    "endpoints": { "type": "object" }
+  },
+  "additionalProperties": true
+}

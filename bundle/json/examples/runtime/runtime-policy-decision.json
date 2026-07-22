@@ -1,0 +1,41 @@
+{
+  "artifact_type": "runtime_policy_decision",
+  "artifact_version": "0.8",
+  "policy_ref": "policy-payment-refund",
+  "decision": "allow",
+  "risk_class": "R4",
+  "binding": {
+    "tool_id": "tool-payment-refund",
+    "tool_revision": "tool-rev-1",
+    "adapter_id": "adapter-payment-refund",
+    "adapter_revision": "adapter-rev-1",
+    "arguments_hash": "args-hash-refund-25",
+    "context_hash": "context-hash-subject-1-client-1-workspace-1"
+  },
+  "subject_ref": "subject-1",
+  "client_ref": "client-1",
+  "workspace_ref": "workspace-1",
+  "approval": {
+    "required": true,
+    "approval_ref": "approval-payment-refund",
+    "mode": "secure_widget",
+    "risk_summary_hash": "risk-summary-r4-refund"
+  },
+  "budget": {
+    "required": true,
+    "currency": "EUR",
+    "estimated_amount": 25,
+    "cost_summary_hash": "cost-summary-refund-25-eur"
+  },
+  "evaluated_at": "2026-07-22T16:00:00Z",
+  "expires_at": "2026-07-22T16:10:00Z",
+  "integrity": {
+    "algorithm": "sha256",
+    "digest": "f18010c01d0c32bd51142ba79e1eb99f53aba2ad8755d1fedacbb38d2a4205ea"
+  },
+  "signature": {
+    "algorithm": "ed25519",
+    "key_id": "policy-key-1",
+    "value": "3iEmyCWA0IP0FOXFzjj0e1TlqcdXtz3yDcu3rLNneDwlFVunx5EGUnsUHto6+shr2XuFjYXAPOI9WGjhlFoVDw=="
+  }
+}

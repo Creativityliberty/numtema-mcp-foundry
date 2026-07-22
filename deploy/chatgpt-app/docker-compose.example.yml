@@ -1,0 +1,11 @@
+services:
+  foundry-app:
+    build:
+      context: ../..
+      dockerfile: deploy/chatgpt-app/Dockerfile
+    restart: unless-stopped
+    env_file: .env
+    volumes:
+      - ./runtime:/app/runtime
+    expose:
+      - "8788"

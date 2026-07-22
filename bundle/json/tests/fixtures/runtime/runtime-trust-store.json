@@ -1,0 +1,27 @@
+{
+  "artifact_type": "runtime_trust_store",
+  "artifact_version": "0.8",
+  "keys": [
+    {
+      "key_id": "policy-key-1",
+      "algorithm": "ed25519",
+      "purpose": "policy",
+      "status": "active",
+      "public_key_pem": "-----BEGIN PUBLIC KEY-----\nMCowBQYDK2VwAyEA6fmLfipnB2/N3GL/Eu5/XLbKOjhAfU36FbwGvZR5Lg8=\n-----END PUBLIC KEY-----\n"
+    },
+    {
+      "key_id": "approval-key-1",
+      "algorithm": "ed25519",
+      "purpose": "approval",
+      "status": "active",
+      "public_key_pem": "-----BEGIN PUBLIC KEY-----\nMCowBQYDK2VwAyEAa9xgu+NXmAY+yQxp3cQgkSHe4FR/oJJ1mBHrqxfBlDY=\n-----END PUBLIC KEY-----\n"
+    },
+    {
+      "key_id": "budget-key-1",
+      "algorithm": "ed25519",
+      "purpose": "budget",
+      "status": "active",
+      "public_key_pem": "-----BEGIN PUBLIC KEY-----\nMCowBQYDK2VwAyEAuaSgR9G1iPoQRjDAFjqXts68YRc4TGJRVh8Wqybz8gU=\n-----END PUBLIC KEY-----\n"
+    }
+  ]
+}

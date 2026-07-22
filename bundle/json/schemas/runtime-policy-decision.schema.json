@@ -1,0 +1,215 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "RuntimePolicyDecision",
+  "type": "object",
+  "required": [
+    "artifact_type",
+    "artifact_version",
+    "policy_ref",
+    "decision",
+    "risk_class",
+    "binding",
+    "subject_ref",
+    "client_ref",
+    "workspace_ref",
+    "approval",
+    "budget",
+    "evaluated_at",
+    "expires_at",
+    "integrity",
+    "signature"
+  ],
+  "properties": {
+    "artifact_type": {
+      "const": "runtime_policy_decision"
+    },
+    "artifact_version": {
+      "const": "0.8"
+    },
+    "policy_ref": {
+      "type": "string",
+      "minLength": 1
+    },
+    "decision": {
+      "enum": [
+        "allow",
+        "deny"
+      ]
+    },
+    "risk_class": {
+      "enum": [
+        "R0",
+        "R1",
+        "R2",
+        "R3",
+        "R4",
+        "R5"
+      ]
+    },
+    "binding": {
+      "type": "object",
+      "required": [
+        "tool_id",
+        "tool_revision",
+        "adapter_id",
+        "adapter_revision",
+        "arguments_hash",
+        "context_hash"
+      ],
+      "properties": {
+        "tool_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "tool_revision": {
+          "type": "string",
+          "minLength": 1
+        },
+        "adapter_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "adapter_revision": {
+          "type": "string",
+          "minLength": 1
+        },
+        "arguments_hash": {
+          "type": "string",
+          "minLength": 1
+        },
+        "context_hash": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "additionalProperties": false
+    },
+    "subject_ref": {
+      "type": "string",
+      "minLength": 1
+    },
+    "client_ref": {
+      "type": "string",
+      "minLength": 1
+    },
+    "workspace_ref": {
+      "type": "string",
+      "minLength": 1
+    },
+    "approval": {
+      "type": "object",
+      "required": [
+        "required",
+        "approval_ref",
+        "mode",
+        "risk_summary_hash"
+      ],
+      "properties": {
+        "required": {
+          "type": "boolean"
+        },
+        "approval_ref": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "mode": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "risk_summary_hash": {
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      },
+      "additionalProperties": false
+    },
+    "budget": {
+      "type": "object",
+      "required": [
+        "required",
+        "currency",
+        "estimated_amount",
+        "cost_summary_hash"
+      ],
+      "properties": {
+        "required": {
+          "type": "boolean"
+        },
+        "currency": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "estimated_amount": {
+          "type": [
+            "number",
+            "null"
+          ],
+          "minimum": 0
+        },
+        "cost_summary_hash": {
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      },
+      "additionalProperties": false
+    },
+    "evaluated_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "expires_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "integrity": {
+      "type": "object",
+      "required": [
+        "algorithm",
+        "digest"
+      ],
+      "properties": {
+        "algorithm": {
+          "const": "sha256"
+        },
+        "digest": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "additionalProperties": false
+    },
+    "signature": {
+      "type": "object",
+      "required": [
+        "algorithm",
+        "key_id",
+        "value"
+      ],
+      "properties": {
+        "algorithm": {
+          "const": "ed25519"
+        },
+        "key_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "value": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": false
+}

@@ -1,0 +1,139 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="foundry-csrf" content="__FOUNDRY_CSRF__">
+  <title>__FOUNDRY_PROJECT__ · Nümtema MCP Foundry</title>
+  <link rel="stylesheet" href="/assets/app.css">
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar" aria-label="Navigation principale">
+      <div class="brand">
+        <div class="brand-mark" aria-hidden="true">N</div>
+        <div><strong>Nümtema</strong><span>MCP Foundry Studio</span></div>
+      </div>
+      <nav class="nav-list">
+        <button class="nav-item active" data-view="dashboard"><span class="nav-icon">⌂</span><span>Vue d’ensemble</span></button>
+        <button class="nav-item" data-view="source"><span class="nav-icon">⇧</span><span>Source OpenAPI</span></button>
+        <button class="nav-item" data-view="inspection"><span class="nav-icon">◎</span><span>Inspection</span></button>
+        <button class="nav-item" data-view="tools"><span class="nav-icon">◇</span><span>Tools & risques</span></button>
+        <button class="nav-item" data-view="auth"><span class="nav-icon">◈</span><span>OAuth & provider</span></button>
+        <button class="nav-item" data-view="widget"><span class="nav-icon">▣</span><span>Widget approval</span></button>
+        <button class="nav-item" data-view="simulator"><span class="nav-icon">▷</span><span>Simulateur</span></button>
+        <button class="nav-item" data-view="deployment"><span class="nav-icon">↗</span><span>Build & déploiement</span></button>
+      </nav>
+      <div class="sidebar-foot">
+        <div class="status-dot"></div>
+        <div><strong>Kernel v1.2</strong><span>Local · zéro secret</span></div>
+      </div>
+    </aside>
+
+    <main class="workspace">
+      <header class="topbar">
+        <div>
+          <p class="breadcrumb">Foundry Studio / <span id="projectName">__FOUNDRY_PROJECT__</span></p>
+          <h1 id="viewTitle">Vue d’ensemble</h1>
+        </div>
+        <div class="top-actions">
+          <span class="save-state" id="saveState">Projet prêt</span>
+          <button class="button secondary" id="refreshButton">Actualiser</button>
+          <button class="button primary" id="buildButton">Compiler le MCP</button>
+        </div>
+      </header>
+
+      <section class="view active" id="view-dashboard">
+        <div class="hero-row">
+          <div>
+            <h2>De l’API brute à une app ChatGPT gouvernée.</h2>
+            <p>Inspecte, édite, simule et déploie ton MCP sans contourner les contrats de sécurité du kernel.</p>
+          </div>
+          <button class="button primary large" data-go="source">Importer une API</button>
+        </div>
+        <div class="metrics" id="metrics"></div>
+        <div class="dashboard-grid">
+          <article class="panel pipeline-panel">
+            <div class="panel-head"><div><h3>Chaîne de fabrication</h3><p>État du projet courant</p></div><span class="live-label">LIVE</span></div>
+            <div class="pipeline" id="pipelineSteps"></div>
+          </article>
+          <article class="panel risk-panel">
+            <div class="panel-head"><div><h3>Profil de risque</h3><p>Distribution des capabilities</p></div></div>
+            <div id="riskBars" class="risk-bars"></div>
+          </article>
+        </div>
+        <article class="panel activity-panel">
+          <div class="panel-head"><div><h3>Artefacts produits</h3><p>Traçabilité du dernier build</p></div><button class="text-button" data-go="inspection">Ouvrir l’inspection →</button></div>
+          <div class="artifact-strip" id="artifactStrip"></div>
+        </article>
+      </section>
+
+      <section class="view" id="view-source">
+        <div class="section-grid two-columns">
+          <article class="panel source-drop">
+            <div class="panel-head"><div><h3>Importer OpenAPI 3.x</h3><p>JSON ou YAML, 2 Mo maximum</p></div></div>
+            <label class="drop-zone" for="sourceFile">
+              <input type="file" id="sourceFile" accept=".json,.yaml,.yml,application/json,text/yaml">
+              <span class="drop-icon">⇧</span>
+              <strong>Dépose le fichier ou clique ici</strong>
+              <span>Le contenu reste sur cette machine.</span>
+            </label>
+            <textarea id="sourceText" class="code-area" spellcheck="false" placeholder="Colle ici ton OpenAPI JSON ou YAML…"></textarea>
+            <div class="action-row"><input id="sourceFilename" value="openapi.json" aria-label="Nom du fichier"><button class="button primary" id="importSourceButton">Importer et inspecter</button></div>
+          </article>
+          <article class="panel source-summary">
+            <div class="panel-head"><div><h3>Source active</h3><p id="sourcePath">Aucune source</p></div></div>
+            <dl class="definition-list" id="sourceDetails"></dl>
+            <div class="notice sage"><strong>Analyse sans exécution</strong><p>Le Source Inspector ne contacte aucun endpoint externe et ne télécharge aucun $ref distant.</p></div>
+          </article>
+        </div>
+      </section>
+
+      <section class="view" id="view-inspection">
+        <div class="section-intro"><div><h2>Inspection technique</h2><p>Routes, schémas, authentification, risques et workflows détectés.</p></div><button class="button secondary" id="rebuildInspection">Relancer</button></div>
+        <div class="metrics compact" id="inspectionMetrics"></div>
+        <article class="panel table-panel"><div class="panel-head"><div><h3>Opérations détectées</h3><p>Méthode, domaine, signal de risque et auth</p></div></div><div class="table-wrap"><table><thead><tr><th>Opération</th><th>Méthode</th><th>Route</th><th>Domaine</th><th>Signaux</th></tr></thead><tbody id="operationsTable"></tbody></table></div></article>
+      </section>
+
+      <section class="view" id="view-tools">
+        <div class="section-intro"><div><h2>Tools & gouvernance</h2><p>Édite le contrat agentique, jamais le code généré directement.</p></div><button class="button primary" id="saveToolsButton">Enregistrer les overrides</button></div>
+        <article class="panel table-panel"><div class="table-toolbar"><input id="toolSearch" placeholder="Rechercher un tool…"><select id="riskFilter"><option value="">Tous les risques</option><option>R0</option><option>R1</option><option>R2</option><option>R3</option><option>R4</option><option>R5</option></select></div><div class="tool-editor" id="toolEditor"></div></article>
+      </section>
+
+      <section class="view" id="view-auth">
+        <div class="section-intro"><div><h2>OAuth & provider</h2><p>Sépare l’identité ChatGPT du credential fournisseur.</p></div><button class="button primary" id="saveConfigButton">Enregistrer</button></div>
+        <div class="section-grid two-columns">
+          <article class="panel form-panel"><h3>API fournisseur</h3><label>Base URL<input id="providerBaseUrl"></label><label>Référence provider<input id="providerRef"></label><label>Compte provider<input id="providerAccountRef"></label><label>Mode d’auth<select id="providerAuthMode"><option value="bearer">Bearer</option><option value="api_key">API Key</option><option value="basic">Basic</option><option value="host_managed">Host managed</option><option value="none">Aucune</option></select></label><label>Variable du secret<input id="credentialEnvironment"></label></article>
+          <article class="panel form-panel"><h3>App ChatGPT</h3><label>URL publique<input id="publicBaseUrl"></label><label>Origins autorisées<textarea id="allowedOrigins"></textarea></label><div class="notice navy"><strong>Frontière de sécurité</strong><p>Le Studio enregistre uniquement le nom de la variable d’environnement. La valeur du secret n’entre jamais dans le projet.</p></div></article>
+        </div>
+      </section>
+
+      <section class="view" id="view-widget">
+        <div class="section-intro"><div><h2>Widget d’approbation</h2><p>Prévisualise la frontière UI utilisée pour les actions sensibles.</p></div><select id="widgetToolSelect"></select></div>
+        <div class="widget-stage"><div class="widget-context"><h3>Action demandée</h3><dl id="widgetDetails" class="definition-list"></dl><div class="notice warning"><strong>Preuve exacte</strong><p>L’approbation est liée au tool, à sa révision, aux arguments, à l’utilisateur et au workspace.</p></div></div><iframe id="widgetFrame" title="Prévisualisation du widget d’approbation" sandbox="allow-scripts"></iframe></div>
+      </section>
+
+      <section class="view" id="view-simulator">
+        <div class="section-intro"><div><h2>Simulateur de conversation</h2><p>Transforme un tool call en plan gouverné sans envoyer le réseau.</p></div></div>
+        <div class="simulator-layout">
+          <article class="panel chat-panel"><div class="chat-log" id="chatLog"><div class="message assistant">Choisis un tool, ajuste ses arguments puis lance la simulation.</div></div><div class="composer"><select id="simulateTool"></select><textarea id="simulateArgs" spellcheck="false">{}</textarea><button class="button primary" id="simulateButton">Simuler</button></div></article>
+          <article class="panel trace-panel"><div class="panel-head"><div><h3>Trace d’exécution</h3><p>Aucun secret, aucun réseau</p></div></div><div id="simulationTrace" class="trace-list"></div><pre id="simulationPlan" class="json-output">{}</pre></article>
+        </div>
+      </section>
+
+      <section class="view" id="view-deployment">
+        <div class="section-intro"><div><h2>Build & déploiement</h2><p>Génère un package autonome pour Coolify ou un VPS Docker.</p></div><button class="button primary large" id="deploymentBuildButton">Générer le package</button></div>
+        <div class="deployment-grid">
+          <article class="deploy-card selected"><span class="deploy-logo">C</span><h3>Coolify</h3><p>Docker Compose, variables requises, volume durable et healthcheck.</p><span>Recommandé pour ton VPS</span></article>
+          <article class="deploy-card"><span class="deploy-logo">⌘</span><h3>VPS Docker</h3><p>Compose standard derrière Caddy ou Nginx.</p><span>Contrôle maximal</span></article>
+          <article class="deploy-card"><span class="deploy-logo">G</span><h3>Git-ready</h3><p>Package autonome à pousser dans un dépôt privé.</p><span>CI/CD compatible</span></article>
+        </div>
+        <article class="panel deployment-console"><div class="panel-head"><div><h3>Console de livraison</h3><p id="deploymentStatus">Aucun package généré</p></div></div><div id="deploymentEndpoints" class="endpoint-list"></div><pre id="deploymentOutput" class="terminal-output">$ foundry studio build
+En attente…</pre></article>
+      </section>
+    </main>
+  </div>
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  <script type="module" src="/assets/app.js"></script>
+</body>
+</html>

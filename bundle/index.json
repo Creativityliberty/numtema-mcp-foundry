@@ -1,0 +1,600 @@
+{
+  "artifact_type": "json_bundle_index",
+  "artifact_version": "0.7",
+  "generated_from": ".",
+  "file_count": 98,
+  "entries": [
+    {
+      "source_path": "MANIFEST.json",
+      "bundle_path": "json/MANIFEST.json",
+      "sha256": "dd3804fe427eefa4c85dda7c5b80b2f687f47e23cc66c2adea592cd253b93543",
+      "size_bytes": 6531
+    },
+    {
+      "source_path": "examples/apps/chatgpt-app-config.template.json",
+      "bundle_path": "json/examples/apps/chatgpt-app-config.template.json",
+      "sha256": "2172ce2195a9eadba251e629f9cc8656b333ddb51347e73d8e6ce503865bcd42",
+      "size_bytes": 1042
+    },
+    {
+      "source_path": "examples/apps/oauth-authorization-server.generated.json",
+      "bundle_path": "json/examples/apps/oauth-authorization-server.generated.json",
+      "sha256": "688df041e611f5a4037588d942108a38649de7a97ffa3aa55c7ba37f17676b12",
+      "size_bytes": 632
+    },
+    {
+      "source_path": "examples/apps/oauth-protected-resource.generated.json",
+      "bundle_path": "json/examples/apps/oauth-protected-resource.generated.json",
+      "sha256": "c4787efdad7a120d5c5df4c25c5fc9d4d9a4330cf51bd986739ce145bdcad7ac",
+      "size_bytes": 310
+    },
+    {
+      "source_path": "examples/capability-map.generated.json",
+      "bundle_path": "json/examples/capability-map.generated.json",
+      "sha256": "495879abeeb9d68f3f930bfb012ddb6f76fc07e90c16ddf2b97bef69d98b2568",
+      "size_bytes": 14500
+    },
+    {
+      "source_path": "examples/capability-map.schema-rich.generated.json",
+      "bundle_path": "json/examples/capability-map.schema-rich.generated.json",
+      "sha256": "514180b5b9787f01d8b8c00ad5c04cf2d3eac9ad864379d4ad3392ee30e4b2a2",
+      "size_bytes": 19535
+    },
+    {
+      "source_path": "examples/contract-bundle.auth.generated.json",
+      "bundle_path": "json/examples/contract-bundle.auth.generated.json",
+      "sha256": "cb04415e2b5b2c063cf250b28c6cacdf472ba29601e8648102cf696394bdeec6",
+      "size_bytes": 28335
+    },
+    {
+      "source_path": "examples/contract-bundle.generated.json",
+      "bundle_path": "json/examples/contract-bundle.generated.json",
+      "sha256": "25121676ff80e0136dd1e0b638220d3ee68180b345101fb60ff1e5d158642685",
+      "size_bytes": 33072
+    },
+    {
+      "source_path": "examples/contract-bundle.schema-rich.generated.json",
+      "bundle_path": "json/examples/contract-bundle.schema-rich.generated.json",
+      "sha256": "f029ef11ae116c085d7ac3e1b027e6e2152ff30b572f8e3b0751e742d93aa67a",
+      "size_bytes": 27622
+    },
+    {
+      "source_path": "examples/credential-catalog.example.json",
+      "bundle_path": "json/examples/credential-catalog.example.json",
+      "sha256": "de9a9cf9238bccf82fa48627dda453fa171d97e6e6f1ba39bd008d0bff366af6",
+      "size_bytes": 755
+    },
+    {
+      "source_path": "examples/credential-context.example.json",
+      "bundle_path": "json/examples/credential-context.example.json",
+      "sha256": "5fe28af5fd2de54b82f266f6ab1d9a824d27f5fa4984456df74fa5f6195b3598",
+      "size_bytes": 228
+    },
+    {
+      "source_path": "examples/credential-resolution-plan.generated.json",
+      "bundle_path": "json/examples/credential-resolution-plan.generated.json",
+      "sha256": "e9ed6e44bcb0cd80aa667f0463f6ac6d71b49a6405b4b386a5cf4cb91a0b5896",
+      "size_bytes": 2510
+    },
+    {
+      "source_path": "examples/customer-create.arguments.json",
+      "bundle_path": "json/examples/customer-create.arguments.json",
+      "sha256": "d1dd492597acb1f25a6f881f9bdf48f60bcced224664c6be05fead0aa7b33892",
+      "size_bytes": 80
+    },
+    {
+      "source_path": "examples/customer-get.arguments.json",
+      "bundle_path": "json/examples/customer-get.arguments.json",
+      "sha256": "d4c220efb7d3f8240010775e14069e712abb9f8fb5705a599897f0c74fe1d413",
+      "size_bytes": 69
+    },
+    {
+      "source_path": "examples/dispatch/dispatch-receipt.generated.json",
+      "bundle_path": "json/examples/dispatch/dispatch-receipt.generated.json",
+      "sha256": "7cc6a94926c2a22b581bdbcae7a5fc8c590c5ea08434b37ad5ccb9eafcb6bc85",
+      "size_bytes": 1633
+    },
+    {
+      "source_path": "examples/dispatch/dispatch-trust-store.json",
+      "bundle_path": "json/examples/dispatch/dispatch-trust-store.json",
+      "sha256": "632e03f5e4f8aa6f1789a246d38462cfc658f12720c989a7ed36972b53ddd4b9",
+      "size_bytes": 461
+    },
+    {
+      "source_path": "examples/dispatch/ledger-snapshot.generated.json",
+      "bundle_path": "json/examples/dispatch/ledger-snapshot.generated.json",
+      "sha256": "6de1f46f9c9ebcf39241f6359d02b832ea7ba2e5aa59950842b50eb384f19b47",
+      "size_bytes": 2013
+    },
+    {
+      "source_path": "examples/dispatch/ledger/ledger.meta.json",
+      "bundle_path": "json/examples/dispatch/ledger/ledger.meta.json",
+      "sha256": "103c1bb79f6754df7ec45a00d2391391e57a0abd1dc6d849ac88c47b5c2677f8",
+      "size_bytes": 318
+    },
+    {
+      "source_path": "examples/dispatch/reservation-receipt.generated.json",
+      "bundle_path": "json/examples/dispatch/reservation-receipt.generated.json",
+      "sha256": "800a823568e1963069e1dfaf5bd8194c86363fcdb4dcc47eb6c9059f84a9c8dd",
+      "size_bytes": 1631
+    },
+    {
+      "source_path": "examples/mcp/mcp-smoke.generated.json",
+      "bundle_path": "json/examples/mcp/mcp-smoke.generated.json",
+      "sha256": "c59e536877548757af0b93319faaea791116d32df16429d4f28ceb5abe1f187e",
+      "size_bytes": 15125
+    },
+    {
+      "source_path": "examples/mcp/runtime-config.template.json",
+      "bundle_path": "json/examples/mcp/runtime-config.template.json",
+      "sha256": "acb923935dbc91c7e0e629003083d308a3e66c496e8dbac59f2022afbce2932a",
+      "size_bytes": 1408
+    },
+    {
+      "source_path": "examples/mcp/signed-execution-receipt.generated.json",
+      "bundle_path": "json/examples/mcp/signed-execution-receipt.generated.json",
+      "sha256": "abbb635502583b8d2babe405f891fdae15f055260386164db99b3544900e8f52",
+      "size_bytes": 1810
+    },
+    {
+      "source_path": "examples/openapi-reference.json",
+      "bundle_path": "json/examples/openapi-reference.json",
+      "sha256": "5377daad0aaf2cefb2d0f5cebf724416f10b38cad85839db270688e8afc71d18",
+      "size_bytes": 3598
+    },
+    {
+      "source_path": "examples/openapi-schema-rich.json",
+      "bundle_path": "json/examples/openapi-schema-rich.json",
+      "sha256": "ffdcff497d1c3bc54cc0967bd481e1da1ac3c4cd9275e76a1ea2c462da76acf0",
+      "size_bytes": 4623
+    },
+    {
+      "source_path": "examples/provider-adapters.auth.generated.json",
+      "bundle_path": "json/examples/provider-adapters.auth.generated.json",
+      "sha256": "7524405136417769ae8bdb9fb7a14d7a5a05d358eab3b8ba2e0531bdf54d071b",
+      "size_bytes": 7280
+    },
+    {
+      "source_path": "examples/provider-adapters.schema-rich.generated.json",
+      "bundle_path": "json/examples/provider-adapters.schema-rich.generated.json",
+      "sha256": "635faddc094bea3fe3a91b9e98010ef84605851f3b44236ff38b2be4bc6acecd",
+      "size_bytes": 7271
+    },
+    {
+      "source_path": "examples/provider-auth-bindings.generated.json",
+      "bundle_path": "json/examples/provider-auth-bindings.generated.json",
+      "sha256": "1effa258b7d6000dfe12a4d497b3a240ac02006b064e5e9517e10a8ec2ba0a7a",
+      "size_bytes": 1861
+    },
+    {
+      "source_path": "examples/provider-plan.customer-create.generated.json",
+      "bundle_path": "json/examples/provider-plan.customer-create.generated.json",
+      "sha256": "a5ae4eefe8ecdfa78959def4c2c26a86c136f481305b11c06d79b37e3d510799",
+      "size_bytes": 1566
+    },
+    {
+      "source_path": "examples/provider-plan.customer-get.generated.json",
+      "bundle_path": "json/examples/provider-plan.customer-get.generated.json",
+      "sha256": "9bd1590616e615316de027c4b0cf52d032abe573f89928a8e32225dec1028b9b",
+      "size_bytes": 1274
+    },
+    {
+      "source_path": "examples/runtime/approval-proof.json",
+      "bundle_path": "json/examples/runtime/approval-proof.json",
+      "sha256": "a29e71e924aa91db5a173437b5bdd648ba69328777ea1aa65db8ca41302f48d1",
+      "size_bytes": 1114
+    },
+    {
+      "source_path": "examples/runtime/authorized-execution-envelope.generated.json",
+      "bundle_path": "json/examples/runtime/authorized-execution-envelope.generated.json",
+      "sha256": "9967da833d98f521eace285a332de8de5a017501f54591ec69179eace0496bce",
+      "size_bytes": 9510
+    },
+    {
+      "source_path": "examples/runtime/budget-authorization.json",
+      "bundle_path": "json/examples/runtime/budget-authorization.json",
+      "sha256": "4ce21bc7aeebe9d5304dbf4255d8ea538a545c8d8d47f09eceb7a13322ecc13b",
+      "size_bytes": 1071
+    },
+    {
+      "source_path": "examples/runtime/credential-resolution-plan.json",
+      "bundle_path": "json/examples/runtime/credential-resolution-plan.json",
+      "sha256": "84e8468365aa8da627aa371f8c9915755a518218e26d089aa9aba881a7023084",
+      "size_bytes": 1492
+    },
+    {
+      "source_path": "examples/runtime/provider-execution-plan.json",
+      "bundle_path": "json/examples/runtime/provider-execution-plan.json",
+      "sha256": "fcb63e97ba437845ec32dc482cb69a24533aaf8db8554b7f74d3cf17d92c3290",
+      "size_bytes": 1245
+    },
+    {
+      "source_path": "examples/runtime/runtime-policy-decision.json",
+      "bundle_path": "json/examples/runtime/runtime-policy-decision.json",
+      "sha256": "4b096c6ec276f4be14ab0eb84dc8dfbf6d67ab7d764409130c21d1cc37a547d9",
+      "size_bytes": 1256
+    },
+    {
+      "source_path": "examples/runtime/runtime-trust-store.json",
+      "bundle_path": "json/examples/runtime/runtime-trust-store.json",
+      "sha256": "8568b5e55f977c2757c4236909c3499b2c331a632d32b82b35b8e119b5f09d0a",
+      "size_bytes": 907
+    },
+    {
+      "source_path": "examples/source-inspection.generated.json",
+      "bundle_path": "json/examples/source-inspection.generated.json",
+      "sha256": "71537cb14ef9dd69fe13130ea39939580219762422797b345d0bbd3b75dcee8f",
+      "size_bytes": 14930
+    },
+    {
+      "source_path": "examples/source-inspection.schema-rich.generated.json",
+      "bundle_path": "json/examples/source-inspection.schema-rich.generated.json",
+      "sha256": "2f6a69172fad40ad1657a4963c3ff12485644596e7b049bbac883bf2ad5c7517",
+      "size_bytes": 20707
+    },
+    {
+      "source_path": "examples/studio/deployment-package-manifest.generated.json",
+      "bundle_path": "json/examples/studio/deployment-package-manifest.generated.json",
+      "sha256": "9a1f321ff3de291269f574aafe214834edbdc2fa5008db726dc919f61932f48c",
+      "size_bytes": 60068
+    },
+    {
+      "source_path": "examples/studio/project/generated/capability-map.json",
+      "bundle_path": "json/examples/studio/project/generated/capability-map.json",
+      "sha256": "cecd0152556f152b72001aeb223947b5b255bb33318f5c0e98b2e80ec9888a2d",
+      "size_bytes": 19526
+    },
+    {
+      "source_path": "examples/studio/project/generated/contract-bundle.json",
+      "bundle_path": "json/examples/studio/project/generated/contract-bundle.json",
+      "sha256": "c11873e8993d6dc1bdc2f3cafb980db8b478e5bd0462206b06e6da8ed400d72c",
+      "size_bytes": 28515
+    },
+    {
+      "source_path": "examples/studio/project/generated/credential-catalog.json",
+      "bundle_path": "json/examples/studio/project/generated/credential-catalog.json",
+      "sha256": "d8b72b573ce8803bffff5fdb0294c4b48515a89264f48a9054893c16e56fd7c3",
+      "size_bytes": 651
+    },
+    {
+      "source_path": "examples/studio/project/generated/provider-adapters.json",
+      "bundle_path": "json/examples/studio/project/generated/provider-adapters.json",
+      "sha256": "2cbec0cca3ec694924a696ba886830ca2928b07944ef070cec3c5553a42fd2ab",
+      "size_bytes": 7315
+    },
+    {
+      "source_path": "examples/studio/project/generated/provider-auth-bindings.json",
+      "bundle_path": "json/examples/studio/project/generated/provider-auth-bindings.json",
+      "sha256": "d3ba1bcf07d10becd7c30c17f152cc74ae481663c6cb41bed97201906a5b8ef0",
+      "size_bytes": 1984
+    },
+    {
+      "source_path": "examples/studio/project/generated/source-inspection.json",
+      "bundle_path": "json/examples/studio/project/generated/source-inspection.json",
+      "sha256": "fc8f3526e026809737011eef49a9e9cf5d2cdc8acdb10d0deea80d04a3ad1090",
+      "size_bytes": 20698
+    },
+    {
+      "source_path": "examples/studio/project/overrides/tool-overrides.json",
+      "bundle_path": "json/examples/studio/project/overrides/tool-overrides.json",
+      "sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570",
+      "size_bytes": 3
+    },
+    {
+      "source_path": "examples/studio/project/source/openapi.json",
+      "bundle_path": "json/examples/studio/project/source/openapi.json",
+      "sha256": "ffdcff497d1c3bc54cc0967bd481e1da1ac3c4cd9275e76a1ea2c462da76acf0",
+      "size_bytes": 4623
+    },
+    {
+      "source_path": "examples/studio/project/studio-project.json",
+      "bundle_path": "json/examples/studio/project/studio-project.json",
+      "sha256": "297500476368ca20eefe03e64d31c5f069b3c78457d414e8a5665aa8004d30f2",
+      "size_bytes": 1592
+    },
+    {
+      "source_path": "package-lock.json",
+      "bundle_path": "json/package-lock.json",
+      "sha256": "15de9d847f4a789c574437a4f845b8a7693f26bf311e30a96761b8a16e6d6180",
+      "size_bytes": 875
+    },
+    {
+      "source_path": "package.json",
+      "bundle_path": "json/package.json",
+      "sha256": "63250eacb6f6f3691de31819fe46289f2a98b71194d4706c5367aa35d1584ed9",
+      "size_bytes": 7051
+    },
+    {
+      "source_path": "schemas/approval-contract.schema.json",
+      "bundle_path": "json/schemas/approval-contract.schema.json",
+      "sha256": "afce0bdd0fa64d8ec3ffa38ae813b24522b0a329af7d9071b71c218dedd2f3f6",
+      "size_bytes": 1162
+    },
+    {
+      "source_path": "schemas/approval-proof.schema.json",
+      "bundle_path": "json/schemas/approval-proof.schema.json",
+      "sha256": "fb301566c91d65129611c34270e19d1aca82b3bbfa842e1b5494d3419a9f156e",
+      "size_bytes": 3182
+    },
+    {
+      "source_path": "schemas/auth-contract.schema.json",
+      "bundle_path": "json/schemas/auth-contract.schema.json",
+      "sha256": "07d013ad355ce2b4dd778f8e44aa8c80c1d1b103b7307bb85f2660bd11e39450",
+      "size_bytes": 1688
+    },
+    {
+      "source_path": "schemas/authorized-execution-envelope.schema.json",
+      "bundle_path": "json/schemas/authorized-execution-envelope.schema.json",
+      "sha256": "6aad2dc28847bc048b2b073b65da383d6dffc3482fa361cfbf3e7e72a5ff1a0d",
+      "size_bytes": 4954
+    },
+    {
+      "source_path": "schemas/budget-authorization.schema.json",
+      "bundle_path": "json/schemas/budget-authorization.schema.json",
+      "sha256": "01b19ca7b927bbc18997a8140a5cc67ee22669d62775aaa620e5e2dab78a3fec",
+      "size_bytes": 3175
+    },
+    {
+      "source_path": "schemas/capability-map-artifact.schema.json",
+      "bundle_path": "json/schemas/capability-map-artifact.schema.json",
+      "sha256": "09da1c00ab92b50259dc022e16c88f6997de3a2d7e7ad77f51fa5b04ed16c86f",
+      "size_bytes": 20877
+    },
+    {
+      "source_path": "schemas/chatgpt-app-config.schema.json",
+      "bundle_path": "json/schemas/chatgpt-app-config.schema.json",
+      "sha256": "65413e5e69d965ef4152e5495d23d971302526ad51289810846a52bc9d9e914d",
+      "size_bytes": 3466
+    },
+    {
+      "source_path": "schemas/credential-catalog.schema.json",
+      "bundle_path": "json/schemas/credential-catalog.schema.json",
+      "sha256": "b34aa2264eb0894d269f5edd44550a97aaa35559b1be5441435c8c9b66467495",
+      "size_bytes": 1923
+    },
+    {
+      "source_path": "schemas/credential-resolution-plan.schema.json",
+      "bundle_path": "json/schemas/credential-resolution-plan.schema.json",
+      "sha256": "787fd570c5bdcb4a9556f255b1687d4e111c591d74ed1804e8cdd7b042c24952",
+      "size_bytes": 2182
+    },
+    {
+      "source_path": "schemas/deployment-package-manifest.schema.json",
+      "bundle_path": "json/schemas/deployment-package-manifest.schema.json",
+      "sha256": "686e1476f0d3616063eebc165248242020b028270f84dc31c672f8ab1cd7ef68",
+      "size_bytes": 639
+    },
+    {
+      "source_path": "schemas/dispatch-ledger-event.schema.json",
+      "bundle_path": "json/schemas/dispatch-ledger-event.schema.json",
+      "sha256": "0068cf5cd125c210fa5a5c73a8abc24bdcf311c50d9b8b56b2e917e5372a4193",
+      "size_bytes": 2456
+    },
+    {
+      "source_path": "schemas/dispatch-ledger-snapshot.schema.json",
+      "bundle_path": "json/schemas/dispatch-ledger-snapshot.schema.json",
+      "sha256": "7256439d4ca9f820373e418c41d7ab67a258f8c5637df3036748a3d5a9c78b72",
+      "size_bytes": 1233
+    },
+    {
+      "source_path": "schemas/dispatch-reservation.schema.json",
+      "bundle_path": "json/schemas/dispatch-reservation.schema.json",
+      "sha256": "0f3b6b5dc5b28a3093107aad07cd53fe462027e4d1ac5c9a62dee44df0aa5e25",
+      "size_bytes": 2252
+    },
+    {
+      "source_path": "schemas/foundry-artifact.schema.json",
+      "bundle_path": "json/schemas/foundry-artifact.schema.json",
+      "sha256": "c3c87b1573469abb5fa389a3e0fde95379cf410d3902b946e36ee81bc3041a04",
+      "size_bytes": 1294
+    },
+    {
+      "source_path": "schemas/foundry-demo-report.schema.json",
+      "bundle_path": "json/schemas/foundry-demo-report.schema.json",
+      "sha256": "57b31b807e7c395423dcb7db6f19309a3bacfd89e41f7fde8c25f9732daf32ff",
+      "size_bytes": 1584
+    },
+    {
+      "source_path": "schemas/foundry-doctor-report.schema.json",
+      "bundle_path": "json/schemas/foundry-doctor-report.schema.json",
+      "sha256": "e5d8b1abe353d439588ea1455e78a742bd6113cf946d9128a029d32ce928a72a",
+      "size_bytes": 1611
+    },
+    {
+      "source_path": "schemas/foundry-init-report.schema.json",
+      "bundle_path": "json/schemas/foundry-init-report.schema.json",
+      "sha256": "e9450853c326ddca7b9334e052bc40b7a2205bcbe02526b70929b91db4ddefc8",
+      "size_bytes": 823
+    },
+    {
+      "source_path": "schemas/mcp-runtime-config.schema.json",
+      "bundle_path": "json/schemas/mcp-runtime-config.schema.json",
+      "sha256": "5ee5b624372aa2edf1e95379815c4d9b29d02e77494556625babc90702227b19",
+      "size_bytes": 3703
+    },
+    {
+      "source_path": "schemas/policy-contract.schema.json",
+      "bundle_path": "json/schemas/policy-contract.schema.json",
+      "sha256": "fad6b4ed17439bfce7eeeb884867e3efd0d0e1d0a6b26922c239d522d74de5d9",
+      "size_bytes": 1296
+    },
+    {
+      "source_path": "schemas/provider-adapter-bundle.schema.json",
+      "bundle_path": "json/schemas/provider-adapter-bundle.schema.json",
+      "sha256": "13c50105b9227510e8af5597b93464e51721d7f9ed6e630e0422aa6482c4c282",
+      "size_bytes": 5061
+    },
+    {
+      "source_path": "schemas/provider-auth-binding-bundle.schema.json",
+      "bundle_path": "json/schemas/provider-auth-binding-bundle.schema.json",
+      "sha256": "7e683b3fd923dab4b3a07e782e8e0eb59c598f4238c9f0b18fec4e34325d2e23",
+      "size_bytes": 3746
+    },
+    {
+      "source_path": "schemas/provider-execution-plan.schema.json",
+      "bundle_path": "json/schemas/provider-execution-plan.schema.json",
+      "sha256": "da6e777df883d308f5c3765d96571d7c6c34ca4a87f9b4385edaf951c1860d99",
+      "size_bytes": 3083
+    },
+    {
+      "source_path": "schemas/receipt-contract.schema.json",
+      "bundle_path": "json/schemas/receipt-contract.schema.json",
+      "sha256": "ce9a428e7e63ab0d45b4f016bd4a91b9739bf73f17249f6b41e7cef6494d0410",
+      "size_bytes": 2033
+    },
+    {
+      "source_path": "schemas/recovery-contract.schema.json",
+      "bundle_path": "json/schemas/recovery-contract.schema.json",
+      "sha256": "e4b64cf129945df57999f988929bf9aa13b286d5c700aa4a82eb9115230cb0d1",
+      "size_bytes": 1293
+    },
+    {
+      "source_path": "schemas/runtime-policy-decision.schema.json",
+      "bundle_path": "json/schemas/runtime-policy-decision.schema.json",
+      "sha256": "c4eef0218fd9eae8acb260c54eea74123fddc2ee67adda7b3e18b3752c2686a9",
+      "size_bytes": 4122
+    },
+    {
+      "source_path": "schemas/runtime-trust-store.schema.json",
+      "bundle_path": "json/schemas/runtime-trust-store.schema.json",
+      "sha256": "f737b1beb174a4a73db68124e267f16905267605795c33c416922caec1e9bc9b",
+      "size_bytes": 1517
+    },
+    {
+      "source_path": "schemas/signed-dispatch-receipt.schema.json",
+      "bundle_path": "json/schemas/signed-dispatch-receipt.schema.json",
+      "sha256": "5b101fccfd552e58ae4246a4ba706403a1397f49db6386c3c274cb2f907ea501",
+      "size_bytes": 2759
+    },
+    {
+      "source_path": "schemas/signed-execution-receipt.schema.json",
+      "bundle_path": "json/schemas/signed-execution-receipt.schema.json",
+      "sha256": "3f1f0ea5ef6bacb6c56673d87681ec7733140a82e1105db4fb90831fb791d3f8",
+      "size_bytes": 3376
+    },
+    {
+      "source_path": "schemas/source-inspection-artifact.schema.json",
+      "bundle_path": "json/schemas/source-inspection-artifact.schema.json",
+      "sha256": "818de9b2776f5dbd9224acdbd57e8eb752876b5223efe7cd88976b5a1f10acd2",
+      "size_bytes": 21166
+    },
+    {
+      "source_path": "schemas/studio-project.schema.json",
+      "bundle_path": "json/schemas/studio-project.schema.json",
+      "sha256": "29e3cfede163ec3c94b2b142f7538bd2a19f709b474aa5c8c1da3f91a5cd368a",
+      "size_bytes": 829
+    },
+    {
+      "source_path": "schemas/tool-contract.schema.json",
+      "bundle_path": "json/schemas/tool-contract.schema.json",
+      "sha256": "017b9bcfa824b2bd66989bf868b07200bd0261fc9c224e7c70ed40e0fef4cbac",
+      "size_bytes": 3514
+    },
+    {
+      "source_path": "tests/fixtures/auth-contract-bundle.json",
+      "bundle_path": "json/tests/fixtures/auth-contract-bundle.json",
+      "sha256": "cb04415e2b5b2c063cf250b28c6cacdf472ba29601e8648102cf696394bdeec6",
+      "size_bytes": 28335
+    },
+    {
+      "source_path": "tests/fixtures/credential-catalog-missing-scope.json",
+      "bundle_path": "json/tests/fixtures/credential-catalog-missing-scope.json",
+      "sha256": "92360402a672dcaa3fbe172ad86a3e9f38217c73c222df3b81958c201f319010",
+      "size_bytes": 724
+    },
+    {
+      "source_path": "tests/fixtures/credential-catalog.json",
+      "bundle_path": "json/tests/fixtures/credential-catalog.json",
+      "sha256": "de9a9cf9238bccf82fa48627dda453fa171d97e6e6f1ba39bd008d0bff366af6",
+      "size_bytes": 755
+    },
+    {
+      "source_path": "tests/fixtures/credential-context.json",
+      "bundle_path": "json/tests/fixtures/credential-context.json",
+      "sha256": "5fe28af5fd2de54b82f266f6ab1d9a824d27f5fa4984456df74fa5f6195b3598",
+      "size_bytes": 228
+    },
+    {
+      "source_path": "tests/fixtures/customer-get.arguments.json",
+      "bundle_path": "json/tests/fixtures/customer-get.arguments.json",
+      "sha256": "d4c220efb7d3f8240010775e14069e712abb9f8fb5705a599897f0c74fe1d413",
+      "size_bytes": 69
+    },
+    {
+      "source_path": "tests/fixtures/invalid-capability-map.json",
+      "bundle_path": "json/tests/fixtures/invalid-capability-map.json",
+      "sha256": "1b11c3514697f9703d3bc7e2842555b4accab40d3142596982e8057ac67e6035",
+      "size_bytes": 254
+    },
+    {
+      "source_path": "tests/fixtures/openapi-invalid.json",
+      "bundle_path": "json/tests/fixtures/openapi-invalid.json",
+      "sha256": "6fa5a730bbb5a792f0b912347bdb28f0f83ca06f3b48176e93180b8c567e88d4",
+      "size_bytes": 89
+    },
+    {
+      "source_path": "tests/fixtures/openapi-reference.json",
+      "bundle_path": "json/tests/fixtures/openapi-reference.json",
+      "sha256": "5377daad0aaf2cefb2d0f5cebf724416f10b38cad85839db270688e8afc71d18",
+      "size_bytes": 3598
+    },
+    {
+      "source_path": "tests/fixtures/openapi-schema-rich.json",
+      "bundle_path": "json/tests/fixtures/openapi-schema-rich.json",
+      "sha256": "ffdcff497d1c3bc54cc0967bd481e1da1ac3c4cd9275e76a1ea2c462da76acf0",
+      "size_bytes": 4623
+    },
+    {
+      "source_path": "tests/fixtures/runtime/approval-proof.json",
+      "bundle_path": "json/tests/fixtures/runtime/approval-proof.json",
+      "sha256": "a29e71e924aa91db5a173437b5bdd648ba69328777ea1aa65db8ca41302f48d1",
+      "size_bytes": 1114
+    },
+    {
+      "source_path": "tests/fixtures/runtime/budget-authorization.json",
+      "bundle_path": "json/tests/fixtures/runtime/budget-authorization.json",
+      "sha256": "4ce21bc7aeebe9d5304dbf4255d8ea538a545c8d8d47f09eceb7a13322ecc13b",
+      "size_bytes": 1071
+    },
+    {
+      "source_path": "tests/fixtures/runtime/credential-resolution-plan.json",
+      "bundle_path": "json/tests/fixtures/runtime/credential-resolution-plan.json",
+      "sha256": "84e8468365aa8da627aa371f8c9915755a518218e26d089aa9aba881a7023084",
+      "size_bytes": 1492
+    },
+    {
+      "source_path": "tests/fixtures/runtime/provider-execution-plan.json",
+      "bundle_path": "json/tests/fixtures/runtime/provider-execution-plan.json",
+      "sha256": "fcb63e97ba437845ec32dc482cb69a24533aaf8db8554b7f74d3cf17d92c3290",
+      "size_bytes": 1245
+    },
+    {
+      "source_path": "tests/fixtures/runtime/runtime-policy-decision.json",
+      "bundle_path": "json/tests/fixtures/runtime/runtime-policy-decision.json",
+      "sha256": "4b096c6ec276f4be14ab0eb84dc8dfbf6d67ab7d764409130c21d1cc37a547d9",
+      "size_bytes": 1256
+    },
+    {
+      "source_path": "tests/fixtures/runtime/runtime-trust-store.json",
+      "bundle_path": "json/tests/fixtures/runtime/runtime-trust-store.json",
+      "sha256": "8568b5e55f977c2757c4236909c3499b2c331a632d32b82b35b8e119b5f09d0a",
+      "size_bytes": 907
+    },
+    {
+      "source_path": "tests/fixtures/valid-bundle.json",
+      "bundle_path": "json/tests/fixtures/valid-bundle.json",
+      "sha256": "49b84f973bdefa8e1ccc8e029e43ac5410a0ea51a124d6ce77a593b65a1456c8",
+      "size_bytes": 3197
+    },
+    {
+      "source_path": "tsconfig.json",
+      "bundle_path": "json/tsconfig.json",
+      "sha256": "c2c96e85ce94a6b76e50cf1b7cd5fce45d529cc0836cafe9b6fbe50348d4966d",
+      "size_bytes": 533
+    }
+  ],
+  "integrity": {
+    "algorithm": "sha256",
+    "digest": "d857dab2721fb0e9cbcb37442d39ca4bd336f13f39002bc4dc83a1ce739959d8"
+  }
+}

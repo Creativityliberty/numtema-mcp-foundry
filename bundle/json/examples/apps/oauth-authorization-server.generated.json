@@ -1,0 +1,13 @@
+{
+  "issuer": "https://mcp.example.com",
+  "authorization_endpoint": "https://mcp.example.com/oauth/authorize",
+  "token_endpoint": "https://mcp.example.com/oauth/token",
+  "registration_endpoint": "https://mcp.example.com/oauth/register",
+  "revocation_endpoint": "https://mcp.example.com/oauth/revoke",
+  "userinfo_endpoint": "https://mcp.example.com/oauth/userinfo",
+  "jwks_uri": "https://mcp.example.com/oauth/jwks",
+  "response_types_supported": ["code"],
+  "grant_types_supported": ["authorization_code", "refresh_token"],
+  "token_endpoint_auth_methods_supported": ["none"],
+  "code_challenge_methods_supported": ["S256"]
+}

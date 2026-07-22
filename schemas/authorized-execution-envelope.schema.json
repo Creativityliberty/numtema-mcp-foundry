@@ -1,0 +1,250 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "AuthorizedExecutionEnvelope",
+  "type": "object",
+  "required": [
+    "artifact_type",
+    "artifact_version",
+    "dry_run",
+    "network_executed",
+    "dispatch_permitted",
+    "authorization_id",
+    "execution_nonce",
+    "authorized_at",
+    "expires_at",
+    "binding",
+    "risk_class",
+    "policy",
+    "approval",
+    "budget",
+    "execution_plan",
+    "credential_plan",
+    "checks",
+    "warnings",
+    "errors",
+    "redaction",
+    "source_digests",
+    "integrity"
+  ],
+  "properties": {
+    "artifact_type": {
+      "const": "authorized_execution_envelope"
+    },
+    "artifact_version": {
+      "const": "0.8"
+    },
+    "dry_run": {
+      "const": true
+    },
+    "network_executed": {
+      "const": false
+    },
+    "dispatch_permitted": {
+      "type": "boolean"
+    },
+    "authorization_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "execution_nonce": {
+      "type": "string",
+      "minLength": 1
+    },
+    "authorized_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "expires_at": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "binding": {
+      "type": "object",
+      "required": [
+        "tool_id",
+        "tool_revision",
+        "adapter_id",
+        "adapter_revision",
+        "arguments_hash",
+        "context_hash",
+        "subject_ref",
+        "client_ref",
+        "workspace_ref"
+      ],
+      "properties": {
+        "tool_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "tool_revision": {
+          "type": "string",
+          "minLength": 1
+        },
+        "adapter_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "adapter_revision": {
+          "type": "string",
+          "minLength": 1
+        },
+        "arguments_hash": {
+          "type": "string",
+          "minLength": 1
+        },
+        "context_hash": {
+          "type": "string",
+          "minLength": 1
+        },
+        "subject_ref": {
+          "type": "string",
+          "minLength": 1
+        },
+        "client_ref": {
+          "type": "string",
+          "minLength": 1
+        },
+        "workspace_ref": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "additionalProperties": false
+    },
+    "risk_class": {
+      "enum": [
+        "R0",
+        "R1",
+        "R2",
+        "R3",
+        "R4",
+        "R5"
+      ]
+    },
+    "policy": {
+      "type": "object"
+    },
+    "approval": {
+      "type": "object"
+    },
+    "budget": {
+      "type": "object"
+    },
+    "execution_plan": {
+      "type": "object"
+    },
+    "credential_plan": {
+      "type": "object"
+    },
+    "checks": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "code",
+          "status",
+          "message"
+        ],
+        "properties": {
+          "code": {
+            "type": "string",
+            "minLength": 1
+          },
+          "status": {
+            "enum": [
+              "pass",
+              "fail",
+              "not_applicable"
+            ]
+          },
+          "message": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "warnings": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "code",
+          "message"
+        ],
+        "properties": {
+          "code": {
+            "type": "string",
+            "minLength": 1
+          },
+          "message": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "errors": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "code",
+          "message"
+        ],
+        "properties": {
+          "code": {
+            "type": "string",
+            "minLength": 1
+          },
+          "message": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "redaction": {
+      "type": "object",
+      "required": [
+        "secret_material_included",
+        "credential_handle_only"
+      ],
+      "properties": {
+        "secret_material_included": {
+          "const": false
+        },
+        "credential_handle_only": {
+          "const": true
+        }
+      },
+      "additionalProperties": false
+    },
+    "source_digests": {
+      "type": "object"
+    },
+    "integrity": {
+      "type": "object",
+      "required": [
+        "algorithm",
+        "digest"
+      ],
+      "properties": {
+        "algorithm": {
+          "const": "sha256"
+        },
+        "digest": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": false
+}

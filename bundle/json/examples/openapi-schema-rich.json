@@ -1,0 +1,97 @@
+{
+  "openapi": "3.1.0",
+  "info": { "title": "Schema Rich API", "version": "1.0.0" },
+  "paths": {
+    "/customers": {
+      "get": {
+        "operationId": "listCustomers",
+        "tags": ["Customers"],
+        "parameters": [
+          { "name": "cursor", "in": "query", "schema": { "type": "string" } },
+          { "name": "limit", "in": "query", "schema": { "type": "integer", "minimum": 1, "maximum": 100, "default": 20 } },
+          { "name": "X-Trace-ID", "in": "header", "required": false, "schema": { "type": "string" } }
+        ],
+        "responses": {
+          "200": {
+            "description": "Customer page",
+            "content": { "application/json": { "schema": { "$ref": "#/components/schemas/CustomerPage" } } }
+          },
+          "400": {
+            "description": "Invalid cursor",
+            "content": { "application/problem+json": { "schema": { "$ref": "#/components/schemas/Problem" } } }
+          }
+        }
+      },
+      "post": {
+        "operationId": "createCustomer",
+        "tags": ["Customers"],
+        "requestBody": {
+          "required": true,
+          "description": "Customer to create",
+          "content": { "application/json": { "schema": { "$ref": "#/components/schemas/CustomerCreate" } } }
+        },
+        "responses": {
+          "201": {
+            "description": "Created",
+            "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Customer" } } }
+          },
+          "422": {
+            "description": "Validation error",
+            "content": { "application/problem+json": { "schema": { "$ref": "#/components/schemas/Problem" } } }
+          }
+        }
+      }
+    },
+    "/customers/{customerId}": {
+      "parameters": [ { "$ref": "#/components/parameters/CustomerId" } ],
+      "get": {
+        "operationId": "getCustomer",
+        "tags": ["Customers"],
+        "parameters": [
+          { "name": "expand", "in": "query", "required": false, "schema": { "type": "array", "items": { "type": "string" } }, "style": "form", "explode": false }
+        ],
+        "responses": {
+          "200": { "description": "Customer", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Customer" } } } },
+          "404": { "description": "Not found", "content": { "application/problem+json": { "schema": { "$ref": "#/components/schemas/Problem" } } } }
+        }
+      }
+    },
+    "/files": {
+      "post": {
+        "operationId": "uploadFile",
+        "tags": ["Files"],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "required": ["file"],
+                "properties": {
+                  "file": { "type": "string", "format": "binary" },
+                  "label": { "type": "string" }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "202": { "description": "Queued", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Job" } } } },
+          "413": { "description": "Too large", "content": { "application/problem+json": { "schema": { "$ref": "#/components/schemas/Problem" } } } }
+        }
+      }
+    }
+  },
+  "components": {
+    "parameters": {
+      "CustomerId": { "name": "customerId", "in": "path", "required": true, "description": "Customer UUID", "schema": { "type": "string", "format": "uuid" } }
+    },
+    "schemas": {
+      "Customer": { "type": "object", "required": ["id", "email"], "properties": { "id": { "type": "string", "format": "uuid" }, "email": { "type": "string", "format": "email" }, "name": { "type": "string" } } },
+      "CustomerCreate": { "type": "object", "required": ["email"], "properties": { "email": { "type": "string", "format": "email" }, "name": { "type": "string", "minLength": 1 } }, "additionalProperties": false },
+      "CustomerPage": { "type": "object", "required": ["items"], "properties": { "items": { "type": "array", "items": { "$ref": "#/components/schemas/Customer" } }, "next_cursor": { "type": ["string", "null"] }, "total": { "type": "integer" } } },
+      "Job": { "type": "object", "required": ["job_id", "status"], "properties": { "job_id": { "type": "string" }, "status": { "type": "string", "enum": ["queued", "running", "completed", "failed"] } } },
+      "Problem": { "type": "object", "required": ["type", "title", "status"], "properties": { "type": { "type": "string", "format": "uri" }, "title": { "type": "string" }, "status": { "type": "integer" }, "detail": { "type": "string" } } }
+    }
+  }
+}

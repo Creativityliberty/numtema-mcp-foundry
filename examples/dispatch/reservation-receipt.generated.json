@@ -1,0 +1,44 @@
+{
+  "artifact_type": "signed_dispatch_receipt",
+  "artifact_version": "0.9",
+  "receipt_id": "dispatch_receipt_e7906eb4a9bbe490a6de0303f30fe521",
+  "ledger_id": "ledger-example-1",
+  "sequence": 1,
+  "reservation_id": "res_cf4065b3fa944005a43b9c5044787396",
+  "authorization_id": "authz_b3d6e0f0d004257fcdfdec05441fb8de",
+  "transition": "authorized_to_reserved",
+  "state": "reserved",
+  "replayed": false,
+  "occurred_at": "2026-07-22T16:02:00Z",
+  "binding": {
+    "tool_id": "tool-payment-refund",
+    "tool_revision": "tool-rev-1",
+    "adapter_id": "adapter-payment-refund",
+    "adapter_revision": "adapter-rev-1",
+    "arguments_hash": "args-hash-refund-25",
+    "context_hash": "context-hash-subject-1-client-1-workspace-1",
+    "subject_ref": "subject-1",
+    "client_ref": "client-1",
+    "workspace_ref": "workspace-1"
+  },
+  "execution_nonce": "dispatch_9b0f9559639c0b5aba3fd76b205fc3f5",
+  "approval_nonce": "approval-nonce-runtime-example-1",
+  "idempotency_key": "operation-123",
+  "budget": {
+    "budget_ref": "budget-workspace-1",
+    "currency": "EUR",
+    "amount": 25,
+    "remaining_before": 100
+  },
+  "envelope_digest": "1a0d8f24690f2fc7536d1fdaf61a1e37fd5fdb05c06be0077cfbb6ca83da8881",
+  "ledger_event_digest": "176e905568b0a431746650df017b3a64794dd202cecd124d1dac495b771a238c",
+  "integrity": {
+    "algorithm": "sha256",
+    "digest": "b91ee8c6e4035a50a1b61cce43ad1baa4d92b08212bb518fb3ff0491dc1b35a7"
+  },
+  "signature": {
+    "algorithm": "ed25519",
+    "key_id": "dispatch-example-key-1",
+    "value": "5colCbZ5Q/jSrpUDchrByAdnGOJcmu9kRu9b38LBVp99aosD33lfh8OACHjcdcp+dbORn7NSZc/r1yTXHHg7DQ=="
+  }
+}

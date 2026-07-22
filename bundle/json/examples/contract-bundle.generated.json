@@ -1,0 +1,1063 @@
+{
+  "bundle_version": "0.2",
+  "tools": [
+    {
+      "id": "tool:api_key_delete",
+      "name": "api_key_delete",
+      "version": "0.4.0",
+      "revision": "d582dae546db3991b213d9f1fb1e5f9071fd710c92f633c51f2fb4425f1e579e",
+      "title": "Revoke an API credential",
+      "description": "DELETE /api-keys/{keyId} — Revoke an API credential. Compiled as a governed Nümtema Foundry capability from source operation deleteApiKey.",
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "keyId": {
+            "type": "string",
+            "description": "Path parameter keyId compiled from /api-keys/{keyId}."
+          }
+        },
+        "required": [
+          "keyId"
+        ],
+        "additionalProperties": true,
+        "description": "Conservative draft. Additional query, header, and body properties are permitted until OpenAPI schema enrichment."
+      },
+      "output_schema": {
+        "type": "object",
+        "additionalProperties": true,
+        "description": "Conservative response draft pending full OpenAPI response-schema retention."
+      },
+      "annotations": {
+        "read_only": false,
+        "destructive": true,
+        "idempotent": true,
+        "open_world": false
+      },
+      "effects": {
+        "writes": true,
+        "external_communication": false,
+        "financial": false,
+        "credential_change": true,
+        "personal_data": false,
+        "reversible": false
+      },
+      "execution": {
+        "mode": "synchronous",
+        "task_support": "forbidden",
+        "idempotency": "supported"
+      },
+      "required_scopes": [
+        "customers:read"
+      ],
+      "policy_ref": "policy:api_key_delete",
+      "extensions": {
+        "foundry": {
+          "source_operation_id": "deleteApiKey",
+          "source_method": "delete",
+          "source_path": "/api-keys/{keyId}",
+          "domain": "Security",
+          "risk_class": "R5",
+          "governance_reasons": [
+            "Classified R5 from source inspection signals.",
+            "Critical credential or irreversible destructive behavior requires an approver and dual control."
+          ],
+          "evidence": [
+            {
+              "code": "WRITE_HTTP_METHOD",
+              "message": "DELETE implies server-side effects.",
+              "source": "http_method"
+            },
+            {
+              "code": "DESTRUCTIVE_SIGNAL",
+              "message": "Method or metadata indicates destructive behavior.",
+              "source": "http_method"
+            },
+            {
+              "code": "CREDENTIAL_SIGNAL",
+              "message": "Operation metadata references credentials or authorization state.",
+              "source": "operation_metadata"
+            },
+            {
+              "code": "AUTH_REQUIRED",
+              "message": "Security schemes required: oauth.",
+              "source": "security"
+            }
+          ],
+          "schema_fidelity": "conservative_draft"
+        }
+      },
+      "auth_ref": "auth:default",
+      "approval_ref": "approval:api_key_delete"
+    },
+    {
+      "id": "tool:asset_upload",
+      "name": "asset_upload",
+      "version": "0.4.0",
+      "revision": "cd1a97cddebad5bf754a642a3370a12170ef7817f2e7d0e614585666766efb6d",
+      "title": "Upload a media asset",
+      "description": "POST /assets/upload — Upload a media asset. Compiled as a governed Nümtema Foundry capability from source operation uploadAsset.",
+      "input_schema": {
+        "type": "object",
+        "properties": {},
+        "required": [],
+        "additionalProperties": true,
+        "description": "Conservative draft. Additional query, header, and body properties are permitted until OpenAPI schema enrichment."
+      },
+      "output_schema": {
+        "type": "object",
+        "additionalProperties": true,
+        "description": "Conservative response draft pending full OpenAPI response-schema retention."
+      },
+      "annotations": {
+        "read_only": false,
+        "destructive": false,
+        "idempotent": false,
+        "open_world": false
+      },
+      "effects": {
+        "writes": true,
+        "external_communication": false,
+        "financial": false,
+        "credential_change": false,
+        "personal_data": false,
+        "reversible": null
+      },
+      "execution": {
+        "mode": "synchronous",
+        "task_support": "forbidden",
+        "idempotency": "required"
+      },
+      "required_scopes": [
+        "customers:read"
+      ],
+      "policy_ref": "policy:asset_upload",
+      "extensions": {
+        "foundry": {
+          "source_operation_id": "uploadAsset",
+          "source_method": "post",
+          "source_path": "/assets/upload",
+          "domain": "Assets",
+          "risk_class": "R2",
+          "governance_reasons": [
+            "Classified R2 from source inspection signals.",
+            "Write behavior requires scoped authorization when scopes are declared."
+          ],
+          "evidence": [
+            {
+              "code": "WRITE_HTTP_METHOD",
+              "message": "POST implies server-side effects.",
+              "source": "http_method"
+            },
+            {
+              "code": "UPLOAD_SIGNAL",
+              "message": "Request media type or operation metadata indicates upload.",
+              "source": "request_body"
+            },
+            {
+              "code": "AUTH_REQUIRED",
+              "message": "Security schemes required: oauth.",
+              "source": "security"
+            }
+          ],
+          "schema_fidelity": "conservative_draft"
+        }
+      },
+      "auth_ref": "auth:default"
+    },
+    {
+      "id": "tool:customer_list",
+      "name": "customer_list",
+      "version": "0.4.0",
+      "revision": "a5203e6eb85b81a58eb54a403efd014463a106d773469e09375f8262229da0df",
+      "title": "List customer profiles",
+      "description": "GET /customers — List customer profiles. Compiled as a governed Nümtema Foundry capability from source operation listCustomers.",
+      "input_schema": {
+        "type": "object",
+        "properties": {},
+        "required": [],
+        "additionalProperties": true,
+        "description": "Conservative draft. Additional query, header, and body properties are permitted until OpenAPI schema enrichment."
+      },
+      "output_schema": {
+        "type": "object",
+        "additionalProperties": true,
+        "description": "Conservative response draft pending full OpenAPI response-schema retention."
+      },
+      "annotations": {
+        "read_only": true,
+        "destructive": false,
+        "idempotent": true,
+        "open_world": false
+      },
+      "effects": {
+        "writes": false,
+        "external_communication": false,
+        "financial": false,
+        "credential_change": false,
+        "personal_data": true,
+        "reversible": null
+      },
+      "execution": {
+        "mode": "synchronous",
+        "task_support": "forbidden",
+        "idempotency": "not_applicable"
+      },
+      "required_scopes": [
+        "customers:read"
+      ],
+      "policy_ref": "policy:customer_list",
+      "extensions": {
+        "foundry": {
+          "source_operation_id": "listCustomers",
+          "source_method": "get",
+          "source_path": "/customers",
+          "domain": "Customers",
+          "risk_class": "R1",
+          "governance_reasons": [
+            "Classified R1 from source inspection signals.",
+            "Authenticated or personal-data read requires least-privilege access."
+          ],
+          "evidence": [
+            {
+              "code": "READ_HTTP_METHOD",
+              "message": "GET implies a read-oriented operation.",
+              "source": "http_method"
+            },
+            {
+              "code": "PERSONAL_DATA_SIGNAL",
+              "message": "Operation metadata references a person or personal profile.",
+              "source": "operation_metadata"
+            },
+            {
+              "code": "AUTH_REQUIRED",
+              "message": "Security schemes required: oauth.",
+              "source": "security"
+            },
+            {
+              "code": "PAGINATION_SIGNAL",
+              "message": "Pagination parameters detected: cursor, limit.",
+              "source": "parameter"
+            }
+          ],
+          "schema_fidelity": "conservative_draft"
+        }
+      },
+      "auth_ref": "auth:default"
+    },
+    {
+      "id": "tool:customer_create",
+      "name": "customer_create",
+      "version": "0.4.0",
+      "revision": "d8f6cf3948f3f5c1d959984669a955d8a07a1fa0b3756dd726f3f41acb576176",
+      "title": "Create a customer profile",
+      "description": "POST /customers — Create a customer profile. Compiled as a governed Nümtema Foundry capability from source operation createCustomer.",
+      "input_schema": {
+        "type": "object",
+        "properties": {},
+        "required": [],
+        "additionalProperties": true,
+        "description": "Conservative draft. Additional query, header, and body properties are permitted until OpenAPI schema enrichment."
+      },
+      "output_schema": {
+        "type": "object",
+        "additionalProperties": true,
+        "description": "Conservative response draft pending full OpenAPI response-schema retention."
+      },
+      "annotations": {
+        "read_only": false,
+        "destructive": false,
+        "idempotent": false,
+        "open_world": false
+      },
+      "effects": {
+        "writes": true,
+        "external_communication": false,
+        "financial": false,
+        "credential_change": false,
+        "personal_data": true,
+        "reversible": null
+      },
+      "execution": {
+        "mode": "synchronous",
+        "task_support": "forbidden",
+        "idempotency": "required"
+      },
+      "required_scopes": [
+        "customers:write"
+      ],
+      "policy_ref": "policy:customer_create",
+      "extensions": {
+        "foundry": {
+          "source_operation_id": "createCustomer",
+          "source_method": "post",
+          "source_path": "/customers",
+          "domain": "Customers",
+          "risk_class": "R2",
+          "governance_reasons": [
+            "Classified R2 from source inspection signals.",
+            "Write behavior requires scoped authorization when scopes are declared."
+          ],
+          "evidence": [
+            {
+              "code": "WRITE_HTTP_METHOD",
+              "message": "POST implies server-side effects.",
+              "source": "http_method"
+            },
+            {
+              "code": "PERSONAL_DATA_SIGNAL",
+              "message": "Operation metadata references a person or personal profile.",
+              "source": "operation_metadata"
+            },
+            {
+              "code": "AUTH_REQUIRED",
+              "message": "Security schemes required: oauth.",
+              "source": "security"
+            }
+          ],
+          "schema_fidelity": "conservative_draft"
+        }
+      },
+      "auth_ref": "auth:default"
+    },
+    {
+      "id": "tool:email_message_send",
+      "name": "email_message_send",
+      "version": "0.4.0",
+      "revision": "34d04ca0a7a2f4e10c0a79c55cf346ab981fd7c98a67abe6fd6d8732624c8da2",
+      "title": "Send an email notification",
+      "description": "POST /messages/email — Send an email notification. Compiled as a governed Nümtema Foundry capability from source operation sendEmailMessage.",
+      "input_schema": {
+        "type": "object",
+        "properties": {},
+        "required": [],
+        "additionalProperties": true,
+        "description": "Conservative draft. Additional query, header, and body properties are permitted until OpenAPI schema enrichment."
+      },
+      "output_schema": {
+        "type": "object",
+        "additionalProperties": true,
+        "description": "Conservative response draft pending full OpenAPI response-schema retention."
+      },
+      "annotations": {
+        "read_only": false,
+        "destructive": false,
+        "idempotent": false,
+        "open_world": true
+      },
+      "effects": {
+        "writes": true,
+        "external_communication": true,
+        "financial": false,
+        "credential_change": false,
+        "personal_data": false,
+        "reversible": null
+      },
+      "execution": {
+        "mode": "synchronous",
+        "task_support": "forbidden",
+        "idempotency": "required"
+      },
+      "required_scopes": [
+        "customers:read"
+      ],
+      "policy_ref": "policy:email_message_send",
+      "extensions": {
+        "foundry": {
+          "source_operation_id": "sendEmailMessage",
+          "source_method": "post",
+          "source_path": "/messages/email",
+          "domain": "Messaging",
+          "risk_class": "R3",
+          "governance_reasons": [
+            "Classified R3 from source inspection signals.",
+            "Destructive, credential, or external communication behavior requires explicit confirmation."
+          ],
+          "evidence": [
+            {
+              "code": "WRITE_HTTP_METHOD",
+              "message": "POST implies server-side effects.",
+              "source": "http_method"
+            },
+            {
+              "code": "EXTERNAL_COMMUNICATION_SIGNAL",
+              "message": "Operation metadata indicates outbound communication or publication.",
+              "source": "operation_metadata"
+            },
+            {
+              "code": "AUTH_REQUIRED",
+              "message": "Security schemes required: oauth.",
+              "source": "security"
+            }
+          ],
+          "schema_fidelity": "conservative_draft"
+        }
+      },
+      "auth_ref": "auth:default",
+      "approval_ref": "approval:email_message_send"
+    },
+    {
+      "id": "tool:payment_refund",
+      "name": "payment_refund",
+      "version": "0.4.0",
+      "revision": "8b307d525a5fbfcff14a2f12223306b493bb3b1cb721b345ae1d5c0965937657",
+      "title": "Refund a completed payment",
+      "description": "POST /payments/{paymentId}/refund — Refund a completed payment. Compiled as a governed Nümtema Foundry capability from source operation refundPayment.",
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "paymentId": {
+            "type": "string",
+            "description": "Path parameter paymentId compiled from /payments/{paymentId}/refund."
+          }
+        },
+        "required": [
+          "paymentId"
+        ],
+        "additionalProperties": true,
+        "description": "Conservative draft. Additional query, header, and body properties are permitted until OpenAPI schema enrichment."
+      },
+      "output_schema": {
+        "type": "object",
+        "properties": {
+          "job_id": {
+            "type": "string"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "queued",
+              "running",
+              "completed",
+              "failed"
+            ]
+          }
+        },
+        "required": [
+          "job_id",
+          "status"
+        ],
+        "additionalProperties": true
+      },
+      "annotations": {
+        "read_only": false,
+        "destructive": false,
+        "idempotent": false,
+        "open_world": false
+      },
+      "effects": {
+        "writes": true,
+        "external_communication": false,
+        "financial": true,
+        "credential_change": false,
+        "personal_data": false,
+        "reversible": null
+      },
+      "execution": {
+        "mode": "asynchronous",
+        "task_support": "required",
+        "idempotency": "required"
+      },
+      "required_scopes": [
+        "payments:refund"
+      ],
+      "policy_ref": "policy:payment_refund",
+      "extensions": {
+        "foundry": {
+          "source_operation_id": "refundPayment",
+          "source_method": "post",
+          "source_path": "/payments/{paymentId}/refund",
+          "domain": "Payments",
+          "risk_class": "R4",
+          "governance_reasons": [
+            "Classified R4 from source inspection signals.",
+            "Financial behavior requires a secure confirmation surface."
+          ],
+          "evidence": [
+            {
+              "code": "WRITE_HTTP_METHOD",
+              "message": "POST implies server-side effects.",
+              "source": "http_method"
+            },
+            {
+              "code": "FINANCIAL_SIGNAL",
+              "message": "Operation metadata contains a financial action or resource.",
+              "source": "operation_metadata"
+            },
+            {
+              "code": "CALLBACK_SIGNAL",
+              "message": "Callbacks or webhooks are declared.",
+              "source": "callback"
+            },
+            {
+              "code": "ASYNC_SIGNAL",
+              "message": "Response codes, callbacks, or metadata indicate asynchronous execution.",
+              "source": "response"
+            },
+            {
+              "code": "AUTH_REQUIRED",
+              "message": "Security schemes required: oauth.",
+              "source": "security"
+            }
+          ],
+          "schema_fidelity": "conservative_draft"
+        }
+      },
+      "auth_ref": "auth:default",
+      "approval_ref": "approval:payment_refund"
+    },
+    {
+      "id": "tool:render_create",
+      "name": "render_create",
+      "version": "0.4.0",
+      "revision": "fc26712eaa2092e5ba95b3b278235ea1de4032530c170ab2119726bc01c4836e",
+      "title": "Generate a render job",
+      "description": "POST /renders — Generate a render job. Compiled as a governed Nümtema Foundry capability from source operation createRender.",
+      "input_schema": {
+        "type": "object",
+        "properties": {},
+        "required": [],
+        "additionalProperties": true,
+        "description": "Conservative draft. Additional query, header, and body properties are permitted until OpenAPI schema enrichment."
+      },
+      "output_schema": {
+        "type": "object",
+        "properties": {
+          "job_id": {
+            "type": "string"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "queued",
+              "running",
+              "completed",
+              "failed"
+            ]
+          }
+        },
+        "required": [
+          "job_id",
+          "status"
+        ],
+        "additionalProperties": true
+      },
+      "annotations": {
+        "read_only": false,
+        "destructive": false,
+        "idempotent": false,
+        "open_world": false
+      },
+      "effects": {
+        "writes": true,
+        "external_communication": false,
+        "financial": false,
+        "credential_change": false,
+        "personal_data": false,
+        "reversible": null
+      },
+      "execution": {
+        "mode": "asynchronous",
+        "task_support": "required",
+        "idempotency": "required"
+      },
+      "required_scopes": [
+        "customers:read"
+      ],
+      "policy_ref": "policy:render_create",
+      "extensions": {
+        "foundry": {
+          "source_operation_id": "createRender",
+          "source_method": "post",
+          "source_path": "/renders",
+          "domain": "Rendering",
+          "risk_class": "R2",
+          "governance_reasons": [
+            "Classified R2 from source inspection signals.",
+            "Write behavior requires scoped authorization when scopes are declared."
+          ],
+          "evidence": [
+            {
+              "code": "WRITE_HTTP_METHOD",
+              "message": "POST implies server-side effects.",
+              "source": "http_method"
+            },
+            {
+              "code": "ASYNC_SIGNAL",
+              "message": "Response codes, callbacks, or metadata indicate asynchronous execution.",
+              "source": "response"
+            },
+            {
+              "code": "AUTH_REQUIRED",
+              "message": "Security schemes required: oauth.",
+              "source": "security"
+            }
+          ],
+          "schema_fidelity": "conservative_draft"
+        }
+      },
+      "auth_ref": "auth:default",
+      "recovery_ref": "recovery:render_create"
+    },
+    {
+      "id": "tool:render_status_get",
+      "name": "render_status_get",
+      "version": "0.4.0",
+      "revision": "37eadc2c43a575312c35d2b972506c8f50609fd314ebe5e84b2ffbc565697776",
+      "title": "Get render job status",
+      "description": "GET /renders/{renderId} — Get render job status. Compiled as a governed Nümtema Foundry capability from source operation getRenderStatus.",
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "renderId": {
+            "type": "string",
+            "description": "Path parameter renderId compiled from /renders/{renderId}."
+          }
+        },
+        "required": [
+          "renderId"
+        ],
+        "additionalProperties": true,
+        "description": "Conservative draft. Additional query, header, and body properties are permitted until OpenAPI schema enrichment."
+      },
+      "output_schema": {
+        "type": "object",
+        "properties": {
+          "job_id": {
+            "type": "string"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "queued",
+              "running",
+              "completed",
+              "failed"
+            ]
+          }
+        },
+        "required": [
+          "job_id",
+          "status"
+        ],
+        "additionalProperties": true
+      },
+      "annotations": {
+        "read_only": true,
+        "destructive": false,
+        "idempotent": true,
+        "open_world": false
+      },
+      "effects": {
+        "writes": false,
+        "external_communication": false,
+        "financial": false,
+        "credential_change": false,
+        "personal_data": false,
+        "reversible": null
+      },
+      "execution": {
+        "mode": "asynchronous",
+        "task_support": "required",
+        "idempotency": "not_applicable"
+      },
+      "required_scopes": [
+        "customers:read"
+      ],
+      "policy_ref": "policy:render_status_get",
+      "extensions": {
+        "foundry": {
+          "source_operation_id": "getRenderStatus",
+          "source_method": "get",
+          "source_path": "/renders/{renderId}",
+          "domain": "Rendering",
+          "risk_class": "R1",
+          "governance_reasons": [
+            "Classified R1 from source inspection signals.",
+            "Authenticated or personal-data read requires least-privilege access."
+          ],
+          "evidence": [
+            {
+              "code": "READ_HTTP_METHOD",
+              "message": "GET implies a read-oriented operation.",
+              "source": "http_method"
+            },
+            {
+              "code": "ASYNC_SIGNAL",
+              "message": "Response codes, callbacks, or metadata indicate asynchronous execution.",
+              "source": "operation_metadata"
+            },
+            {
+              "code": "AUTH_REQUIRED",
+              "message": "Security schemes required: oauth.",
+              "source": "security"
+            }
+          ],
+          "schema_fidelity": "conservative_draft"
+        }
+      },
+      "auth_ref": "auth:default"
+    }
+  ],
+  "auth": [
+    {
+      "id": "auth:default",
+      "version": "0.4.0",
+      "transport": "http",
+      "mode": "host_managed",
+      "required_scopes": [
+        "customers:read",
+        "customers:write",
+        "payments:refund"
+      ],
+      "optional_scopes": [],
+      "step_up_authorization": true,
+      "tenant_resolution": "required",
+      "token_passthrough": false,
+      "extensions": {
+        "foundry": {
+          "status": "draft",
+          "reason": "CapabilityMapArtifact exposes scopes but not a provider-specific authorization server."
+        }
+      },
+      "credential_binding_dimensions": [
+        "subject",
+        "client",
+        "workspace",
+        "provider",
+        "provider_account",
+        "scope_set"
+      ]
+    }
+  ],
+  "policies": [
+    {
+      "id": "policy:api_key_delete",
+      "version": "0.4.0",
+      "risk_class": "R5",
+      "default_decision": "require_approver",
+      "rules": [
+        {
+          "id": "policy-rule:api_key_delete:reviewed-default",
+          "when": {
+            "tool_id": "tool:api_key_delete",
+            "risk_class": "R5"
+          },
+          "decision": "require_approver",
+          "required_scopes": [
+            "customers:read"
+          ],
+          "reason": "Classified R5 from source inspection signals. Critical credential or irreversible destructive behavior requires an approver and dual control."
+        }
+      ],
+      "extensions": {
+        "foundry": {
+          "source_operation_id": "deleteApiKey",
+          "compiled_from_reviewed_governance": true
+        }
+      }
+    },
+    {
+      "id": "policy:asset_upload",
+      "version": "0.4.0",
+      "risk_class": "R2",
+      "default_decision": "require_scope",
+      "rules": [
+        {
+          "id": "policy-rule:asset_upload:reviewed-default",
+          "when": {
+            "tool_id": "tool:asset_upload",
+            "risk_class": "R2"
+          },
+          "decision": "require_scope",
+          "required_scopes": [
+            "customers:read"
+          ],
+          "reason": "Classified R2 from source inspection signals. Write behavior requires scoped authorization when scopes are declared."
+        }
+      ],
+      "extensions": {
+        "foundry": {
+          "source_operation_id": "uploadAsset",
+          "compiled_from_reviewed_governance": true
+        }
+      }
+    },
+    {
+      "id": "policy:customer_list",
+      "version": "0.4.0",
+      "risk_class": "R1",
+      "default_decision": "require_scope",
+      "rules": [
+        {
+          "id": "policy-rule:customer_list:reviewed-default",
+          "when": {
+            "tool_id": "tool:customer_list",
+            "risk_class": "R1"
+          },
+          "decision": "require_scope",
+          "required_scopes": [
+            "customers:read"
+          ],
+          "reason": "Classified R1 from source inspection signals. Authenticated or personal-data read requires least-privilege access."
+        }
+      ],
+      "extensions": {
+        "foundry": {
+          "source_operation_id": "listCustomers",
+          "compiled_from_reviewed_governance": true
+        }
+      }
+    },
+    {
+      "id": "policy:customer_create",
+      "version": "0.4.0",
+      "risk_class": "R2",
+      "default_decision": "require_scope",
+      "rules": [
+        {
+          "id": "policy-rule:customer_create:reviewed-default",
+          "when": {
+            "tool_id": "tool:customer_create",
+            "risk_class": "R2"
+          },
+          "decision": "require_scope",
+          "required_scopes": [
+            "customers:write"
+          ],
+          "reason": "Classified R2 from source inspection signals. Write behavior requires scoped authorization when scopes are declared."
+        }
+      ],
+      "extensions": {
+        "foundry": {
+          "source_operation_id": "createCustomer",
+          "compiled_from_reviewed_governance": true
+        }
+      }
+    },
+    {
+      "id": "policy:email_message_send",
+      "version": "0.4.0",
+      "risk_class": "R3",
+      "default_decision": "require_confirmation",
+      "rules": [
+        {
+          "id": "policy-rule:email_message_send:reviewed-default",
+          "when": {
+            "tool_id": "tool:email_message_send",
+            "risk_class": "R3"
+          },
+          "decision": "require_confirmation",
+          "required_scopes": [
+            "customers:read"
+          ],
+          "reason": "Classified R3 from source inspection signals. Destructive, credential, or external communication behavior requires explicit confirmation."
+        }
+      ],
+      "extensions": {
+        "foundry": {
+          "source_operation_id": "sendEmailMessage",
+          "compiled_from_reviewed_governance": true
+        }
+      }
+    },
+    {
+      "id": "policy:payment_refund",
+      "version": "0.4.0",
+      "risk_class": "R4",
+      "default_decision": "require_widget",
+      "rules": [
+        {
+          "id": "policy-rule:payment_refund:reviewed-default",
+          "when": {
+            "tool_id": "tool:payment_refund",
+            "risk_class": "R4"
+          },
+          "decision": "require_widget",
+          "required_scopes": [
+            "payments:refund"
+          ],
+          "reason": "Classified R4 from source inspection signals. Financial behavior requires a secure confirmation surface."
+        }
+      ],
+      "extensions": {
+        "foundry": {
+          "source_operation_id": "refundPayment",
+          "compiled_from_reviewed_governance": true
+        }
+      }
+    },
+    {
+      "id": "policy:render_create",
+      "version": "0.4.0",
+      "risk_class": "R2",
+      "default_decision": "require_scope",
+      "rules": [
+        {
+          "id": "policy-rule:render_create:reviewed-default",
+          "when": {
+            "tool_id": "tool:render_create",
+            "risk_class": "R2"
+          },
+          "decision": "require_scope",
+          "required_scopes": [
+            "customers:read"
+          ],
+          "reason": "Classified R2 from source inspection signals. Write behavior requires scoped authorization when scopes are declared."
+        }
+      ],
+      "extensions": {
+        "foundry": {
+          "source_operation_id": "createRender",
+          "compiled_from_reviewed_governance": true
+        }
+      }
+    },
+    {
+      "id": "policy:render_status_get",
+      "version": "0.4.0",
+      "risk_class": "R1",
+      "default_decision": "require_scope",
+      "rules": [
+        {
+          "id": "policy-rule:render_status_get:reviewed-default",
+          "when": {
+            "tool_id": "tool:render_status_get",
+            "risk_class": "R1"
+          },
+          "decision": "require_scope",
+          "required_scopes": [
+            "customers:read"
+          ],
+          "reason": "Classified R1 from source inspection signals. Authenticated or personal-data read requires least-privilege access."
+        }
+      ],
+      "extensions": {
+        "foundry": {
+          "source_operation_id": "getRenderStatus",
+          "compiled_from_reviewed_governance": true
+        }
+      }
+    }
+  ],
+  "approvals": [
+    {
+      "id": "approval:api_key_delete",
+      "version": "0.4.0",
+      "mode": "dual_control",
+      "binding": [
+        "subject",
+        "client",
+        "workspace",
+        "tool_id",
+        "tool_revision",
+        "arguments_hash",
+        "risk_summary",
+        "cost_summary",
+        "nonce"
+      ],
+      "ttl_seconds": 300,
+      "single_use": true,
+      "display_fields": [
+        "tool_title",
+        "risk_summary",
+        "argument_summary",
+        "cost_summary"
+      ],
+      "extensions": {
+        "foundry": {
+          "tool_id": "tool:api_key_delete",
+          "source_operation_id": "deleteApiKey"
+        }
+      }
+    },
+    {
+      "id": "approval:email_message_send",
+      "version": "0.4.0",
+      "mode": "chat_explicit",
+      "binding": [
+        "subject",
+        "client",
+        "workspace",
+        "tool_id",
+        "tool_revision",
+        "arguments_hash",
+        "risk_summary",
+        "nonce"
+      ],
+      "ttl_seconds": 600,
+      "single_use": true,
+      "display_fields": [
+        "tool_title",
+        "risk_summary",
+        "argument_summary"
+      ],
+      "extensions": {
+        "foundry": {
+          "tool_id": "tool:email_message_send",
+          "source_operation_id": "sendEmailMessage"
+        }
+      }
+    },
+    {
+      "id": "approval:payment_refund",
+      "version": "0.4.0",
+      "mode": "secure_widget",
+      "binding": [
+        "subject",
+        "client",
+        "workspace",
+        "tool_id",
+        "tool_revision",
+        "arguments_hash",
+        "risk_summary",
+        "cost_summary",
+        "nonce"
+      ],
+      "ttl_seconds": 600,
+      "single_use": true,
+      "display_fields": [
+        "tool_title",
+        "risk_summary",
+        "argument_summary",
+        "cost_summary"
+      ],
+      "extensions": {
+        "foundry": {
+          "tool_id": "tool:payment_refund",
+          "source_operation_id": "refundPayment"
+        }
+      }
+    }
+  ],
+  "recoveries": [
+    {
+      "id": "recovery:render_create",
+      "version": "0.4.0",
+      "routes": [
+        {
+          "trigger": "job_queued",
+          "next_capability": "tool:render_status_get",
+          "argument_mapping": {
+            "job_id": "$result.job_id"
+          },
+          "human_interaction": false,
+          "max_attempts": 10,
+          "allow_risk_increase": false,
+          "allow_scope_increase": false,
+          "allow_cost_increase": false
+        }
+      ],
+      "extensions": {
+        "foundry": {
+          "workflow_hint_id": "workflow:rendering:async-status:createRender",
+          "confidence": "high",
+          "evidence": [
+            "Asynchronous write operation and status-oriented GET operation share a domain/resource signal."
+          ]
+        }
+      }
+    }
+  ],
+  "receipts": [],
+  "artifacts": []
+}

@@ -1,0 +1,23 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.numtema.dev/foundry/approval-contract.schema.json",
+  "title": "ApprovalContract",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["id", "version", "mode", "binding", "ttl_seconds", "single_use"],
+  "properties": {
+    "id": {"type": "string", "minLength": 1},
+    "version": {"type": "string", "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$"},
+    "mode": {"enum": ["chat_explicit", "secure_widget", "approver", "dual_control"]},
+    "binding": {
+      "type": "array",
+      "items": {"enum": ["subject", "client", "workspace", "tool_id", "tool_revision", "arguments_hash", "risk_summary", "cost_summary", "nonce"]},
+      "uniqueItems": true,
+      "allOf": [{"contains": {"const": "arguments_hash"}}, {"contains": {"const": "tool_revision"}}, {"contains": {"const": "subject"}}]
+    },
+    "ttl_seconds": {"type": "integer", "minimum": 30, "maximum": 3600},
+    "single_use": {"const": true},
+    "display_fields": {"type": "array", "items": {"type": "string"}, "uniqueItems": true},
+    "extensions": {"type": "object", "additionalProperties": true}
+  }
+}

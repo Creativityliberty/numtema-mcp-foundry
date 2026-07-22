@@ -1,0 +1,116 @@
+{
+  "bundle_version": "0.2",
+  "tools": [
+    {
+      "id": "tool://procuflow/supplier-search@1",
+      "name": "supplier_search",
+      "version": "0.2.0",
+      "revision": "rev-supplier-search-1",
+      "description": "Searches suppliers using governed filters without changing provider state.",
+      "input_schema": {
+        "type": "object"
+      },
+      "output_schema": {
+        "type": "object"
+      },
+      "annotations": {
+        "read_only": true,
+        "destructive": false,
+        "idempotent": true,
+        "open_world": false
+      },
+      "effects": {
+        "writes": false,
+        "external_communication": false,
+        "financial": false,
+        "credential_change": false,
+        "personal_data": true,
+        "reversible": null
+      },
+      "execution": {
+        "mode": "synchronous",
+        "task_support": "forbidden",
+        "idempotency": "not_applicable"
+      },
+      "required_scopes": [
+        "supplier:read"
+      ],
+      "auth_ref": "auth://procuflow/default@1",
+      "policy_ref": "policy://procuflow/read@1"
+    }
+  ],
+  "auth": [
+    {
+      "id": "auth://procuflow/default@1",
+      "version": "0.2.0",
+      "transport": "http",
+      "mode": "oauth2_1",
+      "canonical_resource_uri": "https://mcp.procuflow.example",
+      "authorization_server": "https://auth.procuflow.example",
+      "audience_validation": true,
+      "pkce_required": true,
+      "required_scopes": [
+        "supplier:read"
+      ],
+      "optional_scopes": [],
+      "step_up_authorization": true,
+      "tenant_resolution": "required",
+      "credential_binding_dimensions": [
+        "subject",
+        "workspace",
+        "provider",
+        "scope_set"
+      ],
+      "token_passthrough": false
+    }
+  ],
+  "policies": [
+    {
+      "id": "policy://procuflow/read@1",
+      "version": "0.2.0",
+      "risk_class": "R0",
+      "default_decision": "allow",
+      "rules": []
+    }
+  ],
+  "approvals": [],
+  "recoveries": [],
+  "receipts": [
+    {
+      "receipt_id": "receipt-001",
+      "trace_id": "trace-001",
+      "tool_id": "tool://procuflow/supplier-search@1",
+      "tool_revision": "rev-supplier-search-1",
+      "subject_ref": "user-001",
+      "workspace_ref": "workspace-001",
+      "arguments_hash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "policy_decision": "allow",
+      "approval_ref": null,
+      "status": "succeeded",
+      "started_at": "2026-07-22T10:00:00Z",
+      "completed_at": "2026-07-22T10:00:01Z",
+      "result_hash": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+      "signature": {
+        "algorithm": "ed25519",
+        "key_id": "foundry-test-key",
+        "value": "test-signature"
+      }
+    }
+  ],
+  "artifacts": [
+    {
+      "artifact_id": "artifact-001",
+      "artifact_type": "ContractBundle",
+      "schema_version": "0.2",
+      "project_id": "procuflow-mcp",
+      "revision": 1,
+      "created_at": "2026-07-22T10:00:01Z",
+      "producer": "contract-kernel",
+      "state": "validated",
+      "integrity": {
+        "algorithm": "sha256",
+        "digest": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc"
+      }
+    }
+  ]
+}

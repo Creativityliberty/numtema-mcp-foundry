@@ -1,0 +1,162 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "ApprovalProof",
+  "type": "object",
+  "required": [
+    "artifact_type",
+    "artifact_version",
+    "approval_ref",
+    "mode",
+    "approved",
+    "single_use",
+    "nonce",
+    "binding",
+    "risk_summary_hash",
+    "cost_summary_hash",
+    "issued_at",
+    "expires_at",
+    "integrity",
+    "signature"
+  ],
+  "properties": {
+    "artifact_type": {
+      "const": "approval_proof"
+    },
+    "artifact_version": {
+      "const": "0.8"
+    },
+    "approval_ref": {
+      "type": "string",
+      "minLength": 1
+    },
+    "mode": {
+      "enum": [
+        "chat_explicit",
+        "secure_widget",
+        "approver",
+        "dual_control"
+      ]
+    },
+    "approved": {
+      "const": true
+    },
+    "single_use": {
+      "const": true
+    },
+    "nonce": {
+      "type": "string",
+      "minLength": 1
+    },
+    "binding": {
+      "type": "object",
+      "required": [
+        "tool_id",
+        "tool_revision",
+        "adapter_id",
+        "adapter_revision",
+        "arguments_hash",
+        "context_hash",
+        "subject_ref",
+        "client_ref",
+        "workspace_ref"
+      ],
+      "properties": {
+        "tool_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "tool_revision": {
+          "type": "string",
+          "minLength": 1
+        },
+        "adapter_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "adapter_revision": {
+          "type": "string",
+          "minLength": 1
+        },
+        "arguments_hash": {
+          "type": "string",
+          "minLength": 1
+        },
+        "context_hash": {
+          "type": "string",
+          "minLength": 1
+        },
+        "subject_ref": {
+          "type": "string",
+          "minLength": 1
+        },
+        "client_ref": {
+          "type": "string",
+          "minLength": 1
+        },
+        "workspace_ref": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "additionalProperties": false
+    },
+    "risk_summary_hash": {
+      "type": "string",
+      "minLength": 1
+    },
+    "cost_summary_hash": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "issued_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "expires_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "integrity": {
+      "type": "object",
+      "required": [
+        "algorithm",
+        "digest"
+      ],
+      "properties": {
+        "algorithm": {
+          "const": "sha256"
+        },
+        "digest": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "additionalProperties": false
+    },
+    "signature": {
+      "type": "object",
+      "required": [
+        "algorithm",
+        "key_id",
+        "value"
+      ],
+      "properties": {
+        "algorithm": {
+          "const": "ed25519"
+        },
+        "key_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "value": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": false
+}

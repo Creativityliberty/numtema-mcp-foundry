@@ -1,0 +1,71 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "RuntimeTrustStore",
+  "type": "object",
+  "required": [
+    "artifact_type",
+    "artifact_version",
+    "keys"
+  ],
+  "properties": {
+    "artifact_type": {
+      "const": "runtime_trust_store"
+    },
+    "artifact_version": {
+      "const": "0.8"
+    },
+    "keys": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "type": "object",
+        "required": [
+          "key_id",
+          "algorithm",
+          "purpose",
+          "status",
+          "public_key_pem"
+        ],
+        "properties": {
+          "key_id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "algorithm": {
+            "const": "ed25519"
+          },
+          "purpose": {
+            "enum": [
+              "policy",
+              "approval",
+              "budget",
+              "dispatch",
+              "execution"
+            ]
+          },
+          "status": {
+            "enum": [
+              "active",
+              "revoked",
+              "disabled"
+            ]
+          },
+          "public_key_pem": {
+            "type": "string",
+            "minLength": 1
+          },
+          "not_before": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "expires_at": {
+            "type": "string",
+            "format": "date-time"
+          }
+        },
+        "additionalProperties": false
+      }
+    }
+  },
+  "additionalProperties": false
+}

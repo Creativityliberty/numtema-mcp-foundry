@@ -1,0 +1,99 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "McpRuntimeConfig",
+  "type": "object",
+  "required": ["artifact_type","artifact_version","server","provider","artifacts","context","credentials","signing"],
+  "properties": {
+    "artifact_type": {"const": "mcp_runtime_config"},
+    "artifact_version": {"const": "1.0"},
+    "server": {
+      "type": "object",
+      "required": ["name","version","transport"],
+      "properties": {
+        "name": {"type":"string","minLength":1},
+        "version": {"type":"string","minLength":1},
+        "protocol_version": {"type":"string","minLength":1},
+        "transport": {
+          "type":"object",
+          "required":["type"],
+          "properties": {
+            "type":{"enum":["stdio","streamable_http"]},
+            "host":{"type":"string","minLength":1},
+            "port":{"type":"integer","minimum":1,"maximum":65535},
+            "path":{"type":"string","minLength":1},
+            "allowed_origins":{"type":"array","items":{"type":"string","minLength":1},"uniqueItems":true},
+            "bearer_token_env":{"type":"string","minLength":1},
+            "require_mcp_headers":{"type":"boolean"}
+          },
+          "additionalProperties":false
+        }
+      },
+      "additionalProperties":false
+    },
+    "provider": {
+      "type":"object",
+      "required":["base_url"],
+      "properties": {
+        "base_url":{"type":"string","minLength":1},
+        "timeout_ms":{"type":"integer","minimum":1}
+      },
+      "additionalProperties":false
+    },
+    "artifacts": {
+      "type":"object",
+      "required":["contract_bundle","provider_adapter_bundle","provider_auth_binding_bundle","credential_catalog","runtime_trust_store","ledger_directory"],
+      "properties": {
+        "contract_bundle":{"type":"string","minLength":1},
+        "provider_adapter_bundle":{"type":"string","minLength":1},
+        "provider_auth_binding_bundle":{"type":"string","minLength":1},
+        "credential_catalog":{"type":"string","minLength":1},
+        "runtime_trust_store":{"type":"string","minLength":1},
+        "ledger_directory":{"type":"string","minLength":1},
+        "approvals_by_tool":{"$ref":"#/$defs/stringMap"},
+        "budgets_by_tool":{"$ref":"#/$defs/stringMap"}
+      },
+      "additionalProperties":false
+    },
+    "context": {
+      "type":"object",
+      "required":["subject_ref","client_ref","workspace_ref","provider_ref"],
+      "properties": {
+        "subject_ref":{"type":"string","minLength":1},
+        "client_ref":{"type":"string","minLength":1},
+        "workspace_ref":{"type":"string","minLength":1},
+        "provider_ref":{"type":"string","minLength":1},
+        "provider_account_ref":{"type":"string","minLength":1}
+      },
+      "additionalProperties":false
+    },
+    "credentials": {
+      "type":"object",
+      "required":["environment_by_handle"],
+      "properties":{"environment_by_handle":{"$ref":"#/$defs/stringMap"}},
+      "additionalProperties":false
+    },
+    "signing": {
+      "type":"object",
+      "required":["policy","dispatch","execution"],
+      "properties": {
+        "policy":{"$ref":"#/$defs/signer"},
+        "dispatch":{"$ref":"#/$defs/signer"},
+        "execution":{"$ref":"#/$defs/signer"}
+      },
+      "additionalProperties":false
+    }
+  },
+  "$defs": {
+    "stringMap":{"type":"object","additionalProperties":{"type":"string","minLength":1}},
+    "signer":{
+      "type":"object",
+      "required":["key_id","private_key_file"],
+      "properties": {
+        "key_id":{"type":"string","minLength":1},
+        "private_key_file":{"type":"string","minLength":1}
+      },
+      "additionalProperties":false
+    }
+  },
+  "additionalProperties":false
+}

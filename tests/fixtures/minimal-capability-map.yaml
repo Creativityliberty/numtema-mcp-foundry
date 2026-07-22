@@ -1,0 +1,52 @@
+artifact_type: capability_map
+artifact_version: "0.3"
+source_ref: tests/fixtures/minimal-openapi.json
+source_title: Minimal Public API
+domains:
+  - name: Health
+    capability_names:
+      - health_get
+    operation_count: 1
+capabilities:
+  - id: cap:health_get
+    name: health_get
+    title: Read health status
+    description: GET /health — Read public service health status
+    source_operation_id: getHealth
+    domain: Health
+    method: get
+    path: /health
+    risk_class: R0
+    governance:
+      decision: allow
+      approval_mode: none
+      reasons:
+        - No side effects or authentication requirements were detected.
+    required_scopes: []
+    annotations:
+      read_only: true
+      destructive: false
+      idempotent: true
+      open_world: false
+    execution:
+      mode: synchronous
+      task_support: forbidden
+      idempotency: not_applicable
+    evidence:
+      - code: READ_HTTP_METHOD
+        message: GET implies a read-oriented operation.
+        source: http_method
+workflow_hints: []
+summary:
+  capability_count: 1
+  workflow_hint_count: 0
+  risk_counts:
+    R0: 1
+    R1: 0
+    R2: 0
+    R3: 0
+    R4: 0
+    R5: 0
+  approval_required_count: 0
+limitations:
+  - Minimal controlled-YAML fixture.

@@ -1,0 +1,11 @@
+{
+  "artifact_type": "capability_map",
+  "artifact_version": "0.3",
+  "source_ref": "broken",
+  "source_title": "Broken",
+  "domains": [],
+  "capabilities": [{"name": "missing_everything"}],
+  "workflow_hints": [],
+  "summary": {},
+  "limitations": []
+}

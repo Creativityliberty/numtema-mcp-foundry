@@ -1,0 +1,4 @@
+{
+  "customerId": "customer 7",
+  "expand": ["orders", "invoices"]
+}

@@ -1,0 +1,269 @@
+{
+  "artifact_type": "provider_adapter_bundle",
+  "artifact_version": "0.6",
+  "source_bundle_version": "0.2",
+  "adapters": [
+    {
+      "id": "adapter:customer_create",
+      "version": "0.6.0",
+      "provider_kind": "http_openapi",
+      "tool_id": "tool:customer_create",
+      "tool_name": "customer_create",
+      "tool_revision": "3909b3bef821ebfffc653546a1b6971b366677ad8cbff6e6944fd97ac858473e",
+      "credential": {
+        "auth_ref": "auth:provider",
+        "required_scopes": []
+      },
+      "request": {
+        "method": "POST",
+        "path_template": "/customers",
+        "parameters": [],
+        "body": {
+          "argument_name": "body",
+          "required": true,
+          "content_types": [
+            "application/json"
+          ],
+          "preferred_content_type": "application/json",
+          "binary": false,
+          "encoding": "json"
+        },
+        "idempotency": {
+          "mode": "required",
+          "header_name": "Idempotency-Key"
+        }
+      },
+      "response": {
+        "success": [
+          {
+            "status": "201",
+            "content_types": [
+              "application/json"
+            ],
+            "normalizer": "json"
+          }
+        ],
+        "errors": [
+          {
+            "status": "422",
+            "content_types": [
+              "application/problem+json"
+            ],
+            "normalizer": "json"
+          }
+        ],
+        "other": []
+      },
+      "revision": "a32d63900f981e09a08d1d9b1b7c0f89fb8da68e78672b0dba06c86695848634",
+      "integrity": {
+        "algorithm": "sha256",
+        "digest": "a32d63900f981e09a08d1d9b1b7c0f89fb8da68e78672b0dba06c86695848634"
+      }
+    },
+    {
+      "id": "adapter:customer_get",
+      "version": "0.6.0",
+      "provider_kind": "http_openapi",
+      "tool_id": "tool:customer_get",
+      "tool_name": "customer_get",
+      "tool_revision": "f7b27b5a35e45c08fe74208b9a220eaca63049002abb0f00832f2f1ec8be333b",
+      "credential": {
+        "auth_ref": "auth:provider",
+        "required_scopes": []
+      },
+      "request": {
+        "method": "GET",
+        "path_template": "/customers/{customerId}",
+        "parameters": [
+          {
+            "argument_name": "customerId",
+            "source_name": "customerId",
+            "location": "path",
+            "required": true,
+            "deprecated": false
+          },
+          {
+            "argument_name": "expand",
+            "source_name": "expand",
+            "location": "query",
+            "required": false,
+            "deprecated": false,
+            "style": "form",
+            "explode": false
+          }
+        ],
+        "body": null,
+        "idempotency": {
+          "mode": "none",
+          "header_name": "Idempotency-Key"
+        }
+      },
+      "response": {
+        "success": [
+          {
+            "status": "200",
+            "content_types": [
+              "application/json"
+            ],
+            "normalizer": "json"
+          }
+        ],
+        "errors": [
+          {
+            "status": "404",
+            "content_types": [
+              "application/problem+json"
+            ],
+            "normalizer": "json"
+          }
+        ],
+        "other": []
+      },
+      "revision": "ea2ff5375f9e9be215dde84e67d09c3dc0236b1a4971d747210da52661a8613b",
+      "integrity": {
+        "algorithm": "sha256",
+        "digest": "ea2ff5375f9e9be215dde84e67d09c3dc0236b1a4971d747210da52661a8613b"
+      }
+    },
+    {
+      "id": "adapter:customer_list",
+      "version": "0.6.0",
+      "provider_kind": "http_openapi",
+      "tool_id": "tool:customer_list",
+      "tool_name": "customer_list",
+      "tool_revision": "5c84eaf218c9a52936d3de9b863b7bc449586ded34a835a7953979952fb620d3",
+      "credential": {
+        "auth_ref": "auth:provider",
+        "required_scopes": []
+      },
+      "request": {
+        "method": "GET",
+        "path_template": "/customers",
+        "parameters": [
+          {
+            "argument_name": "cursor",
+            "source_name": "cursor",
+            "location": "query",
+            "required": false,
+            "deprecated": false
+          },
+          {
+            "argument_name": "limit",
+            "source_name": "limit",
+            "location": "query",
+            "required": false,
+            "deprecated": false
+          },
+          {
+            "argument_name": "X-Trace-ID",
+            "source_name": "X-Trace-ID",
+            "location": "header",
+            "required": false,
+            "deprecated": false
+          }
+        ],
+        "body": null,
+        "idempotency": {
+          "mode": "none",
+          "header_name": "Idempotency-Key"
+        }
+      },
+      "response": {
+        "success": [
+          {
+            "status": "200",
+            "content_types": [
+              "application/json"
+            ],
+            "normalizer": "json"
+          }
+        ],
+        "errors": [
+          {
+            "status": "400",
+            "content_types": [
+              "application/problem+json"
+            ],
+            "normalizer": "json"
+          }
+        ],
+        "other": []
+      },
+      "revision": "26d719bfa1397478a72d6ec047e6ca76322f149d025e3a6dab16f427c9108abe",
+      "integrity": {
+        "algorithm": "sha256",
+        "digest": "26d719bfa1397478a72d6ec047e6ca76322f149d025e3a6dab16f427c9108abe"
+      }
+    },
+    {
+      "id": "adapter:file_upload",
+      "version": "0.6.0",
+      "provider_kind": "http_openapi",
+      "tool_id": "tool:file_upload",
+      "tool_name": "file_upload",
+      "tool_revision": "59fb77d9f9505bc7d3cc56e2b0e10fe2220cec1748489b1b1b46988bef502840",
+      "credential": {
+        "auth_ref": "auth:provider",
+        "required_scopes": []
+      },
+      "request": {
+        "method": "POST",
+        "path_template": "/files",
+        "parameters": [],
+        "body": {
+          "argument_name": "body",
+          "required": true,
+          "content_types": [
+            "multipart/form-data"
+          ],
+          "preferred_content_type": "multipart/form-data",
+          "binary": true,
+          "encoding": "multipart_descriptor"
+        },
+        "idempotency": {
+          "mode": "required",
+          "header_name": "Idempotency-Key"
+        }
+      },
+      "response": {
+        "success": [
+          {
+            "status": "202",
+            "content_types": [
+              "application/json"
+            ],
+            "normalizer": "json"
+          }
+        ],
+        "errors": [
+          {
+            "status": "413",
+            "content_types": [
+              "application/problem+json"
+            ],
+            "normalizer": "json"
+          }
+        ],
+        "other": []
+      },
+      "revision": "ab1c7b249a4b57d8ab1543a65b9d78e83369cca1b19bbfa5ffc7e8789d0c3934",
+      "integrity": {
+        "algorithm": "sha256",
+        "digest": "ab1c7b249a4b57d8ab1543a65b9d78e83369cca1b19bbfa5ffc7e8789d0c3934"
+      }
+    }
+  ],
+  "summary": {
+    "adapter_count": 4,
+    "authenticated_count": 4,
+    "idempotency_required_count": 2,
+    "body_binding_count": 2,
+    "binary_binding_count": 1,
+    "skipped_tool_count": 0
+  },
+  "warnings": [],
+  "integrity": {
+    "algorithm": "sha256",
+    "digest": "f6ccd8b158a6d65e5c451a66502c798cdcbd54fc374f6fba4563b0cef8076176"
+  }
+}

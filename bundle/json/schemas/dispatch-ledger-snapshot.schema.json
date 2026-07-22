@@ -1,0 +1,65 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "DispatchLedgerSnapshot",
+  "type": "object",
+  "required": [
+    "artifact_type",
+    "artifact_version",
+    "ledger_id",
+    "sequence",
+    "generated_at",
+    "reservations",
+    "budget_totals",
+    "integrity"
+  ],
+  "properties": {
+    "artifact_type": {
+      "const": "dispatch_ledger_snapshot"
+    },
+    "artifact_version": {
+      "const": "0.9"
+    },
+    "ledger_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "sequence": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "generated_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "reservations": {
+      "type": "array",
+      "items": {
+        "type": "object"
+      }
+    },
+    "budget_totals": {
+      "type": "array",
+      "items": {
+        "type": "object"
+      }
+    },
+    "integrity": {
+      "type": "object",
+      "required": [
+        "algorithm",
+        "digest"
+      ],
+      "properties": {
+        "algorithm": {
+          "const": "sha256"
+        },
+        "digest": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": false
+}

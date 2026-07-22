@@ -1,0 +1,33 @@
+{
+  "artifact_type": "budget_authorization",
+  "artifact_version": "0.8",
+  "budget_ref": "budget-workspace-1",
+  "approved": true,
+  "binding": {
+    "tool_id": "tool-payment-refund",
+    "tool_revision": "tool-rev-1",
+    "adapter_id": "adapter-payment-refund",
+    "adapter_revision": "adapter-rev-1",
+    "arguments_hash": "args-hash-refund-25",
+    "context_hash": "context-hash-subject-1-client-1-workspace-1",
+    "subject_ref": "subject-1",
+    "client_ref": "client-1",
+    "workspace_ref": "workspace-1"
+  },
+  "currency": "EUR",
+  "estimated_amount": 25,
+  "max_authorized_amount": 50,
+  "remaining_before": 100,
+  "cost_summary_hash": "cost-summary-refund-25-eur",
+  "issued_at": "2026-07-22T16:00:20Z",
+  "expires_at": "2026-07-22T16:05:00Z",
+  "integrity": {
+    "algorithm": "sha256",
+    "digest": "789d9034a33bd667fe787a3a0b8a1ff36eee3d63b66c1f425a1e673fb60753e3"
+  },
+  "signature": {
+    "algorithm": "ed25519",
+    "key_id": "budget-key-1",
+    "value": "OceJ7q5FT5PkVSlNTEVX92zHNcpdfv/XqOBwg3zwuqWKQoDbMh0Yp++S7uEc0OUzFTc4vHCExTkvOxVt/9XgCA=="
+  }
+}
