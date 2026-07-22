@@ -218,6 +218,10 @@ export function isMatchingRedirectUri(requested, allowed) {
         return true;
     try {
         const u1 = new globalThis.URL(requested);
+        // Allow any ChatGPT connector callback — ChatGPT uses a unique path per connector
+        // e.g. https://chatgpt.com/aip/g-<connector-id>/oauth/callback
+        if (u1.hostname === 'chatgpt.com' && u1.pathname.endsWith('/oauth/callback'))
+            return true;
         return allowed.some((a) => {
             try {
                 const u2 = new globalThis.URL(a);

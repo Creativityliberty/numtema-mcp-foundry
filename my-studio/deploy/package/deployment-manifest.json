@@ -2,7 +2,7 @@
   "artifact_type": "deployment_package_manifest",
   "artifact_version": "1.2",
   "project_name": "my-studio",
-  "generated_at": "2026-07-22T22:18:08.019Z",
+  "generated_at": "2026-07-22T22:33:04.311Z",
   "source_digest": "ffdcff497d1c3bc54cc0967bd481e1da1ac3c4cd9275e76a1ea2c462da76acf0",
   "files": [
     {
@@ -847,13 +847,13 @@
     },
     {
       "path": "runtime-package/dist/src/oauth/service.js",
-      "sha256": "e68c2e559656d4868e6c0bf28eb4c2b1f3e2ec325788c44af2b2245fbc3d0e06",
-      "size_bytes": 15264
+      "sha256": "d89b7a93edc094aa3748711477dea02a2c72ea75db1f61bc33ac1a2ed09102d9",
+      "size_bytes": 15538
     },
     {
       "path": "runtime-package/dist/src/oauth/service.js.map",
-      "sha256": "46d3e6f676bb836e3ee652f6dc8400f99783fe97af5f1bd73b94a6c25145946a",
-      "size_bytes": 14483
+      "sha256": "4fcead0dd29b810fdb2228a66c7a6f0dca2a7964c7a129007caba4b2ac1c3abf",
+      "size_bytes": 14612
     },
     {
       "path": "runtime-package/dist/src/oauth/store.d.ts",

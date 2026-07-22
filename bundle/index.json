@@ -295,7 +295,7 @@
     {
       "source_path": "my-studio/deploy/package/deployment-manifest.json",
       "bundle_path": "json/my-studio/deploy/package/deployment-manifest.json",
-      "sha256": "97e0ab8cbe368be0f4a95845f097511cb790aa72a7e74420d7ee455065e39c1f",
+      "sha256": "1430ffcc7034ff93152e35fe0f871e3414274d798b61ef9631c3956bdb79a8ca",
       "size_bytes": 62151
     },
     {
@@ -853,7 +853,7 @@
     {
       "source_path": "my-studio/studio-project.json",
       "bundle_path": "json/my-studio/studio-project.json",
-      "sha256": "fe93124b0626ef39a15b09f4dd39b8af16a3277a2f0285b0bd4592b69ee739cd",
+      "sha256": "fa67df190142d595a6decff9b572a6412a52dc920ff47f02f16d8b3405f59d62",
       "size_bytes": 1581
     },
     {
@@ -1159,6 +1159,6 @@
   ],
   "integrity": {
     "algorithm": "sha256",
-    "digest": "8bf66efb352d25c19f807e38058aa6d0e622800511d0ae6c30be46bac0f91ed9"
+    "digest": "0c47694cb0ee27cb70d961a721d8af505f89f542f6f98404a3e6779ee04da9b0"
   }
 }
