@@ -2,7 +2,7 @@
   "artifact_type": "json_bundle_index",
   "artifact_version": "0.7",
   "generated_from": ".",
-  "file_count": 98,
+  "file_count": 101,
   "entries": [
     {
       "source_path": "MANIFEST.json",
@@ -291,6 +291,24 @@
       "bundle_path": "json/examples/studio/project/studio-project.json",
       "sha256": "297500476368ca20eefe03e64d31c5f069b3c78457d414e8a5665aa8004d30f2",
       "size_bytes": 1592
+    },
+    {
+      "source_path": "my-studio/overrides/tool-overrides.json",
+      "bundle_path": "json/my-studio/overrides/tool-overrides.json",
+      "sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570",
+      "size_bytes": 3
+    },
+    {
+      "source_path": "my-studio/source/openapi.json",
+      "bundle_path": "json/my-studio/source/openapi.json",
+      "sha256": "ffdcff497d1c3bc54cc0967bd481e1da1ac3c4cd9275e76a1ea2c462da76acf0",
+      "size_bytes": 4623
+    },
+    {
+      "source_path": "my-studio/studio-project.json",
+      "bundle_path": "json/my-studio/studio-project.json",
+      "sha256": "22ecb90e1f8ba71b84930a781ee2d0ee243be27b99b7c32e4bcc47adef4b123a",
+      "size_bytes": 1342
     },
     {
       "source_path": "package-lock.json",
@@ -595,6 +613,6 @@
   ],
   "integrity": {
     "algorithm": "sha256",
-    "digest": "d857dab2721fb0e9cbcb37442d39ca4bd336f13f39002bc4dc83a1ce739959d8"
+    "digest": "6c12cd9e58cd3bf35dcf0c02f0b1066bf038ea24f04ae1519b4fe9b159b8a94d"
   }
 }

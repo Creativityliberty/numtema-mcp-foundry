@@ -1,0 +1,25 @@
+0 verbose cli /usr/local/Cellar/node/24.5.0.reinstall.reinstall.reinstall/bin/node /usr/local/bin/npm
+1 info using npm@11.5.1
+2 info using node@v24.5.0
+3 silly config load:file:/usr/local/Cellar/node/24.5.0.reinstall.reinstall.reinstall/libexec/lib/node_modules/npm/npmrc
+4 silly config load:file:/Users/NUMTEMA/.npmrc
+5 silly config load:file:/usr/local/Cellar/node/24.5.0.reinstall.reinstall.reinstall/etc/npmrc
+6 verbose title npm install /var/folders/xp/s5blmkld1g3f01yx0n5zfvm40000gr/T/foundry-install-KOhC0A/pack/numtema-mcp-foundry-1.3.0.tgz
+7 verbose argv "install" "--global" "--prefix" "/var/folders/xp/s5blmkld1g3f01yx0n5zfvm40000gr/T/foundry-install-KOhC0A/prefix" "--ignore-scripts" "--no-audit" "--no-fund" "/var/folders/xp/s5blmkld1g3f01yx0n5zfvm40000gr/T/foundry-install-KOhC0A/pack/numtema-mcp-foundry-1.3.0.tgz"
+8 verbose logfile logs-max:10 dir:/Users/NUMTEMA/Downloads/numtema-mcp-foundry-v1.3.0-sprint-1.3/.npm-cache/_logs/2026-07-22T21_28_08_704Z-
+9 verbose logfile /Users/NUMTEMA/Downloads/numtema-mcp-foundry-v1.3.0-sprint-1.3/.npm-cache/_logs/2026-07-22T21_28_08_704Z-debug-0.log
+10 silly packumentCache heap:4496293888 maxSize:1124073472 maxEntrySize:562036736
+11 silly logfile start cleaning logs, removing 1 files
+12 silly logfile done cleaning log files
+13 silly idealTree buildDeps
+14 silly fetch manifest @numtema/mcp-foundry@file:../../../../../../../../../var/folders/xp/s5blmkld1g3f01yx0n5zfvm40000gr/T/foundry-install-KOhC0A/pack/numtema-mcp-foundry-1.3.0.tgz
+15 silly placeDep ROOT @numtema/mcp-foundry@1.3.0 OK for:  want: file:../../../../../../../../../var/folders/xp/s5blmkld1g3f01yx0n5zfvm40000gr/T/foundry-install-KOhC0A/pack/numtema-mcp-foundry-1.3.0.tgz
+16 silly reify moves {}
+17 http cache @numtema/mcp-foundry@file:/var/folders/xp/s5blmkld1g3f01yx0n5zfvm40000gr/T/foundry-install-KOhC0A/pack/numtema-mcp-foundry-1.3.0.tgz 0ms (cache hit)
+18 silly ADD node_modules/@numtema/mcp-foundry
+19 verbose cwd /Users/NUMTEMA/Downloads/numtema-mcp-foundry-v1.3.0-sprint-1.3
+20 verbose os Darwin 22.6.0
+21 verbose node v24.5.0
+22 verbose npm  v11.5.1
+23 verbose exit 0
+24 info ok

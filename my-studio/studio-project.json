@@ -1,0 +1,41 @@
+{
+  "artifact_type": "studio_project",
+  "artifact_version": "1.2",
+  "name": "my-studio",
+  "created_at": "2026-07-22T21:22:32.628Z",
+  "updated_at": "2026-07-22T21:22:32.637Z",
+  "source": {
+    "file": "./source/openapi.json",
+    "imported_at": "2026-07-22T21:22:32.628Z",
+    "original_name": "openapi-schema-rich.json"
+  },
+  "provider": {
+    "base_url": "http://127.0.0.1:9797",
+    "provider_ref": "provider-api",
+    "provider_account_ref": "provider-account-001",
+    "auth_mode": "bearer",
+    "credential_handle": "credential-handle-provider-001",
+    "credential_environment": "PROVIDER_API_TOKEN"
+  },
+  "chatgpt_app": {
+    "public_base_url": "http://127.0.0.1:8788",
+    "allowed_origins": [
+      "https://chatgpt.com",
+      "http://localhost:8788"
+    ],
+    "baseline_scopes": [
+      "mcp:tools"
+    ]
+  },
+  "paths": {
+    "overrides": "./overrides/tool-overrides.json",
+    "inspection": "./generated/source-inspection.json",
+    "capability_map": "./generated/capability-map.json",
+    "contract_bundle": "./generated/contract-bundle.json",
+    "provider_adapters": "./generated/provider-adapters.json",
+    "provider_auth_bindings": "./generated/provider-auth-bindings.json",
+    "credential_catalog": "./generated/credential-catalog.json",
+    "deployment_directory": "./deploy/package"
+  },
+  "last_build": null
+}
