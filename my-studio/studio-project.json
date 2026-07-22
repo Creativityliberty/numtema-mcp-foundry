@@ -3,7 +3,7 @@
   "artifact_version": "1.2",
   "name": "my-studio",
   "created_at": "2026-07-22T21:22:32.628Z",
-  "updated_at": "2026-07-22T21:50:37.323Z",
+  "updated_at": "2026-07-22T22:01:56.704Z",
   "source": {
     "file": "./source/openapi.json",
     "imported_at": "2026-07-22T21:22:32.628Z",
@@ -38,7 +38,7 @@
     "deployment_directory": "./deploy/package"
   },
   "last_build": {
-    "completed_at": "2026-07-22T21:50:37.323Z",
+    "completed_at": "2026-07-22T22:01:56.704Z",
     "tool_count": 4,
     "enabled_tool_count": 4,
     "risk_counts": {

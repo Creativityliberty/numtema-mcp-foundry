@@ -201,12 +201,43 @@ function requireUser(config, username, password) {
         throw new Error('USER_AUTHENTICATION_FAILED');
     return user;
 }
+export function isMatchingResource(requested, expected) {
+    if (requested === expected)
+        return true;
+    try {
+        const u1 = new globalThis.URL(requested);
+        const u2 = new globalThis.URL(expected);
+        return u1.host === u2.host && u1.pathname.replace(/\/$/, '') === u2.pathname.replace(/\/$/, '');
+    }
+    catch {
+        return false;
+    }
+}
+export function isMatchingRedirectUri(requested, allowed) {
+    if (allowed.includes(requested))
+        return true;
+    try {
+        const u1 = new globalThis.URL(requested);
+        return allowed.some((a) => {
+            try {
+                const u2 = new globalThis.URL(a);
+                return u1.host === u2.host && u1.pathname.replace(/\/$/, '') === u2.pathname.replace(/\/$/, '');
+            }
+            catch {
+                return false;
+            }
+        });
+    }
+    catch {
+        return false;
+    }
+}
 function validateRedirect(client, redirectUri) {
-    if (!client.redirect_uris.includes(redirectUri))
+    if (!isMatchingRedirectUri(redirectUri, client.redirect_uris))
         throw new Error('REDIRECT_URI_MISMATCH');
 }
 function requireResource(config, resource) {
-    if (resource !== config.resource)
+    if (!isMatchingResource(resource, config.resource))
         throw new Error('RESOURCE_MISMATCH');
 }
 function validateScopes(requested, supported, allowed) {

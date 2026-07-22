@@ -2,7 +2,7 @@
   "artifact_type": "deployment_package_manifest",
   "artifact_version": "1.2",
   "project_name": "my-studio",
-  "generated_at": "2026-07-22T21:50:37.783Z",
+  "generated_at": "2026-07-22T22:01:57.721Z",
   "source_digest": "ffdcff497d1c3bc54cc0967bd481e1da1ac3c4cd9275e76a1ea2c462da76acf0",
   "files": [
     {
@@ -782,18 +782,18 @@
     },
     {
       "path": "runtime-package/dist/src/oauth/http-gateway.d.ts",
-      "sha256": "b12866d81da472aaff6323f9bbb28fab35ec0f0d438161bb3374beb16e26b9fd",
+      "sha256": "63319840a1290be92ce6fa7c359e333c18bef53792036f53999ddaf18f17ad44",
       "size_bytes": 325
     },
     {
       "path": "runtime-package/dist/src/oauth/http-gateway.js",
-      "sha256": "bacf27ba04fa68be10b37b1a3933179643412bf9ae4ebec0d6192d8703b19bf6",
-      "size_bytes": 14413
+      "sha256": "40a857327c4bf6db1dcb0a03318587ffe552d7aa91c759f5da47f1bcb029623d",
+      "size_bytes": 15804
     },
     {
       "path": "runtime-package/dist/src/oauth/http-gateway.js.map",
-      "sha256": "ab58ddfc10037b6e978159e0737c4c6fe621bd216d09c84f3bc5372a36c847cc",
-      "size_bytes": 13342
+      "sha256": "009ac9d74ef081e1c2b52799fa3d6dcfc36e62b353dde19ccaaee2fbf118eeb1",
+      "size_bytes": 14212
     },
     {
       "path": "runtime-package/dist/src/oauth/jwt.d.ts",
@@ -842,18 +842,18 @@
     },
     {
       "path": "runtime-package/dist/src/oauth/service.d.ts",
-      "sha256": "660c1d17a5f537476daaf92d5a38284e494abe159ac4814671279929319fac63",
-      "size_bytes": 1841
+      "sha256": "3a1ed7daa5b695275e2b4a9395c24019f0f61481ef34144b326d1ee4ad437cc9",
+      "size_bytes": 2025
     },
     {
       "path": "runtime-package/dist/src/oauth/service.js",
-      "sha256": "32cd99105be0de7b3d88215734c1d275d87d7c14672b28875cdeadb4a6c126e8",
-      "size_bytes": 14325
+      "sha256": "e68c2e559656d4868e6c0bf28eb4c2b1f3e2ec325788c44af2b2245fbc3d0e06",
+      "size_bytes": 15264
     },
     {
       "path": "runtime-package/dist/src/oauth/service.js.map",
-      "sha256": "f0d26fc57ff5fc547003994a1842b697b891723e361ea608f83a88fd3afe2808",
-      "size_bytes": 13392
+      "sha256": "46d3e6f676bb836e3ee652f6dc8400f99783fe97af5f1bd73b94a6c25145946a",
+      "size_bytes": 14483
     },
     {
       "path": "runtime-package/dist/src/oauth/store.d.ts",

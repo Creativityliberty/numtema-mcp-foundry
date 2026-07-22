@@ -1,6 +1,6 @@
 import type { IncomingMessage, ServerResponse } from 'node:http';
 import { URL, URLSearchParams } from 'node:url';
-import type { OAuthService } from './service.js';
+import { type OAuthService, isMatchingResource, isMatchingRedirectUri } from './service.js';
 
 export interface OAuthHttpGateway {
   handle(request: IncomingMessage, response: ServerResponse): Promise<boolean>;
@@ -49,8 +49,25 @@ async function renderAuthorizationPage(service: OAuthService, url: URL, response
   const scope = url.searchParams.get('scope') ?? service.config.baseline_scopes.join(' ');
   const state = url.searchParams.get('state') ?? '';
   const client = await service.getClient(clientId);
-  if (!client || !client.redirect_uris.includes(redirectUri) || responseType !== 'code' || resource !== service.config.resource || method !== 'S256') {
-    return sendHtml(response, 400, errorPage('Invalid OAuth authorization request.'));
+  if (!client) {
+    console.warn(`[OAuth] Authorization failed: Unknown client_id "${clientId}". Please re-connect the app in ChatGPT.`);
+    return sendHtml(response, 400, errorPage('Unknown OAuth client. Please delete and re-connect the App in ChatGPT.'));
+  }
+  if (!isMatchingRedirectUri(redirectUri, client.redirect_uris)) {
+    console.warn(`[OAuth] Authorization failed: Redirect URI mismatch. Requested "${redirectUri}", registered:`, client.redirect_uris);
+    return sendHtml(response, 400, errorPage('Invalid OAuth authorization request: Redirect URI mismatch.'));
+  }
+  if (responseType !== 'code') {
+    console.warn(`[OAuth] Authorization failed: Response type mismatch. Requested "${responseType}", expected "code".`);
+    return sendHtml(response, 400, errorPage('Invalid OAuth authorization request: Response type must be code.'));
+  }
+  if (!isMatchingResource(resource, service.config.resource)) {
+    console.warn(`[OAuth] Authorization failed: Resource mismatch. Requested "${resource}", expected "${service.config.resource}".`);
+    return sendHtml(response, 400, errorPage(`Invalid OAuth authorization request: Resource mismatch (expected ${escapeHtml(service.config.resource)}, got ${escapeHtml(resource)}).`));
+  }
+  if (method !== 'S256') {
+    console.warn(`[OAuth] Authorization failed: Code challenge method mismatch. Requested "${method}", expected "S256".`);
+    return sendHtml(response, 400, errorPage('Invalid OAuth authorization request: PKCE method must be S256.'));
   }
   const workspaces = service.config.workspaces.map((workspace) => `<option value="${escapeHtml(workspace.id)}">${escapeHtml(workspace.name)}</option>`).join('');
   const hidden = { client_id: clientId, redirect_uri: redirectUri, response_type: responseType, resource, scope, state, code_challenge: codeChallenge, code_challenge_method: method };

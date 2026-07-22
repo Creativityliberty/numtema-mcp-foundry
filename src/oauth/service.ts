@@ -245,11 +245,39 @@ function requireUser(config: OAuthGatewayConfig, username: string, password: str
   if (!user || user.status !== 'active' || !verifyPassword(password, user.password_hash)) throw new Error('USER_AUTHENTICATION_FAILED');
   return user;
 }
+export function isMatchingResource(requested: string, expected: string): boolean {
+  if (requested === expected) return true;
+  try {
+    const u1 = new globalThis.URL(requested);
+    const u2 = new globalThis.URL(expected);
+    return u1.host === u2.host && u1.pathname.replace(/\/$/, '') === u2.pathname.replace(/\/$/, '');
+  } catch {
+    return false;
+  }
+}
+
+export function isMatchingRedirectUri(requested: string, allowed: string[]): boolean {
+  if (allowed.includes(requested)) return true;
+  try {
+    const u1 = new globalThis.URL(requested);
+    return allowed.some((a) => {
+      try {
+        const u2 = new globalThis.URL(a);
+        return u1.host === u2.host && u1.pathname.replace(/\/$/, '') === u2.pathname.replace(/\/$/, '');
+      } catch {
+        return false;
+      }
+    });
+  } catch {
+    return false;
+  }
+}
+
 function validateRedirect(client: OAuthClient, redirectUri: string): void {
-  if (!client.redirect_uris.includes(redirectUri)) throw new Error('REDIRECT_URI_MISMATCH');
+  if (!isMatchingRedirectUri(redirectUri, client.redirect_uris)) throw new Error('REDIRECT_URI_MISMATCH');
 }
 function requireResource(config: OAuthGatewayConfig, resource: string): void {
-  if (resource !== config.resource) throw new Error('RESOURCE_MISMATCH');
+  if (!isMatchingResource(resource, config.resource)) throw new Error('RESOURCE_MISMATCH');
 }
 function validateScopes(requested: string[], supported: string[], allowed: string[]): string[] {
   const scopes = [...new Set(requested.filter((scope) => scope.length > 0))].sort();

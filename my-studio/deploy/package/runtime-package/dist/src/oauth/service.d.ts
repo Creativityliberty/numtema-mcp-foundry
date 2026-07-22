@@ -54,3 +54,5 @@ export interface OAuthService {
     };
 }
 export declare function createOAuthService(config: OAuthGatewayConfig): OAuthService;
+export declare function isMatchingResource(requested: string, expected: string): boolean;
+export declare function isMatchingRedirectUri(requested: string, allowed: string[]): boolean;
