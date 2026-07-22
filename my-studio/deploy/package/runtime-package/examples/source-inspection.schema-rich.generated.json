@@ -1,0 +1,780 @@
+{
+  "artifact_type": "source_inspection",
+  "artifact_version": "0.3",
+  "source": {
+    "ref": "examples/openapi-schema-rich.json",
+    "kind": "openapi",
+    "openapi_version": "3.1.0",
+    "title": "Schema Rich API",
+    "version": "1.0.0",
+    "servers": []
+  },
+  "summary": {
+    "operation_count": 4,
+    "security_scheme_count": 0,
+    "authenticated_operation_count": 0,
+    "asynchronous_operation_count": 1,
+    "high_signal_operation_count": 0,
+    "domains": [
+      "Customers",
+      "Files"
+    ]
+  },
+  "security_schemes": [],
+  "operations": [
+    {
+      "operation_id": "listCustomers",
+      "method": "get",
+      "path": "/customers",
+      "summary": "List customers",
+      "tags": [
+        "Customers"
+      ],
+      "domain": "Customers",
+      "parameters": [
+        {
+          "name": "X-Trace-ID",
+          "location": "header",
+          "required": false
+        },
+        {
+          "name": "cursor",
+          "location": "query",
+          "required": false
+        },
+        {
+          "name": "limit",
+          "location": "query",
+          "required": false
+        }
+      ],
+      "request_content_types": [],
+      "response_statuses": [
+        "200",
+        "400"
+      ],
+      "response_content_types": [
+        "application/json",
+        "application/problem+json"
+      ],
+      "auth": {
+        "required": false,
+        "inherited": true,
+        "schemes": [],
+        "required_scopes": []
+      },
+      "pagination": {
+        "detected": true,
+        "style": "cursor",
+        "parameters": [
+          "cursor",
+          "limit"
+        ]
+      },
+      "signals": {
+        "read_only": true,
+        "writes": false,
+        "destructive": false,
+        "financial": false,
+        "external_communication": false,
+        "credential_change": false,
+        "personal_data": true,
+        "asynchronous": false,
+        "callback_or_webhook": false,
+        "upload": false,
+        "download": false
+      },
+      "evidence": [
+        {
+          "code": "READ_HTTP_METHOD",
+          "message": "GET implies a read-oriented operation.",
+          "source": "http_method"
+        },
+        {
+          "code": "PERSONAL_DATA_SIGNAL",
+          "message": "Operation metadata references a person or personal profile.",
+          "source": "operation_metadata"
+        },
+        {
+          "code": "PAGINATION_SIGNAL",
+          "message": "Pagination parameters detected: cursor, limit.",
+          "source": "parameter"
+        }
+      ],
+      "schema": {
+        "parameters": [
+          {
+            "name": "X-Trace-ID",
+            "location": "header",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "deprecated": false
+          },
+          {
+            "name": "cursor",
+            "location": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "deprecated": false
+          },
+          {
+            "name": "limit",
+            "location": "query",
+            "required": false,
+            "schema": {
+              "default": 20,
+              "maximum": 100,
+              "minimum": 1,
+              "type": "integer"
+            },
+            "deprecated": false
+          }
+        ],
+        "success_responses": [
+          {
+            "status": "200",
+            "description": "Customer page",
+            "content": [
+              {
+                "media_type": "application/json",
+                "schema": {
+                  "properties": {
+                    "items": {
+                      "items": {
+                        "properties": {
+                          "email": {
+                            "format": "email",
+                            "type": "string"
+                          },
+                          "id": {
+                            "format": "uuid",
+                            "type": "string"
+                          },
+                          "name": {
+                            "type": "string"
+                          }
+                        },
+                        "required": [
+                          "id",
+                          "email"
+                        ],
+                        "type": "object"
+                      },
+                      "type": "array"
+                    },
+                    "next_cursor": {
+                      "type": [
+                        "string",
+                        "null"
+                      ]
+                    },
+                    "total": {
+                      "type": "integer"
+                    }
+                  },
+                  "required": [
+                    "items"
+                  ],
+                  "type": "object"
+                }
+              }
+            ],
+            "headers": []
+          }
+        ],
+        "error_responses": [
+          {
+            "status": "400",
+            "description": "Invalid cursor",
+            "content": [
+              {
+                "media_type": "application/problem+json",
+                "schema": {
+                  "properties": {
+                    "detail": {
+                      "type": "string"
+                    },
+                    "status": {
+                      "type": "integer"
+                    },
+                    "title": {
+                      "type": "string"
+                    },
+                    "type": {
+                      "format": "uri",
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "type",
+                    "title",
+                    "status"
+                  ],
+                  "type": "object"
+                }
+              }
+            ],
+            "headers": []
+          }
+        ],
+        "other_responses": [],
+        "media": {
+          "request_content_types": [],
+          "response_content_types": [
+            "application/json",
+            "application/problem+json"
+          ],
+          "binary_request": false,
+          "binary_response": false
+        },
+        "pagination": {
+          "style": "cursor",
+          "request_parameters": [
+            "cursor",
+            "limit"
+          ],
+          "response_fields": [
+            "next_cursor",
+            "total"
+          ]
+        },
+        "unresolved_refs": []
+      }
+    },
+    {
+      "operation_id": "createCustomer",
+      "method": "post",
+      "path": "/customers",
+      "summary": "Create customer",
+      "tags": [
+        "Customers"
+      ],
+      "domain": "Customers",
+      "parameters": [],
+      "request_content_types": [
+        "application/json"
+      ],
+      "response_statuses": [
+        "201",
+        "422"
+      ],
+      "response_content_types": [
+        "application/json",
+        "application/problem+json"
+      ],
+      "auth": {
+        "required": false,
+        "inherited": true,
+        "schemes": [],
+        "required_scopes": []
+      },
+      "pagination": {
+        "detected": false,
+        "style": "none",
+        "parameters": []
+      },
+      "signals": {
+        "read_only": false,
+        "writes": true,
+        "destructive": false,
+        "financial": false,
+        "external_communication": false,
+        "credential_change": false,
+        "personal_data": true,
+        "asynchronous": false,
+        "callback_or_webhook": false,
+        "upload": false,
+        "download": false
+      },
+      "evidence": [
+        {
+          "code": "WRITE_HTTP_METHOD",
+          "message": "POST implies server-side effects.",
+          "source": "http_method"
+        },
+        {
+          "code": "PERSONAL_DATA_SIGNAL",
+          "message": "Operation metadata references a person or personal profile.",
+          "source": "operation_metadata"
+        }
+      ],
+      "schema": {
+        "parameters": [],
+        "success_responses": [
+          {
+            "status": "201",
+            "description": "Created",
+            "content": [
+              {
+                "media_type": "application/json",
+                "schema": {
+                  "properties": {
+                    "email": {
+                      "format": "email",
+                      "type": "string"
+                    },
+                    "id": {
+                      "format": "uuid",
+                      "type": "string"
+                    },
+                    "name": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "id",
+                    "email"
+                  ],
+                  "type": "object"
+                }
+              }
+            ],
+            "headers": []
+          }
+        ],
+        "error_responses": [
+          {
+            "status": "422",
+            "description": "Validation error",
+            "content": [
+              {
+                "media_type": "application/problem+json",
+                "schema": {
+                  "properties": {
+                    "detail": {
+                      "type": "string"
+                    },
+                    "status": {
+                      "type": "integer"
+                    },
+                    "title": {
+                      "type": "string"
+                    },
+                    "type": {
+                      "format": "uri",
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "type",
+                    "title",
+                    "status"
+                  ],
+                  "type": "object"
+                }
+              }
+            ],
+            "headers": []
+          }
+        ],
+        "other_responses": [],
+        "media": {
+          "request_content_types": [
+            "application/json"
+          ],
+          "response_content_types": [
+            "application/json",
+            "application/problem+json"
+          ],
+          "binary_request": false,
+          "binary_response": false
+        },
+        "pagination": {
+          "style": "none",
+          "request_parameters": [],
+          "response_fields": []
+        },
+        "unresolved_refs": [],
+        "request_body": {
+          "required": true,
+          "content": [
+            {
+              "media_type": "application/json",
+              "schema": {
+                "additionalProperties": false,
+                "properties": {
+                  "email": {
+                    "format": "email",
+                    "type": "string"
+                  },
+                  "name": {
+                    "minLength": 1,
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "email"
+                ],
+                "type": "object"
+              }
+            }
+          ],
+          "description": "Customer to create"
+        }
+      }
+    },
+    {
+      "operation_id": "getCustomer",
+      "method": "get",
+      "path": "/customers/{customerId}",
+      "summary": "Get customer",
+      "tags": [
+        "Customers"
+      ],
+      "domain": "Customers",
+      "parameters": [
+        {
+          "name": "customerId",
+          "location": "path",
+          "required": true
+        },
+        {
+          "name": "expand",
+          "location": "query",
+          "required": false
+        }
+      ],
+      "request_content_types": [],
+      "response_statuses": [
+        "200",
+        "404"
+      ],
+      "response_content_types": [
+        "application/json",
+        "application/problem+json"
+      ],
+      "auth": {
+        "required": false,
+        "inherited": true,
+        "schemes": [],
+        "required_scopes": []
+      },
+      "pagination": {
+        "detected": false,
+        "style": "none",
+        "parameters": []
+      },
+      "signals": {
+        "read_only": true,
+        "writes": false,
+        "destructive": false,
+        "financial": false,
+        "external_communication": false,
+        "credential_change": false,
+        "personal_data": true,
+        "asynchronous": false,
+        "callback_or_webhook": false,
+        "upload": false,
+        "download": false
+      },
+      "evidence": [
+        {
+          "code": "READ_HTTP_METHOD",
+          "message": "GET implies a read-oriented operation.",
+          "source": "http_method"
+        },
+        {
+          "code": "PERSONAL_DATA_SIGNAL",
+          "message": "Operation metadata references a person or personal profile.",
+          "source": "operation_metadata"
+        }
+      ],
+      "schema": {
+        "parameters": [
+          {
+            "name": "customerId",
+            "location": "path",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "type": "string"
+            },
+            "deprecated": false,
+            "description": "Customer UUID"
+          },
+          {
+            "name": "expand",
+            "location": "query",
+            "required": false,
+            "schema": {
+              "items": {
+                "type": "string"
+              },
+              "type": "array"
+            },
+            "deprecated": false,
+            "style": "form",
+            "explode": false
+          }
+        ],
+        "success_responses": [
+          {
+            "status": "200",
+            "description": "Customer",
+            "content": [
+              {
+                "media_type": "application/json",
+                "schema": {
+                  "properties": {
+                    "email": {
+                      "format": "email",
+                      "type": "string"
+                    },
+                    "id": {
+                      "format": "uuid",
+                      "type": "string"
+                    },
+                    "name": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "id",
+                    "email"
+                  ],
+                  "type": "object"
+                }
+              }
+            ],
+            "headers": []
+          }
+        ],
+        "error_responses": [
+          {
+            "status": "404",
+            "description": "Not found",
+            "content": [
+              {
+                "media_type": "application/problem+json",
+                "schema": {
+                  "properties": {
+                    "detail": {
+                      "type": "string"
+                    },
+                    "status": {
+                      "type": "integer"
+                    },
+                    "title": {
+                      "type": "string"
+                    },
+                    "type": {
+                      "format": "uri",
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "type",
+                    "title",
+                    "status"
+                  ],
+                  "type": "object"
+                }
+              }
+            ],
+            "headers": []
+          }
+        ],
+        "other_responses": [],
+        "media": {
+          "request_content_types": [],
+          "response_content_types": [
+            "application/json",
+            "application/problem+json"
+          ],
+          "binary_request": false,
+          "binary_response": false
+        },
+        "pagination": {
+          "style": "none",
+          "request_parameters": [],
+          "response_fields": []
+        },
+        "unresolved_refs": []
+      }
+    },
+    {
+      "operation_id": "uploadFile",
+      "method": "post",
+      "path": "/files",
+      "summary": "Upload file",
+      "tags": [
+        "Files"
+      ],
+      "domain": "Files",
+      "parameters": [],
+      "request_content_types": [
+        "multipart/form-data"
+      ],
+      "response_statuses": [
+        "202",
+        "413"
+      ],
+      "response_content_types": [
+        "application/json",
+        "application/problem+json"
+      ],
+      "auth": {
+        "required": false,
+        "inherited": true,
+        "schemes": [],
+        "required_scopes": []
+      },
+      "pagination": {
+        "detected": false,
+        "style": "none",
+        "parameters": []
+      },
+      "signals": {
+        "read_only": false,
+        "writes": true,
+        "destructive": false,
+        "financial": false,
+        "external_communication": false,
+        "credential_change": false,
+        "personal_data": false,
+        "asynchronous": true,
+        "callback_or_webhook": false,
+        "upload": true,
+        "download": false
+      },
+      "evidence": [
+        {
+          "code": "WRITE_HTTP_METHOD",
+          "message": "POST implies server-side effects.",
+          "source": "http_method"
+        },
+        {
+          "code": "ASYNC_SIGNAL",
+          "message": "Response codes, callbacks, or metadata indicate asynchronous execution.",
+          "source": "response"
+        },
+        {
+          "code": "UPLOAD_SIGNAL",
+          "message": "Request media type or operation metadata indicates upload.",
+          "source": "request_body"
+        }
+      ],
+      "schema": {
+        "parameters": [],
+        "success_responses": [
+          {
+            "status": "202",
+            "description": "Queued",
+            "content": [
+              {
+                "media_type": "application/json",
+                "schema": {
+                  "properties": {
+                    "job_id": {
+                      "type": "string"
+                    },
+                    "status": {
+                      "enum": [
+                        "queued",
+                        "running",
+                        "completed",
+                        "failed"
+                      ],
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "job_id",
+                    "status"
+                  ],
+                  "type": "object"
+                }
+              }
+            ],
+            "headers": []
+          }
+        ],
+        "error_responses": [
+          {
+            "status": "413",
+            "description": "Too large",
+            "content": [
+              {
+                "media_type": "application/problem+json",
+                "schema": {
+                  "properties": {
+                    "detail": {
+                      "type": "string"
+                    },
+                    "status": {
+                      "type": "integer"
+                    },
+                    "title": {
+                      "type": "string"
+                    },
+                    "type": {
+                      "format": "uri",
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "type",
+                    "title",
+                    "status"
+                  ],
+                  "type": "object"
+                }
+              }
+            ],
+            "headers": []
+          }
+        ],
+        "other_responses": [],
+        "media": {
+          "request_content_types": [
+            "multipart/form-data"
+          ],
+          "response_content_types": [
+            "application/json",
+            "application/problem+json"
+          ],
+          "binary_request": true,
+          "binary_response": false
+        },
+        "pagination": {
+          "style": "none",
+          "request_parameters": [],
+          "response_fields": []
+        },
+        "unresolved_refs": [],
+        "request_body": {
+          "required": true,
+          "content": [
+            {
+              "media_type": "multipart/form-data",
+              "schema": {
+                "properties": {
+                  "file": {
+                    "format": "binary",
+                    "type": "string"
+                  },
+                  "label": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "file"
+                ],
+                "type": "object"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "limitations": [
+    "Remote and external $ref values are retained as unresolved references and are never fetched automatically.",
+    "Lexical signals are conservative suggestions and require human review before compilation.",
+    "Controlled YAML supports the Foundry YAML subset; JSON is canonical for full OpenAPI fidelity."
+  ]
+}

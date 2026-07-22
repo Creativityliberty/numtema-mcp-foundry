@@ -1,0 +1,33 @@
+foundry_version: "0.1"
+project:
+  id: "procuflow-mcp"
+  name: "ProcuFlow MCP"
+  version: "0.1.0"
+  default_workspace_mode: "required"
+
+source:
+  adapter: "openapi"
+  location: "./openapi.yaml"
+
+protocol_targets:
+  - adapter: "mcp-streamable-http"
+    baseline: "2025-11-25"
+  - adapter: "chatgpt-app"
+    enabled: true
+
+auth:
+  contract_ref: "auth://procuflow/default@1"
+
+capabilities:
+  - id: "supplier.search"
+    tool_name: "supplier_search"
+    risk_class: "R0"
+  - id: "purchase-order.approve"
+    tool_name: "purchase_order_approve"
+    risk_class: "R3"
+    approval_ref: "approval://procuflow/high-impact@1"
+
+runtime:
+  idempotency: "required_for_writes"
+  task_support: "optional"
+  receipts: "governed_actions"

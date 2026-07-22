@@ -1,0 +1,61 @@
+{
+  "artifact_type": "dispatch_ledger_snapshot",
+  "artifact_version": "0.9",
+  "ledger_id": "ledger-example-1",
+  "sequence": 2,
+  "generated_at": "2026-07-22T16:03:00Z",
+  "reservations": [
+    {
+      "artifact_type": "dispatch_reservation",
+      "artifact_version": "0.9",
+      "ledger_id": "ledger-example-1",
+      "sequence": 2,
+      "reservation_id": "res_cf4065b3fa944005a43b9c5044787396",
+      "authorization_id": "authz_b3d6e0f0d004257fcdfdec05441fb8de",
+      "execution_nonce": "dispatch_9b0f9559639c0b5aba3fd76b205fc3f5",
+      "approval_nonce": "approval-nonce-runtime-example-1",
+      "idempotency_key": "operation-123",
+      "envelope_digest": "1a0d8f24690f2fc7536d1fdaf61a1e37fd5fdb05c06be0077cfbb6ca83da8881",
+      "state": "dispatched",
+      "replayed": false,
+      "reserved_at": "2026-07-22T16:02:00Z",
+      "updated_at": "2026-07-22T16:03:00Z",
+      "expires_at": "2026-07-22T16:05:00Z",
+      "terminal_reason": null,
+      "binding": {
+        "adapter_id": "adapter-payment-refund",
+        "adapter_revision": "adapter-rev-1",
+        "arguments_hash": "args-hash-refund-25",
+        "client_ref": "client-1",
+        "context_hash": "context-hash-subject-1-client-1-workspace-1",
+        "subject_ref": "subject-1",
+        "tool_id": "tool-payment-refund",
+        "tool_revision": "tool-rev-1",
+        "workspace_ref": "workspace-1"
+      },
+      "budget": {
+        "amount": 25,
+        "budget_ref": "budget-workspace-1",
+        "currency": "EUR",
+        "remaining_before": 100
+      },
+      "integrity": {
+        "algorithm": "sha256",
+        "digest": "7154d16a4e41471cc6ce8fd474f71f8d49959aa1386b92cf54063b2b7d5a58ba"
+      }
+    }
+  ],
+  "budget_totals": [
+    {
+      "budget_ref": "budget-workspace-1",
+      "currency": "EUR",
+      "active_amount": 25,
+      "dispatched_amount": 25,
+      "released_amount": 0
+    }
+  ],
+  "integrity": {
+    "algorithm": "sha256",
+    "digest": "2ddfd5a81910797487448ee68f8635743c8bbe0ab0ea8504e1aa8d350f022630"
+  }
+}

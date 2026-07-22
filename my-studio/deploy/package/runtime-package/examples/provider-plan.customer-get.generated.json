@@ -1,0 +1,48 @@
+{
+  "artifact_type": "provider_execution_plan",
+  "artifact_version": "0.6",
+  "dry_run": true,
+  "adapter_id": "adapter:customer_get",
+  "adapter_revision": "0f0b7267e28d7dee385a5a048fbfd97f5a5f70d24a0cec48319d4fbb066cb367",
+  "tool_id": "tool:customer_get",
+  "tool_revision": "211943321329fb0d2e88653bec28bbcc83bb77c86bff90307217b019023ae0a2",
+  "arguments_hash": "324b343694674e1f58dbfefc27bf2bdea48a3bcb6379dfdd0d789908e945eb87",
+  "credential_requirement": {
+    "auth_ref": null,
+    "required_scopes": [],
+    "secret_material_included": false
+  },
+  "request": {
+    "method": "GET",
+    "url": "https://api.example.test/v1/customers/customer%207?expand=orders%2Cinvoices",
+    "path": "/customers/customer%207",
+    "query": [
+      {
+        "name": "expand",
+        "value": "orders,invoices"
+      }
+    ],
+    "headers": [],
+    "body": null
+  },
+  "idempotency": {
+    "mode": "none",
+    "header_name": "Idempotency-Key",
+    "key_source": "none",
+    "key": null
+  },
+  "response_plan": {
+    "success_statuses": [
+      "200"
+    ],
+    "error_statuses": [
+      "404"
+    ],
+    "other_statuses": []
+  },
+  "warnings": [],
+  "integrity": {
+    "algorithm": "sha256",
+    "digest": "5f329a1fd66ade2aab4654cbafba7357b5594b637a514f436273f9dcf839b547"
+  }
+}

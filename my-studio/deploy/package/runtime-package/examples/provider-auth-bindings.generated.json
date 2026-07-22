@@ -1,0 +1,67 @@
+{
+  "artifact_type": "provider_auth_binding_bundle",
+  "artifact_version": "0.7",
+  "source_bundle_version": "0.2",
+  "source_adapter_artifact_version": "0.6",
+  "bindings": [
+    {
+      "id": "auth-binding:auth-customer-api",
+      "version": "0.7.0",
+      "auth_ref": "auth:customer-api",
+      "auth_mode": "oauth2_1",
+      "transport": "http",
+      "adapter_ids": [
+        "adapter:customer_get"
+      ],
+      "tool_ids": [
+        "tool:customer_get"
+      ],
+      "required_scopes": [
+        "customer:read"
+      ],
+      "optional_scopes": [],
+      "tenant_resolution": "required",
+      "binding_dimensions": [
+        "client",
+        "provider",
+        "provider_account",
+        "scope_set",
+        "subject",
+        "workspace"
+      ],
+      "token_passthrough": false,
+      "audience": {
+        "validation_required": true,
+        "canonical_resource_uri": "https://api.example.test",
+        "authorization_server": "https://auth.example.test",
+        "pkce_required": true
+      },
+      "injection": {
+        "strategy": "bearer_token",
+        "location": "header",
+        "name": "Authorization",
+        "prefix": "Bearer",
+        "signing_algorithm": null,
+        "secret_material_allowed_in_artifact": false
+      },
+      "revision": "58a1559c9ec05c5e12fe481aa379501d35bed4f4cfb2db5083b606d96c3dbfc2",
+      "integrity": {
+        "algorithm": "sha256",
+        "digest": "58a1559c9ec05c5e12fe481aa379501d35bed4f4cfb2db5083b606d96c3dbfc2"
+      }
+    }
+  ],
+  "summary": {
+    "binding_count": 1,
+    "referenced_auth_count": 1,
+    "oauth_binding_count": 1,
+    "api_key_binding_count": 0,
+    "host_managed_binding_count": 0,
+    "unreferenced_auth_count": 0
+  },
+  "warnings": [],
+  "integrity": {
+    "algorithm": "sha256",
+    "digest": "cbd3c66e643b7c167d1423aedb0136bd761353709430d3ed9f18ae43d8d19587"
+  }
+}

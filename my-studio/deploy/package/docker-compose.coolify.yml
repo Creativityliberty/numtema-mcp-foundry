@@ -1,0 +1,25 @@
+services:
+  foundry-app:
+    build: .
+    restart: unless-stopped
+    environment:
+      - SERVICE_URL_FOUNDRY_8788
+      - PUBLIC_BASE_URL=${PUBLIC_BASE_URL:?}
+      - PROVIDER_BASE_URL=${PROVIDER_BASE_URL:?}
+      - PROVIDER_API_TOKEN=${PROVIDER_API_TOKEN:?}
+      - ADMIN_USERNAME=${ADMIN_USERNAME:?}
+      - ADMIN_PASSWORD=${ADMIN_PASSWORD:?}
+      - PORT=8788
+      - HOST=0.0.0.0
+    expose:
+      - "8788"
+    volumes:
+      - foundry-data:/data
+    healthcheck:
+      test: ["CMD", "node", "healthcheck.mjs"]
+      interval: 20s
+      timeout: 5s
+      retries: 5
+      start_period: 20s
+volumes:
+  foundry-data:

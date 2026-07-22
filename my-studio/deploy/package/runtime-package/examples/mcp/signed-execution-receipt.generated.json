@@ -1,0 +1,48 @@
+{
+  "artifact_type": "signed_execution_receipt",
+  "artifact_version": "1.0",
+  "receipt_id": "exec_b9503dfd370382ee91bcf27a53c36f78",
+  "authorization_id": "authz_8a6094f6555d53384f070a5b13526ded",
+  "reservation_id": "res_4250ed99986e15dc13b9a3623fde0ea0",
+  "binding": {
+    "tool_id": "tool:customer_get",
+    "tool_revision": "customer-get-auth-rev-1",
+    "adapter_id": "adapter:customer_get",
+    "adapter_revision": "890e77b35d1dcd1d716d29cf47c25b5e049fc5ccca2747e8ed1adf7ded07d75e",
+    "arguments_hash": "324b343694674e1f58dbfefc27bf2bdea48a3bcb6379dfdd0d789908e945eb87",
+    "context_hash": "2db6ea41ad3899f5e551f49fe67ab6eab14c2393415aaaedaebccc719ec703bc",
+    "subject_ref": "user-001",
+    "client_ref": "chatgpt-client",
+    "workspace_ref": "workspace-001"
+  },
+  "status": "succeeded",
+  "started_at": "2026-07-22T18:31:29.423Z",
+  "completed_at": "2026-07-22T18:31:29.451Z",
+  "duration_ms": 28,
+  "provider": {
+    "response_received": true,
+    "http_status": 200,
+    "media_type": "application/json",
+    "retryable": false,
+    "result_digest": "61479332ade006f7e5a5a791c84997dac5a4e798a0bc83a3fb579793ee21b1a5"
+  },
+  "dispatch": {
+    "transition": "reserved_to_dispatched",
+    "state": "dispatched",
+    "receipt_id": "dispatch_receipt_61b360866e0b4b2b7ab3d1ed8d9eacda",
+    "receipt_digest": "6aae92567d9d63a1a6f21642e8c4e1bba95208e2b58fb1551f1a64189731095c"
+  },
+  "redaction": {
+    "secret_material_included": false,
+    "credential_handle_included": false
+  },
+  "integrity": {
+    "algorithm": "sha256",
+    "digest": "64bef4f125aa91e528eee64fed415e2aea08a754388fe07a30e00d74521806c3"
+  },
+  "signature": {
+    "algorithm": "ed25519",
+    "key_id": "execution-key",
+    "value": "ULDVZNO+fnx3TsGEcnjzbi6d5JdeDOOpEy6BmkDjIDfUOrArj0INfT2WE9OIyhGBrhqpUbs7QeLFNjL2XPTGCA=="
+  }
+}

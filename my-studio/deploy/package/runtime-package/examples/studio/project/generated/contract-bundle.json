@@ -1,0 +1,971 @@
+{
+  "bundle_version": "0.2",
+  "tools": [
+    {
+      "id": "tool:customer_list",
+      "name": "customer_list",
+      "version": "1.2.0",
+      "revision": "5c84eaf218c9a52936d3de9b863b7bc449586ded34a835a7953979952fb620d3",
+      "title": "List customers",
+      "description": "GET /customers — List customers. Compiled as a governed Nümtema Foundry capability from source operation listCustomers.",
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "X-Trace-ID": {
+            "type": "string"
+          },
+          "cursor": {
+            "type": "string"
+          },
+          "limit": {
+            "default": 20,
+            "maximum": 100,
+            "minimum": 1,
+            "type": "integer"
+          }
+        },
+        "required": [],
+        "additionalProperties": false
+      },
+      "output_schema": {
+        "properties": {
+          "items": {
+            "items": {
+              "properties": {
+                "email": {
+                  "format": "email",
+                  "type": "string"
+                },
+                "id": {
+                  "format": "uuid",
+                  "type": "string"
+                },
+                "name": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "id",
+                "email"
+              ],
+              "type": "object"
+            },
+            "type": "array"
+          },
+          "next_cursor": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "total": {
+            "type": "integer"
+          }
+        },
+        "required": [
+          "items"
+        ],
+        "type": "object"
+      },
+      "annotations": {
+        "read_only": true,
+        "destructive": false,
+        "idempotent": true,
+        "open_world": false
+      },
+      "effects": {
+        "writes": false,
+        "external_communication": false,
+        "financial": false,
+        "credential_change": false,
+        "personal_data": true,
+        "reversible": null
+      },
+      "execution": {
+        "mode": "synchronous",
+        "task_support": "forbidden",
+        "idempotency": "not_applicable"
+      },
+      "required_scopes": [],
+      "policy_ref": "policy:customer_list",
+      "extensions": {
+        "foundry": {
+          "source_operation_id": "listCustomers",
+          "source_method": "get",
+          "source_path": "/customers",
+          "domain": "Customers",
+          "risk_class": "R1",
+          "governance_reasons": [
+            "Classified R1 from source inspection signals.",
+            "Authenticated or personal-data read requires least-privilege access."
+          ],
+          "evidence": [
+            {
+              "code": "READ_HTTP_METHOD",
+              "message": "GET implies a read-oriented operation.",
+              "source": "http_method"
+            },
+            {
+              "code": "PERSONAL_DATA_SIGNAL",
+              "message": "Operation metadata references a person or personal profile.",
+              "source": "operation_metadata"
+            },
+            {
+              "code": "PAGINATION_SIGNAL",
+              "message": "Pagination parameters detected: cursor, limit.",
+              "source": "parameter"
+            }
+          ],
+          "schema_fidelity": "openapi_enriched",
+          "parameter_contract": [
+            {
+              "name": "X-Trace-ID",
+              "location": "header",
+              "required": false,
+              "deprecated": false
+            },
+            {
+              "name": "cursor",
+              "location": "query",
+              "required": false,
+              "deprecated": false
+            },
+            {
+              "name": "limit",
+              "location": "query",
+              "required": false,
+              "deprecated": false
+            }
+          ],
+          "response_contract": {
+            "success": [
+              {
+                "status": "200",
+                "description": "Customer page",
+                "content": [
+                  {
+                    "media_type": "application/json",
+                    "schema": {
+                      "properties": {
+                        "items": {
+                          "items": {
+                            "properties": {
+                              "email": {
+                                "format": "email",
+                                "type": "string"
+                              },
+                              "id": {
+                                "format": "uuid",
+                                "type": "string"
+                              },
+                              "name": {
+                                "type": "string"
+                              }
+                            },
+                            "required": [
+                              "id",
+                              "email"
+                            ],
+                            "type": "object"
+                          },
+                          "type": "array"
+                        },
+                        "next_cursor": {
+                          "type": [
+                            "string",
+                            "null"
+                          ]
+                        },
+                        "total": {
+                          "type": "integer"
+                        }
+                      },
+                      "required": [
+                        "items"
+                      ],
+                      "type": "object"
+                    }
+                  }
+                ],
+                "headers": []
+              }
+            ],
+            "errors": [
+              {
+                "status": "400",
+                "description": "Invalid cursor",
+                "content": [
+                  {
+                    "media_type": "application/problem+json",
+                    "schema": {
+                      "properties": {
+                        "detail": {
+                          "type": "string"
+                        },
+                        "status": {
+                          "type": "integer"
+                        },
+                        "title": {
+                          "type": "string"
+                        },
+                        "type": {
+                          "format": "uri",
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "type",
+                        "title",
+                        "status"
+                      ],
+                      "type": "object"
+                    }
+                  }
+                ],
+                "headers": []
+              }
+            ],
+            "other": []
+          },
+          "media_contract": {
+            "request_content_types": [],
+            "response_content_types": [
+              "application/json",
+              "application/problem+json"
+            ],
+            "binary_request": false,
+            "binary_response": false
+          },
+          "pagination_contract": {
+            "style": "cursor",
+            "request_parameters": [
+              "cursor",
+              "limit"
+            ],
+            "response_fields": [
+              "next_cursor",
+              "total"
+            ]
+          },
+          "unresolved_refs": []
+        }
+      },
+      "auth_ref": "auth:provider"
+    },
+    {
+      "id": "tool:customer_create",
+      "name": "customer_create",
+      "version": "1.2.0",
+      "revision": "3909b3bef821ebfffc653546a1b6971b366677ad8cbff6e6944fd97ac858473e",
+      "title": "Create customer",
+      "description": "POST /customers — Create customer. Compiled as a governed Nümtema Foundry capability from source operation createCustomer.",
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "body": {
+            "additionalProperties": false,
+            "properties": {
+              "email": {
+                "format": "email",
+                "type": "string"
+              },
+              "name": {
+                "minLength": 1,
+                "type": "string"
+              }
+            },
+            "required": [
+              "email"
+            ],
+            "type": "object"
+          }
+        },
+        "required": [
+          "body"
+        ],
+        "additionalProperties": false
+      },
+      "output_schema": {
+        "properties": {
+          "email": {
+            "format": "email",
+            "type": "string"
+          },
+          "id": {
+            "format": "uuid",
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "email"
+        ],
+        "type": "object"
+      },
+      "annotations": {
+        "read_only": false,
+        "destructive": false,
+        "idempotent": false,
+        "open_world": false
+      },
+      "effects": {
+        "writes": true,
+        "external_communication": false,
+        "financial": false,
+        "credential_change": false,
+        "personal_data": true,
+        "reversible": null
+      },
+      "execution": {
+        "mode": "synchronous",
+        "task_support": "forbidden",
+        "idempotency": "required"
+      },
+      "required_scopes": [],
+      "policy_ref": "policy:customer_create",
+      "extensions": {
+        "foundry": {
+          "source_operation_id": "createCustomer",
+          "source_method": "post",
+          "source_path": "/customers",
+          "domain": "Customers",
+          "risk_class": "R2",
+          "governance_reasons": [
+            "Classified R2 from source inspection signals.",
+            "Write behavior requires scoped authorization when scopes are declared."
+          ],
+          "evidence": [
+            {
+              "code": "WRITE_HTTP_METHOD",
+              "message": "POST implies server-side effects.",
+              "source": "http_method"
+            },
+            {
+              "code": "PERSONAL_DATA_SIGNAL",
+              "message": "Operation metadata references a person or personal profile.",
+              "source": "operation_metadata"
+            }
+          ],
+          "schema_fidelity": "openapi_enriched",
+          "parameter_contract": [],
+          "response_contract": {
+            "success": [
+              {
+                "status": "201",
+                "description": "Created",
+                "content": [
+                  {
+                    "media_type": "application/json",
+                    "schema": {
+                      "properties": {
+                        "email": {
+                          "format": "email",
+                          "type": "string"
+                        },
+                        "id": {
+                          "format": "uuid",
+                          "type": "string"
+                        },
+                        "name": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "id",
+                        "email"
+                      ],
+                      "type": "object"
+                    }
+                  }
+                ],
+                "headers": []
+              }
+            ],
+            "errors": [
+              {
+                "status": "422",
+                "description": "Validation error",
+                "content": [
+                  {
+                    "media_type": "application/problem+json",
+                    "schema": {
+                      "properties": {
+                        "detail": {
+                          "type": "string"
+                        },
+                        "status": {
+                          "type": "integer"
+                        },
+                        "title": {
+                          "type": "string"
+                        },
+                        "type": {
+                          "format": "uri",
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "type",
+                        "title",
+                        "status"
+                      ],
+                      "type": "object"
+                    }
+                  }
+                ],
+                "headers": []
+              }
+            ],
+            "other": []
+          },
+          "media_contract": {
+            "request_content_types": [
+              "application/json"
+            ],
+            "response_content_types": [
+              "application/json",
+              "application/problem+json"
+            ],
+            "binary_request": false,
+            "binary_response": false
+          },
+          "pagination_contract": {
+            "style": "none",
+            "request_parameters": [],
+            "response_fields": []
+          },
+          "unresolved_refs": []
+        }
+      },
+      "auth_ref": "auth:provider"
+    },
+    {
+      "id": "tool:customer_get",
+      "name": "customer_get",
+      "version": "1.2.0",
+      "revision": "f7b27b5a35e45c08fe74208b9a220eaca63049002abb0f00832f2f1ec8be333b",
+      "title": "Get customer",
+      "description": "GET /customers/{customerId} — Get customer. Compiled as a governed Nümtema Foundry capability from source operation getCustomer.",
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "customerId": {
+            "format": "uuid",
+            "type": "string",
+            "description": "Customer UUID"
+          },
+          "expand": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
+          }
+        },
+        "required": [
+          "customerId"
+        ],
+        "additionalProperties": false
+      },
+      "output_schema": {
+        "properties": {
+          "email": {
+            "format": "email",
+            "type": "string"
+          },
+          "id": {
+            "format": "uuid",
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "email"
+        ],
+        "type": "object"
+      },
+      "annotations": {
+        "read_only": true,
+        "destructive": false,
+        "idempotent": true,
+        "open_world": false
+      },
+      "effects": {
+        "writes": false,
+        "external_communication": false,
+        "financial": false,
+        "credential_change": false,
+        "personal_data": true,
+        "reversible": null
+      },
+      "execution": {
+        "mode": "synchronous",
+        "task_support": "forbidden",
+        "idempotency": "not_applicable"
+      },
+      "required_scopes": [],
+      "policy_ref": "policy:customer_get",
+      "extensions": {
+        "foundry": {
+          "source_operation_id": "getCustomer",
+          "source_method": "get",
+          "source_path": "/customers/{customerId}",
+          "domain": "Customers",
+          "risk_class": "R1",
+          "governance_reasons": [
+            "Classified R1 from source inspection signals.",
+            "Authenticated or personal-data read requires least-privilege access."
+          ],
+          "evidence": [
+            {
+              "code": "READ_HTTP_METHOD",
+              "message": "GET implies a read-oriented operation.",
+              "source": "http_method"
+            },
+            {
+              "code": "PERSONAL_DATA_SIGNAL",
+              "message": "Operation metadata references a person or personal profile.",
+              "source": "operation_metadata"
+            }
+          ],
+          "schema_fidelity": "openapi_enriched",
+          "parameter_contract": [
+            {
+              "name": "customerId",
+              "location": "path",
+              "required": true,
+              "deprecated": false
+            },
+            {
+              "name": "expand",
+              "location": "query",
+              "required": false,
+              "deprecated": false,
+              "style": "form",
+              "explode": false
+            }
+          ],
+          "response_contract": {
+            "success": [
+              {
+                "status": "200",
+                "description": "Customer",
+                "content": [
+                  {
+                    "media_type": "application/json",
+                    "schema": {
+                      "properties": {
+                        "email": {
+                          "format": "email",
+                          "type": "string"
+                        },
+                        "id": {
+                          "format": "uuid",
+                          "type": "string"
+                        },
+                        "name": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "id",
+                        "email"
+                      ],
+                      "type": "object"
+                    }
+                  }
+                ],
+                "headers": []
+              }
+            ],
+            "errors": [
+              {
+                "status": "404",
+                "description": "Not found",
+                "content": [
+                  {
+                    "media_type": "application/problem+json",
+                    "schema": {
+                      "properties": {
+                        "detail": {
+                          "type": "string"
+                        },
+                        "status": {
+                          "type": "integer"
+                        },
+                        "title": {
+                          "type": "string"
+                        },
+                        "type": {
+                          "format": "uri",
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "type",
+                        "title",
+                        "status"
+                      ],
+                      "type": "object"
+                    }
+                  }
+                ],
+                "headers": []
+              }
+            ],
+            "other": []
+          },
+          "media_contract": {
+            "request_content_types": [],
+            "response_content_types": [
+              "application/json",
+              "application/problem+json"
+            ],
+            "binary_request": false,
+            "binary_response": false
+          },
+          "pagination_contract": {
+            "style": "none",
+            "request_parameters": [],
+            "response_fields": []
+          },
+          "unresolved_refs": []
+        }
+      },
+      "auth_ref": "auth:provider"
+    },
+    {
+      "id": "tool:file_upload",
+      "name": "file_upload",
+      "version": "1.2.0",
+      "revision": "59fb77d9f9505bc7d3cc56e2b0e10fe2220cec1748489b1b1b46988bef502840",
+      "title": "Upload file",
+      "description": "POST /files — Upload file. Compiled as a governed Nümtema Foundry capability from source operation uploadFile.",
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "body": {
+            "properties": {
+              "file": {
+                "format": "binary",
+                "type": "string"
+              },
+              "label": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "file"
+            ],
+            "type": "object"
+          }
+        },
+        "required": [
+          "body"
+        ],
+        "additionalProperties": false
+      },
+      "output_schema": {
+        "properties": {
+          "job_id": {
+            "type": "string"
+          },
+          "status": {
+            "enum": [
+              "queued",
+              "running",
+              "completed",
+              "failed"
+            ],
+            "type": "string"
+          }
+        },
+        "required": [
+          "job_id",
+          "status"
+        ],
+        "type": "object"
+      },
+      "annotations": {
+        "read_only": false,
+        "destructive": false,
+        "idempotent": false,
+        "open_world": false
+      },
+      "effects": {
+        "writes": true,
+        "external_communication": false,
+        "financial": false,
+        "credential_change": false,
+        "personal_data": false,
+        "reversible": null
+      },
+      "execution": {
+        "mode": "asynchronous",
+        "task_support": "required",
+        "idempotency": "required"
+      },
+      "required_scopes": [],
+      "policy_ref": "policy:file_upload",
+      "extensions": {
+        "foundry": {
+          "source_operation_id": "uploadFile",
+          "source_method": "post",
+          "source_path": "/files",
+          "domain": "Files",
+          "risk_class": "R2",
+          "governance_reasons": [
+            "Classified R2 from source inspection signals.",
+            "Write behavior requires scoped authorization when scopes are declared."
+          ],
+          "evidence": [
+            {
+              "code": "WRITE_HTTP_METHOD",
+              "message": "POST implies server-side effects.",
+              "source": "http_method"
+            },
+            {
+              "code": "ASYNC_SIGNAL",
+              "message": "Response codes, callbacks, or metadata indicate asynchronous execution.",
+              "source": "response"
+            },
+            {
+              "code": "UPLOAD_SIGNAL",
+              "message": "Request media type or operation metadata indicates upload.",
+              "source": "request_body"
+            }
+          ],
+          "schema_fidelity": "openapi_enriched",
+          "parameter_contract": [],
+          "response_contract": {
+            "success": [
+              {
+                "status": "202",
+                "description": "Queued",
+                "content": [
+                  {
+                    "media_type": "application/json",
+                    "schema": {
+                      "properties": {
+                        "job_id": {
+                          "type": "string"
+                        },
+                        "status": {
+                          "enum": [
+                            "queued",
+                            "running",
+                            "completed",
+                            "failed"
+                          ],
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "job_id",
+                        "status"
+                      ],
+                      "type": "object"
+                    }
+                  }
+                ],
+                "headers": []
+              }
+            ],
+            "errors": [
+              {
+                "status": "413",
+                "description": "Too large",
+                "content": [
+                  {
+                    "media_type": "application/problem+json",
+                    "schema": {
+                      "properties": {
+                        "detail": {
+                          "type": "string"
+                        },
+                        "status": {
+                          "type": "integer"
+                        },
+                        "title": {
+                          "type": "string"
+                        },
+                        "type": {
+                          "format": "uri",
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "type",
+                        "title",
+                        "status"
+                      ],
+                      "type": "object"
+                    }
+                  }
+                ],
+                "headers": []
+              }
+            ],
+            "other": []
+          },
+          "media_contract": {
+            "request_content_types": [
+              "multipart/form-data"
+            ],
+            "response_content_types": [
+              "application/json",
+              "application/problem+json"
+            ],
+            "binary_request": true,
+            "binary_response": false
+          },
+          "pagination_contract": {
+            "style": "none",
+            "request_parameters": [],
+            "response_fields": []
+          },
+          "unresolved_refs": []
+        }
+      },
+      "auth_ref": "auth:provider"
+    }
+  ],
+  "auth": [
+    {
+      "id": "auth:provider",
+      "version": "1.2.0",
+      "transport": "http",
+      "mode": "bearer",
+      "required_scopes": [],
+      "optional_scopes": [],
+      "step_up_authorization": true,
+      "tenant_resolution": "required",
+      "credential_binding_dimensions": [
+        "subject",
+        "client",
+        "workspace",
+        "provider",
+        "provider_account",
+        "scope_set"
+      ],
+      "token_passthrough": false,
+      "canonical_resource_uri": "http://127.0.0.1:9797",
+      "audience_validation": true,
+      "pkce_required": false,
+      "extensions": {
+        "provider_binding": {
+          "location": "header",
+          "name": "Authorization",
+          "prefix": "Bearer"
+        }
+      }
+    }
+  ],
+  "policies": [
+    {
+      "id": "policy:customer_list",
+      "version": "1.2.0",
+      "risk_class": "R1",
+      "default_decision": "allow",
+      "rules": [
+        {
+          "id": "policy-rule:customer_list:reviewed-default",
+          "when": {
+            "tool_id": "tool:customer_list",
+            "risk_class": "R1"
+          },
+          "decision": "allow",
+          "required_scopes": [],
+          "reason": "Classified R1 from source inspection signals. Authenticated or personal-data read requires least-privilege access."
+        }
+      ],
+      "extensions": {
+        "foundry": {
+          "source_operation_id": "listCustomers",
+          "compiled_from_reviewed_governance": true
+        }
+      }
+    },
+    {
+      "id": "policy:customer_create",
+      "version": "1.2.0",
+      "risk_class": "R2",
+      "default_decision": "allow",
+      "rules": [
+        {
+          "id": "policy-rule:customer_create:reviewed-default",
+          "when": {
+            "tool_id": "tool:customer_create",
+            "risk_class": "R2"
+          },
+          "decision": "allow",
+          "required_scopes": [],
+          "reason": "Classified R2 from source inspection signals. Write behavior requires scoped authorization when scopes are declared."
+        }
+      ],
+      "extensions": {
+        "foundry": {
+          "source_operation_id": "createCustomer",
+          "compiled_from_reviewed_governance": true
+        }
+      }
+    },
+    {
+      "id": "policy:customer_get",
+      "version": "1.2.0",
+      "risk_class": "R1",
+      "default_decision": "allow",
+      "rules": [
+        {
+          "id": "policy-rule:customer_get:reviewed-default",
+          "when": {
+            "tool_id": "tool:customer_get",
+            "risk_class": "R1"
+          },
+          "decision": "allow",
+          "required_scopes": [],
+          "reason": "Classified R1 from source inspection signals. Authenticated or personal-data read requires least-privilege access."
+        }
+      ],
+      "extensions": {
+        "foundry": {
+          "source_operation_id": "getCustomer",
+          "compiled_from_reviewed_governance": true
+        }
+      }
+    },
+    {
+      "id": "policy:file_upload",
+      "version": "1.2.0",
+      "risk_class": "R2",
+      "default_decision": "allow",
+      "rules": [
+        {
+          "id": "policy-rule:file_upload:reviewed-default",
+          "when": {
+            "tool_id": "tool:file_upload",
+            "risk_class": "R2"
+          },
+          "decision": "allow",
+          "required_scopes": [],
+          "reason": "Classified R2 from source inspection signals. Write behavior requires scoped authorization when scopes are declared."
+        }
+      ],
+      "extensions": {
+        "foundry": {
+          "source_operation_id": "uploadFile",
+          "compiled_from_reviewed_governance": true
+        }
+      }
+    }
+  ],
+  "approvals": [],
+  "recoveries": [],
+  "receipts": [],
+  "artifacts": []
+}

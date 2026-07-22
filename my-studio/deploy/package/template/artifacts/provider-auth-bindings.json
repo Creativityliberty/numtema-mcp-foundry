@@ -1,0 +1,71 @@
+{
+  "artifact_type": "provider_auth_binding_bundle",
+  "artifact_version": "0.7",
+  "source_bundle_version": "0.2",
+  "source_adapter_artifact_version": "0.6",
+  "bindings": [
+    {
+      "id": "auth-binding:auth-provider",
+      "version": "0.7.0",
+      "auth_ref": "auth:provider",
+      "auth_mode": "bearer",
+      "transport": "http",
+      "adapter_ids": [
+        "adapter:customer_create",
+        "adapter:customer_get",
+        "adapter:customer_list",
+        "adapter:file_upload"
+      ],
+      "tool_ids": [
+        "tool:customer_create",
+        "tool:customer_get",
+        "tool:customer_list",
+        "tool:file_upload"
+      ],
+      "required_scopes": [],
+      "optional_scopes": [],
+      "tenant_resolution": "required",
+      "binding_dimensions": [
+        "client",
+        "provider",
+        "provider_account",
+        "scope_set",
+        "subject",
+        "workspace"
+      ],
+      "token_passthrough": false,
+      "audience": {
+        "validation_required": true,
+        "canonical_resource_uri": "http://127.0.0.1:9797",
+        "authorization_server": null,
+        "pkce_required": false
+      },
+      "injection": {
+        "strategy": "bearer_token",
+        "location": "header",
+        "name": "Authorization",
+        "prefix": "Bearer",
+        "signing_algorithm": null,
+        "secret_material_allowed_in_artifact": false
+      },
+      "revision": "ec2ff4d6bd3c45b6b396f651823cab06aadf5c4ff4cfb9ce4990773ecb43c3cb",
+      "integrity": {
+        "algorithm": "sha256",
+        "digest": "ec2ff4d6bd3c45b6b396f651823cab06aadf5c4ff4cfb9ce4990773ecb43c3cb"
+      }
+    }
+  ],
+  "summary": {
+    "binding_count": 1,
+    "referenced_auth_count": 1,
+    "oauth_binding_count": 0,
+    "api_key_binding_count": 0,
+    "host_managed_binding_count": 0,
+    "unreferenced_auth_count": 0
+  },
+  "warnings": [],
+  "integrity": {
+    "algorithm": "sha256",
+    "digest": "e3b613550eb6ddf0b8a10651d07dc0f570abfb6cde51051e255c02fa9d9f1148"
+  }
+}

@@ -1,0 +1,59 @@
+{
+  "artifact_type": "provider_execution_plan",
+  "artifact_version": "0.6",
+  "dry_run": true,
+  "adapter_id": "adapter:customer_create",
+  "adapter_revision": "1ede4fcf0b3220001321291ded2e7617c70c4e935cf556441f0e2b5213f7dc68",
+  "tool_id": "tool:customer_create",
+  "tool_revision": "1da35b60758705a55983f4c3c21c05d31dfe2396f4019214578b4a4b8b134817",
+  "arguments_hash": "33673c17f6e16e9e7b86a9706d2eb46c3d04b84f51d68787dfcb80843ac3994d",
+  "credential_requirement": {
+    "auth_ref": null,
+    "required_scopes": [],
+    "secret_material_included": false
+  },
+  "request": {
+    "method": "POST",
+    "url": "https://api.example.test/v1/customers",
+    "path": "/customers",
+    "query": [],
+    "headers": [
+      {
+        "name": "Content-Type",
+        "value": "application/json"
+      },
+      {
+        "name": "Idempotency-Key",
+        "value": "dryrun_d3b49ba4c362f8f142245dd52dd79e5b"
+      }
+    ],
+    "body": {
+      "content_type": "application/json",
+      "encoding": "json",
+      "value": {
+        "email": "ada@example.test",
+        "name": "Ada Lovelace"
+      }
+    }
+  },
+  "idempotency": {
+    "mode": "required",
+    "header_name": "Idempotency-Key",
+    "key_source": "dry_run_generated",
+    "key": "dryrun_d3b49ba4c362f8f142245dd52dd79e5b"
+  },
+  "response_plan": {
+    "success_statuses": [
+      "201"
+    ],
+    "error_statuses": [
+      "422"
+    ],
+    "other_statuses": []
+  },
+  "warnings": [],
+  "integrity": {
+    "algorithm": "sha256",
+    "digest": "35d6b4fde65d93fa53eadb2d254bcc3ceb6c266eec4b7b6410dc4e398babb2ff"
+  }
+}

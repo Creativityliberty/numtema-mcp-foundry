@@ -1,0 +1,54 @@
+{
+  "artifact_type": "provider_execution_plan",
+  "artifact_version": "0.6",
+  "dry_run": true,
+  "adapter_id": "adapter-payment-refund",
+  "adapter_revision": "adapter-rev-1",
+  "tool_id": "tool-payment-refund",
+  "tool_revision": "tool-rev-1",
+  "arguments_hash": "args-hash-refund-25",
+  "credential_requirement": {
+    "auth_ref": "auth-provider",
+    "required_scopes": [
+      "payment:refund"
+    ],
+    "secret_material_included": false
+  },
+  "request": {
+    "method": "POST",
+    "url": "https://api.example.test/payments/pay-1/refund",
+    "path": "/payments/pay-1/refund",
+    "query": [],
+    "headers": [],
+    "body": {
+      "content_type": "application/json",
+      "encoding": "json",
+      "value": {
+        "amount": 25,
+        "currency": "EUR"
+      }
+    }
+  },
+  "idempotency": {
+    "mode": "required",
+    "header_name": "Idempotency-Key",
+    "key_source": "provided",
+    "key": "operation-123"
+  },
+  "response_plan": {
+    "success_statuses": [
+      "200"
+    ],
+    "error_statuses": [
+      "400",
+      "401",
+      "409"
+    ],
+    "other_statuses": []
+  },
+  "warnings": [],
+  "integrity": {
+    "algorithm": "sha256",
+    "digest": "6df8adf31c2eeccb433eb65fdda4c1ffd14ca48dd07dbb457ec5432c2fbb0b3d"
+  }
+}

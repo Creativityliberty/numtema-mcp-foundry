@@ -1,0 +1,48 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://numtema.dev/schemas/foundry-doctor-report.schema.json",
+  "title": "FoundryDoctorReport",
+  "type": "object",
+  "required": ["artifact_type", "artifact_version", "healthy", "package", "runtime", "checks"],
+  "properties": {
+    "artifact_type": { "const": "foundry_doctor_report" },
+    "artifact_version": { "const": "0.8.1" },
+    "healthy": { "type": "boolean" },
+    "package": {
+      "type": "object",
+      "required": ["name", "version", "root"],
+      "properties": {
+        "name": { "const": "@numtema/mcp-foundry" },
+        "version": { "type": "string", "minLength": 1 },
+        "root": { "type": "string", "minLength": 1 }
+      },
+      "additionalProperties": false
+    },
+    "runtime": {
+      "type": "object",
+      "required": ["node", "minimum_node_major", "current_directory"],
+      "properties": {
+        "node": { "type": "string", "minLength": 1 },
+        "minimum_node_major": { "const": 22 },
+        "current_directory": { "type": "string", "minLength": 1 }
+      },
+      "additionalProperties": false
+    },
+    "checks": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": ["code", "label", "passed", "detail"],
+        "properties": {
+          "code": { "type": "string", "minLength": 1 },
+          "label": { "type": "string", "minLength": 1 },
+          "passed": { "type": "boolean" },
+          "detail": { "type": "string" }
+        },
+        "additionalProperties": false
+      }
+    }
+  },
+  "additionalProperties": false
+}

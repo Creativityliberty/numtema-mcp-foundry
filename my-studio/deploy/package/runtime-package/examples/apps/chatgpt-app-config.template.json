@@ -1,0 +1,33 @@
+{
+  "artifact_type": "chatgpt_app_config",
+  "artifact_version": "1.1",
+  "runtime_config": "./runtime-config.json",
+  "public_base_url": "https://mcp.example.com",
+  "server": {
+    "host": "0.0.0.0",
+    "port": 8788,
+    "mcp_path": "/mcp",
+    "allowed_origins": ["https://chatgpt.com"],
+    "require_mcp_headers": false
+  },
+  "oauth": {
+    "storage_directory": "./oauth-state",
+    "signing_key_id": "oauth-key",
+    "private_key_file": "./oauth-private.pem",
+    "public_key_file": "./oauth-public.pem",
+    "scopes_supported": ["mcp:tools", "mcp:resources", "mcp:approve", "offline_access", "customer:read"],
+    "baseline_scopes": ["mcp:tools"],
+    "access_token_ttl_seconds": 900,
+    "refresh_token_ttl_seconds": 2592000,
+    "authorization_code_ttl_seconds": 300,
+    "allow_dynamic_client_registration": true,
+    "users": [],
+    "workspaces": [],
+    "clients": []
+  },
+  "approvals": {
+    "storage_directory": "./approval-state",
+    "signing_key_id": "approval-key",
+    "private_key_file": "./approval-private.pem"
+  }
+}

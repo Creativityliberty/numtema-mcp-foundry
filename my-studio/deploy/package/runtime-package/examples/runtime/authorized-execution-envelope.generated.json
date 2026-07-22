@@ -1,0 +1,334 @@
+{
+  "artifact_type": "authorized_execution_envelope",
+  "artifact_version": "0.8",
+  "dry_run": true,
+  "network_executed": false,
+  "dispatch_permitted": true,
+  "authorization_id": "authz_b3d6e0f0d004257fcdfdec05441fb8de",
+  "execution_nonce": "dispatch_9b0f9559639c0b5aba3fd76b205fc3f5",
+  "authorized_at": "2026-07-22T16:01:00Z",
+  "expires_at": "2026-07-22T16:05:00Z",
+  "binding": {
+    "tool_id": "tool-payment-refund",
+    "tool_revision": "tool-rev-1",
+    "adapter_id": "adapter-payment-refund",
+    "adapter_revision": "adapter-rev-1",
+    "arguments_hash": "args-hash-refund-25",
+    "context_hash": "context-hash-subject-1-client-1-workspace-1",
+    "subject_ref": "subject-1",
+    "client_ref": "client-1",
+    "workspace_ref": "workspace-1"
+  },
+  "risk_class": "R4",
+  "policy": {
+    "policy_ref": "policy-payment-refund",
+    "decision": "allow",
+    "digest": "f18010c01d0c32bd51142ba79e1eb99f53aba2ad8755d1fedacbb38d2a4205ea",
+    "signature_key_id": "policy-key-1"
+  },
+  "approval": {
+    "required": true,
+    "approval_ref": "approval-payment-refund",
+    "mode": "secure_widget",
+    "nonce": "approval-nonce-runtime-example-1",
+    "digest": "28c906c800f5de765320de706eb298fc17715beadc3808cd82b79623b6870970",
+    "signature_key_id": "approval-key-1"
+  },
+  "budget": {
+    "required": true,
+    "budget_ref": "budget-workspace-1",
+    "currency": "EUR",
+    "estimated_amount": 25,
+    "max_authorized_amount": 50,
+    "remaining_before": 100,
+    "digest": "789d9034a33bd667fe787a3a0b8a1ff36eee3d63b66c1f425a1e673fb60753e3",
+    "signature_key_id": "budget-key-1"
+  },
+  "execution_plan": {
+    "artifact_type": "provider_execution_plan",
+    "artifact_version": "0.6",
+    "dry_run": true,
+    "adapter_id": "adapter-payment-refund",
+    "adapter_revision": "adapter-rev-1",
+    "tool_id": "tool-payment-refund",
+    "tool_revision": "tool-rev-1",
+    "arguments_hash": "args-hash-refund-25",
+    "credential_requirement": {
+      "auth_ref": "auth-provider",
+      "required_scopes": [
+        "payment:refund"
+      ],
+      "secret_material_included": false
+    },
+    "request": {
+      "method": "POST",
+      "url": "https://api.example.test/payments/pay-1/refund",
+      "path": "/payments/pay-1/refund",
+      "query": [],
+      "headers": [],
+      "body": {
+        "content_type": "application/json",
+        "encoding": "json",
+        "value": {
+          "amount": 25,
+          "currency": "EUR"
+        }
+      }
+    },
+    "idempotency": {
+      "mode": "required",
+      "header_name": "Idempotency-Key",
+      "key_source": "provided",
+      "key": "operation-123"
+    },
+    "response_plan": {
+      "success_statuses": [
+        "200"
+      ],
+      "error_statuses": [
+        "400",
+        "401",
+        "409"
+      ],
+      "other_statuses": []
+    },
+    "warnings": [],
+    "integrity": {
+      "algorithm": "sha256",
+      "digest": "6df8adf31c2eeccb433eb65fdda4c1ffd14ca48dd07dbb457ec5432c2fbb0b3d"
+    }
+  },
+  "credential_plan": {
+    "artifact_type": "credential_resolution_plan",
+    "artifact_version": "0.7",
+    "dry_run": true,
+    "binding_id": "auth-binding-1",
+    "binding_revision": "auth-binding-rev-1",
+    "adapter_id": "adapter-payment-refund",
+    "adapter_revision": "adapter-rev-1",
+    "tool_id": "tool-payment-refund",
+    "tool_revision": "tool-rev-1",
+    "context_hash": "context-hash-subject-1-client-1-workspace-1",
+    "selected_credential": {
+      "account_id": "account-1",
+      "credential_handle": "credential-handle-1",
+      "provider_account_ref": "provider-account-1",
+      "mode": "oauth2_1",
+      "secret_locator_included": false,
+      "secret_material_included": false
+    },
+    "checks": [],
+    "scope_check": {
+      "required": [
+        "payment:refund"
+      ],
+      "granted": [
+        "payment:refund"
+      ],
+      "missing": []
+    },
+    "audience_check": {
+      "required": true,
+      "expected": "https://api.example.test",
+      "matched": true
+    },
+    "tenant_check": {
+      "required_dimensions": [
+        "subject",
+        "client",
+        "workspace"
+      ],
+      "matched": true
+    },
+    "injection_envelope": {
+      "strategy": "bearer_token",
+      "location": "header",
+      "name": "Authorization",
+      "prefix": "Bearer",
+      "signing_algorithm": null,
+      "credential_handle": "credential-handle-1",
+      "secret_material_included": false
+    },
+    "ready": true,
+    "warnings": [],
+    "errors": [],
+    "integrity": {
+      "algorithm": "sha256",
+      "digest": "163251706bfe87f83f874b7b3670446d4b2bb92b87a7f4f896feb1238d402af1"
+    }
+  },
+  "checks": [
+    {
+      "code": "EXECUTION_PLAN_INTEGRITY",
+      "status": "pass",
+      "message": "execution plan integrity is valid."
+    },
+    {
+      "code": "CREDENTIAL_PLAN_INTEGRITY",
+      "status": "pass",
+      "message": "credential plan integrity is valid."
+    },
+    {
+      "code": "EXECUTION_PLAN_DRY_RUN",
+      "status": "pass",
+      "message": "Provider execution plan is a dry-run plan."
+    },
+    {
+      "code": "CREDENTIAL_PLAN_DRY_RUN",
+      "status": "pass",
+      "message": "Credential plan is a dry-run plan."
+    },
+    {
+      "code": "CREDENTIAL_PLAN_READY",
+      "status": "pass",
+      "message": "Credential resolution plan is ready."
+    },
+    {
+      "code": "CREDENTIAL_REDACTION",
+      "status": "pass",
+      "message": "Credential artifacts contain handles only."
+    },
+    {
+      "code": "PLAN_BINDING_MATCH",
+      "status": "pass",
+      "message": "Execution and credential plans target the same tool and adapter revisions."
+    },
+    {
+      "code": "POLICY_SIGNATURE",
+      "status": "pass",
+      "message": "policy artifact integrity and signature are valid."
+    },
+    {
+      "code": "POLICY_BINDING_MATCH",
+      "status": "pass",
+      "message": "Policy decision binds the exact execution."
+    },
+    {
+      "code": "POLICY_ALLOW",
+      "status": "pass",
+      "message": "Policy permits the exact execution."
+    },
+    {
+      "code": "POLICY_TIME_FORMAT",
+      "status": "pass",
+      "message": "policy time window is valid."
+    },
+    {
+      "code": "POLICY_ACTIVE",
+      "status": "pass",
+      "message": "policy artifact is active."
+    },
+    {
+      "code": "POLICY_NOT_EXPIRED",
+      "status": "pass",
+      "message": "policy artifact has not expired."
+    },
+    {
+      "code": "APPROVAL_SIGNATURE",
+      "status": "pass",
+      "message": "approval artifact integrity and signature are valid."
+    },
+    {
+      "code": "APPROVAL_STATE",
+      "status": "pass",
+      "message": "Approval is approved, single-use, and nonce-bound."
+    },
+    {
+      "code": "APPROVAL_CONTRACT_MATCH",
+      "status": "pass",
+      "message": "Approval proof matches the required contract and mode."
+    },
+    {
+      "code": "APPROVAL_BINDING_MATCH",
+      "status": "pass",
+      "message": "Approval proof binds the exact tenant and execution."
+    },
+    {
+      "code": "APPROVAL_RISK_MATCH",
+      "status": "pass",
+      "message": "Approval proof binds the required risk summary."
+    },
+    {
+      "code": "APPROVAL_COST_MATCH",
+      "status": "pass",
+      "message": "Approval proof binds the required cost summary."
+    },
+    {
+      "code": "APPROVAL_TIME_FORMAT",
+      "status": "pass",
+      "message": "approval time window is valid."
+    },
+    {
+      "code": "APPROVAL_ACTIVE",
+      "status": "pass",
+      "message": "approval artifact is active."
+    },
+    {
+      "code": "APPROVAL_NOT_EXPIRED",
+      "status": "pass",
+      "message": "approval artifact has not expired."
+    },
+    {
+      "code": "BUDGET_SIGNATURE",
+      "status": "pass",
+      "message": "budget artifact integrity and signature are valid."
+    },
+    {
+      "code": "BUDGET_APPROVED",
+      "status": "pass",
+      "message": "Budget authorization is approved."
+    },
+    {
+      "code": "BUDGET_BINDING_MATCH",
+      "status": "pass",
+      "message": "Budget authorization binds the exact tenant and execution."
+    },
+    {
+      "code": "BUDGET_COST_MATCH",
+      "status": "pass",
+      "message": "Budget authorization binds the exact cost summary."
+    },
+    {
+      "code": "BUDGET_LIMIT",
+      "status": "pass",
+      "message": "Estimated cost is within authorized and remaining limits."
+    },
+    {
+      "code": "BUDGET_TIME_FORMAT",
+      "status": "pass",
+      "message": "budget time window is valid."
+    },
+    {
+      "code": "BUDGET_ACTIVE",
+      "status": "pass",
+      "message": "budget artifact is active."
+    },
+    {
+      "code": "BUDGET_NOT_EXPIRED",
+      "status": "pass",
+      "message": "budget artifact has not expired."
+    },
+    {
+      "code": "SECRET_SCAN",
+      "status": "pass",
+      "message": "No secret-like material was detected in runtime plans."
+    }
+  ],
+  "warnings": [],
+  "errors": [],
+  "redaction": {
+    "secret_material_included": false,
+    "credential_handle_only": true
+  },
+  "source_digests": {
+    "execution_plan": "6df8adf31c2eeccb433eb65fdda4c1ffd14ca48dd07dbb457ec5432c2fbb0b3d",
+    "credential_plan": "163251706bfe87f83f874b7b3670446d4b2bb92b87a7f4f896feb1238d402af1",
+    "policy": "f18010c01d0c32bd51142ba79e1eb99f53aba2ad8755d1fedacbb38d2a4205ea",
+    "approval": "28c906c800f5de765320de706eb298fc17715beadc3808cd82b79623b6870970",
+    "budget": "789d9034a33bd667fe787a3a0b8a1ff36eee3d63b66c1f425a1e673fb60753e3"
+  },
+  "integrity": {
+    "algorithm": "sha256",
+    "digest": "1a0d8f24690f2fc7536d1fdaf61a1e37fd5fdb05c06be0077cfbb6ca83da8881"
+  }
+}
