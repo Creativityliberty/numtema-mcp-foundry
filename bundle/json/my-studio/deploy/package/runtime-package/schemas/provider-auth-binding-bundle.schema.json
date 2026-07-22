@@ -1,0 +1,65 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.numtema.dev/foundry/provider-auth-binding-bundle.schema.json",
+  "title": "ProviderAuthBindingBundle",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["artifact_type", "artifact_version", "source_bundle_version", "source_adapter_artifact_version", "bindings", "summary", "warnings", "integrity"],
+  "properties": {
+    "artifact_type": {"const": "provider_auth_binding_bundle"},
+    "artifact_version": {"const": "0.7"},
+    "source_bundle_version": {"type": "string"},
+    "source_adapter_artifact_version": {"type": "string"},
+    "bindings": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["id", "version", "revision", "auth_ref", "auth_mode", "transport", "adapter_ids", "tool_ids", "required_scopes", "optional_scopes", "tenant_resolution", "binding_dimensions", "token_passthrough", "audience", "injection", "integrity"],
+        "properties": {
+          "id": {"type": "string", "minLength": 1},
+          "version": {"const": "0.7.0"},
+          "revision": {"type": "string", "minLength": 1},
+          "auth_ref": {"type": "string", "minLength": 1},
+          "auth_mode": {"enum": ["none", "api_key", "bearer", "basic", "hmac", "oauth2_1", "host_managed"]},
+          "transport": {"enum": ["http", "stdio", "other"]},
+          "adapter_ids": {"type": "array", "items": {"type": "string"}, "uniqueItems": true},
+          "tool_ids": {"type": "array", "items": {"type": "string"}, "uniqueItems": true},
+          "required_scopes": {"type": "array", "items": {"type": "string"}, "uniqueItems": true},
+          "optional_scopes": {"type": "array", "items": {"type": "string"}, "uniqueItems": true},
+          "tenant_resolution": {"enum": ["none", "optional", "required"]},
+          "binding_dimensions": {"type": "array", "items": {"enum": ["subject", "client", "workspace", "provider", "provider_account", "scope_set"]}, "uniqueItems": true},
+          "token_passthrough": {"const": false},
+          "audience": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["validation_required", "canonical_resource_uri", "authorization_server", "pkce_required"],
+            "properties": {
+              "validation_required": {"type": "boolean"},
+              "canonical_resource_uri": {"type": ["string", "null"]},
+              "authorization_server": {"type": ["string", "null"]},
+              "pkce_required": {"type": "boolean"}
+            }
+          },
+          "injection": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["strategy", "location", "name", "prefix", "signing_algorithm", "secret_material_allowed_in_artifact"],
+            "properties": {
+              "strategy": {"enum": ["none", "bearer_token", "api_key", "basic_auth", "hmac_signature", "host_managed"]},
+              "location": {"enum": ["header", "query", "cookie", "runtime"]},
+              "name": {"type": ["string", "null"]},
+              "prefix": {"type": ["string", "null"]},
+              "signing_algorithm": {"type": ["string", "null"]},
+              "secret_material_allowed_in_artifact": {"const": false}
+            }
+          },
+          "integrity": {"type": "object", "required": ["algorithm", "digest"], "properties": {"algorithm": {"const": "sha256"}, "digest": {"type": "string"}}}
+        }
+      }
+    },
+    "summary": {"type": "object"},
+    "warnings": {"type": "array"},
+    "integrity": {"type": "object", "required": ["algorithm", "digest"], "properties": {"algorithm": {"const": "sha256"}, "digest": {"type": "string"}}}
+  }
+}

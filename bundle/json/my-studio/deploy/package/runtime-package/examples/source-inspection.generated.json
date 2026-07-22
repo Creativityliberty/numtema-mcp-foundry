@@ -1,0 +1,591 @@
+{
+  "artifact_type": "source_inspection",
+  "artifact_version": "0.3",
+  "source": {
+    "ref": "examples/openapi-reference.json",
+    "kind": "openapi",
+    "openapi_version": "3.1.0",
+    "title": "Commerce Operations API",
+    "version": "1.4.0",
+    "servers": [
+      "https://api.example.test/v1"
+    ]
+  },
+  "summary": {
+    "operation_count": 8,
+    "security_scheme_count": 1,
+    "authenticated_operation_count": 8,
+    "asynchronous_operation_count": 3,
+    "high_signal_operation_count": 3,
+    "domains": [
+      "Assets",
+      "Customers",
+      "Messaging",
+      "Payments",
+      "Rendering",
+      "Security"
+    ]
+  },
+  "security_schemes": [
+    {
+      "name": "oauth",
+      "type": "oauth2",
+      "scopes": [
+        "customers:read",
+        "customers:write",
+        "payments:refund"
+      ]
+    }
+  ],
+  "operations": [
+    {
+      "operation_id": "deleteApiKey",
+      "method": "delete",
+      "path": "/api-keys/{keyId}",
+      "summary": "Revoke an API credential",
+      "tags": [
+        "Security"
+      ],
+      "domain": "Security",
+      "parameters": [
+        {
+          "name": "keyId",
+          "location": "path",
+          "required": true
+        }
+      ],
+      "request_content_types": [],
+      "response_statuses": [
+        "204"
+      ],
+      "response_content_types": [],
+      "auth": {
+        "required": true,
+        "inherited": true,
+        "schemes": [
+          "oauth"
+        ],
+        "required_scopes": [
+          "customers:read"
+        ]
+      },
+      "pagination": {
+        "detected": false,
+        "style": "none",
+        "parameters": []
+      },
+      "signals": {
+        "read_only": false,
+        "writes": true,
+        "destructive": true,
+        "financial": false,
+        "external_communication": false,
+        "credential_change": true,
+        "personal_data": false,
+        "asynchronous": false,
+        "callback_or_webhook": false,
+        "upload": false,
+        "download": false
+      },
+      "evidence": [
+        {
+          "code": "WRITE_HTTP_METHOD",
+          "message": "DELETE implies server-side effects.",
+          "source": "http_method"
+        },
+        {
+          "code": "DESTRUCTIVE_SIGNAL",
+          "message": "Method or metadata indicates destructive behavior.",
+          "source": "http_method"
+        },
+        {
+          "code": "CREDENTIAL_SIGNAL",
+          "message": "Operation metadata references credentials or authorization state.",
+          "source": "operation_metadata"
+        },
+        {
+          "code": "AUTH_REQUIRED",
+          "message": "Security schemes required: oauth.",
+          "source": "security"
+        }
+      ]
+    },
+    {
+      "operation_id": "uploadAsset",
+      "method": "post",
+      "path": "/assets/upload",
+      "summary": "Upload a media asset",
+      "tags": [
+        "Assets"
+      ],
+      "domain": "Assets",
+      "parameters": [],
+      "request_content_types": [
+        "multipart/form-data"
+      ],
+      "response_statuses": [
+        "201"
+      ],
+      "response_content_types": [],
+      "auth": {
+        "required": true,
+        "inherited": true,
+        "schemes": [
+          "oauth"
+        ],
+        "required_scopes": [
+          "customers:read"
+        ]
+      },
+      "pagination": {
+        "detected": false,
+        "style": "none",
+        "parameters": []
+      },
+      "signals": {
+        "read_only": false,
+        "writes": true,
+        "destructive": false,
+        "financial": false,
+        "external_communication": false,
+        "credential_change": false,
+        "personal_data": false,
+        "asynchronous": false,
+        "callback_or_webhook": false,
+        "upload": true,
+        "download": false
+      },
+      "evidence": [
+        {
+          "code": "WRITE_HTTP_METHOD",
+          "message": "POST implies server-side effects.",
+          "source": "http_method"
+        },
+        {
+          "code": "UPLOAD_SIGNAL",
+          "message": "Request media type or operation metadata indicates upload.",
+          "source": "request_body"
+        },
+        {
+          "code": "AUTH_REQUIRED",
+          "message": "Security schemes required: oauth.",
+          "source": "security"
+        }
+      ]
+    },
+    {
+      "operation_id": "listCustomers",
+      "method": "get",
+      "path": "/customers",
+      "summary": "List customer profiles",
+      "tags": [
+        "Customers"
+      ],
+      "domain": "Customers",
+      "parameters": [
+        {
+          "name": "cursor",
+          "location": "query",
+          "required": false
+        },
+        {
+          "name": "limit",
+          "location": "query",
+          "required": false
+        }
+      ],
+      "request_content_types": [],
+      "response_statuses": [
+        "200"
+      ],
+      "response_content_types": [],
+      "auth": {
+        "required": true,
+        "inherited": true,
+        "schemes": [
+          "oauth"
+        ],
+        "required_scopes": [
+          "customers:read"
+        ]
+      },
+      "pagination": {
+        "detected": true,
+        "style": "cursor",
+        "parameters": [
+          "cursor",
+          "limit"
+        ]
+      },
+      "signals": {
+        "read_only": true,
+        "writes": false,
+        "destructive": false,
+        "financial": false,
+        "external_communication": false,
+        "credential_change": false,
+        "personal_data": true,
+        "asynchronous": false,
+        "callback_or_webhook": false,
+        "upload": false,
+        "download": false
+      },
+      "evidence": [
+        {
+          "code": "READ_HTTP_METHOD",
+          "message": "GET implies a read-oriented operation.",
+          "source": "http_method"
+        },
+        {
+          "code": "PERSONAL_DATA_SIGNAL",
+          "message": "Operation metadata references a person or personal profile.",
+          "source": "operation_metadata"
+        },
+        {
+          "code": "AUTH_REQUIRED",
+          "message": "Security schemes required: oauth.",
+          "source": "security"
+        },
+        {
+          "code": "PAGINATION_SIGNAL",
+          "message": "Pagination parameters detected: cursor, limit.",
+          "source": "parameter"
+        }
+      ]
+    },
+    {
+      "operation_id": "createCustomer",
+      "method": "post",
+      "path": "/customers",
+      "summary": "Create a customer profile",
+      "tags": [
+        "Customers"
+      ],
+      "domain": "Customers",
+      "parameters": [],
+      "request_content_types": [
+        "application/json"
+      ],
+      "response_statuses": [
+        "201"
+      ],
+      "response_content_types": [],
+      "auth": {
+        "required": true,
+        "inherited": false,
+        "schemes": [
+          "oauth"
+        ],
+        "required_scopes": [
+          "customers:write"
+        ]
+      },
+      "pagination": {
+        "detected": false,
+        "style": "none",
+        "parameters": []
+      },
+      "signals": {
+        "read_only": false,
+        "writes": true,
+        "destructive": false,
+        "financial": false,
+        "external_communication": false,
+        "credential_change": false,
+        "personal_data": true,
+        "asynchronous": false,
+        "callback_or_webhook": false,
+        "upload": false,
+        "download": false
+      },
+      "evidence": [
+        {
+          "code": "WRITE_HTTP_METHOD",
+          "message": "POST implies server-side effects.",
+          "source": "http_method"
+        },
+        {
+          "code": "PERSONAL_DATA_SIGNAL",
+          "message": "Operation metadata references a person or personal profile.",
+          "source": "operation_metadata"
+        },
+        {
+          "code": "AUTH_REQUIRED",
+          "message": "Security schemes required: oauth.",
+          "source": "security"
+        }
+      ]
+    },
+    {
+      "operation_id": "sendEmailMessage",
+      "method": "post",
+      "path": "/messages/email",
+      "summary": "Send an email notification",
+      "tags": [
+        "Messaging"
+      ],
+      "domain": "Messaging",
+      "parameters": [],
+      "request_content_types": [],
+      "response_statuses": [
+        "200"
+      ],
+      "response_content_types": [],
+      "auth": {
+        "required": true,
+        "inherited": true,
+        "schemes": [
+          "oauth"
+        ],
+        "required_scopes": [
+          "customers:read"
+        ]
+      },
+      "pagination": {
+        "detected": false,
+        "style": "none",
+        "parameters": []
+      },
+      "signals": {
+        "read_only": false,
+        "writes": true,
+        "destructive": false,
+        "financial": false,
+        "external_communication": true,
+        "credential_change": false,
+        "personal_data": false,
+        "asynchronous": false,
+        "callback_or_webhook": false,
+        "upload": false,
+        "download": false
+      },
+      "evidence": [
+        {
+          "code": "WRITE_HTTP_METHOD",
+          "message": "POST implies server-side effects.",
+          "source": "http_method"
+        },
+        {
+          "code": "EXTERNAL_COMMUNICATION_SIGNAL",
+          "message": "Operation metadata indicates outbound communication or publication.",
+          "source": "operation_metadata"
+        },
+        {
+          "code": "AUTH_REQUIRED",
+          "message": "Security schemes required: oauth.",
+          "source": "security"
+        }
+      ]
+    },
+    {
+      "operation_id": "refundPayment",
+      "method": "post",
+      "path": "/payments/{paymentId}/refund",
+      "summary": "Refund a completed payment",
+      "tags": [
+        "Payments"
+      ],
+      "domain": "Payments",
+      "parameters": [
+        {
+          "name": "paymentId",
+          "location": "path",
+          "required": true
+        }
+      ],
+      "request_content_types": [],
+      "response_statuses": [
+        "202"
+      ],
+      "response_content_types": [],
+      "auth": {
+        "required": true,
+        "inherited": false,
+        "schemes": [
+          "oauth"
+        ],
+        "required_scopes": [
+          "payments:refund"
+        ]
+      },
+      "pagination": {
+        "detected": false,
+        "style": "none",
+        "parameters": []
+      },
+      "signals": {
+        "read_only": false,
+        "writes": true,
+        "destructive": false,
+        "financial": true,
+        "external_communication": false,
+        "credential_change": false,
+        "personal_data": false,
+        "asynchronous": true,
+        "callback_or_webhook": true,
+        "upload": false,
+        "download": false
+      },
+      "evidence": [
+        {
+          "code": "WRITE_HTTP_METHOD",
+          "message": "POST implies server-side effects.",
+          "source": "http_method"
+        },
+        {
+          "code": "FINANCIAL_SIGNAL",
+          "message": "Operation metadata contains a financial action or resource.",
+          "source": "operation_metadata"
+        },
+        {
+          "code": "CALLBACK_SIGNAL",
+          "message": "Callbacks or webhooks are declared.",
+          "source": "callback"
+        },
+        {
+          "code": "ASYNC_SIGNAL",
+          "message": "Response codes, callbacks, or metadata indicate asynchronous execution.",
+          "source": "response"
+        },
+        {
+          "code": "AUTH_REQUIRED",
+          "message": "Security schemes required: oauth.",
+          "source": "security"
+        }
+      ]
+    },
+    {
+      "operation_id": "createRender",
+      "method": "post",
+      "path": "/renders",
+      "summary": "Generate a render job",
+      "tags": [
+        "Rendering"
+      ],
+      "domain": "Rendering",
+      "parameters": [],
+      "request_content_types": [],
+      "response_statuses": [
+        "202"
+      ],
+      "response_content_types": [],
+      "auth": {
+        "required": true,
+        "inherited": true,
+        "schemes": [
+          "oauth"
+        ],
+        "required_scopes": [
+          "customers:read"
+        ]
+      },
+      "pagination": {
+        "detected": false,
+        "style": "none",
+        "parameters": []
+      },
+      "signals": {
+        "read_only": false,
+        "writes": true,
+        "destructive": false,
+        "financial": false,
+        "external_communication": false,
+        "credential_change": false,
+        "personal_data": false,
+        "asynchronous": true,
+        "callback_or_webhook": false,
+        "upload": false,
+        "download": false
+      },
+      "evidence": [
+        {
+          "code": "WRITE_HTTP_METHOD",
+          "message": "POST implies server-side effects.",
+          "source": "http_method"
+        },
+        {
+          "code": "ASYNC_SIGNAL",
+          "message": "Response codes, callbacks, or metadata indicate asynchronous execution.",
+          "source": "response"
+        },
+        {
+          "code": "AUTH_REQUIRED",
+          "message": "Security schemes required: oauth.",
+          "source": "security"
+        }
+      ]
+    },
+    {
+      "operation_id": "getRenderStatus",
+      "method": "get",
+      "path": "/renders/{renderId}",
+      "summary": "Get render job status",
+      "tags": [
+        "Rendering"
+      ],
+      "domain": "Rendering",
+      "parameters": [
+        {
+          "name": "renderId",
+          "location": "path",
+          "required": true
+        }
+      ],
+      "request_content_types": [],
+      "response_statuses": [
+        "200"
+      ],
+      "response_content_types": [],
+      "auth": {
+        "required": true,
+        "inherited": true,
+        "schemes": [
+          "oauth"
+        ],
+        "required_scopes": [
+          "customers:read"
+        ]
+      },
+      "pagination": {
+        "detected": false,
+        "style": "none",
+        "parameters": []
+      },
+      "signals": {
+        "read_only": true,
+        "writes": false,
+        "destructive": false,
+        "financial": false,
+        "external_communication": false,
+        "credential_change": false,
+        "personal_data": false,
+        "asynchronous": true,
+        "callback_or_webhook": false,
+        "upload": false,
+        "download": false
+      },
+      "evidence": [
+        {
+          "code": "READ_HTTP_METHOD",
+          "message": "GET implies a read-oriented operation.",
+          "source": "http_method"
+        },
+        {
+          "code": "ASYNC_SIGNAL",
+          "message": "Response codes, callbacks, or metadata indicate asynchronous execution.",
+          "source": "operation_metadata"
+        },
+        {
+          "code": "AUTH_REQUIRED",
+          "message": "Security schemes required: oauth.",
+          "source": "security"
+        }
+      ]
+    }
+  ],
+  "limitations": [
+    "Remote and external $ref values are not resolved in Sprint 0.3.",
+    "Lexical signals are conservative suggestions and require human review before compilation.",
+    "Controlled YAML supports the Foundry YAML subset; JSON is canonical for full OpenAPI fidelity."
+  ]
+}

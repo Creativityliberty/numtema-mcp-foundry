@@ -1,0 +1,31 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.numtema.dev/foundry/recovery-contract.schema.json",
+  "title": "RecoveryContract",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["id", "version", "routes"],
+  "properties": {
+    "id": {"type": "string", "minLength": 1},
+    "version": {"type": "string", "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$"},
+    "routes": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["trigger", "next_capability", "human_interaction", "max_attempts", "allow_risk_increase", "allow_scope_increase", "allow_cost_increase"],
+        "properties": {
+          "trigger": {"type": "string", "minLength": 1},
+          "next_capability": {"type": "string", "minLength": 1},
+          "argument_mapping": {"type": "object", "additionalProperties": true},
+          "human_interaction": {"type": "boolean"},
+          "max_attempts": {"type": "integer", "minimum": 1, "maximum": 10},
+          "allow_risk_increase": {"const": false},
+          "allow_scope_increase": {"const": false},
+          "allow_cost_increase": {"const": false}
+        }
+      }
+    },
+    "extensions": {"type": "object", "additionalProperties": true}
+  }
+}

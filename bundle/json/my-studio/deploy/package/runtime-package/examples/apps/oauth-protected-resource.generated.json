@@ -1,0 +1,7 @@
+{
+  "resource": "https://mcp.example.com/mcp",
+  "authorization_servers": ["https://mcp.example.com"],
+  "scopes_supported": ["customer:read", "mcp:approve", "mcp:resources", "mcp:tools", "offline_access"],
+  "bearer_methods_supported": ["header"],
+  "resource_documentation": "https://mcp.example.com/docs"
+}

@@ -166,7 +166,7 @@ function sendJson(response, status, body, extra = {}) {
     return true;
 }
 function sendHtml(response, status, html) {
-    response.writeHead(status, { 'Content-Type': 'text/html; charset=utf-8', 'Content-Security-Policy': "default-src 'none'; style-src 'unsafe-inline'; form-action 'self'", 'X-Frame-Options': 'DENY', ...corsHeaders() });
+    response.writeHead(status, { 'Content-Type': 'text/html; charset=utf-8', 'Content-Security-Policy': "default-src 'none'; style-src 'unsafe-inline'; form-action 'self' https: http:", 'X-Frame-Options': 'DENY', ...corsHeaders() });
     response.end(html);
     return true;
 }

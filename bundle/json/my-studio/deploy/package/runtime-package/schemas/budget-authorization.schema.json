@@ -1,0 +1,157 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "BudgetAuthorization",
+  "type": "object",
+  "required": [
+    "artifact_type",
+    "artifact_version",
+    "budget_ref",
+    "approved",
+    "binding",
+    "currency",
+    "estimated_amount",
+    "max_authorized_amount",
+    "remaining_before",
+    "cost_summary_hash",
+    "issued_at",
+    "expires_at",
+    "integrity",
+    "signature"
+  ],
+  "properties": {
+    "artifact_type": {
+      "const": "budget_authorization"
+    },
+    "artifact_version": {
+      "const": "0.8"
+    },
+    "budget_ref": {
+      "type": "string",
+      "minLength": 1
+    },
+    "approved": {
+      "const": true
+    },
+    "binding": {
+      "type": "object",
+      "required": [
+        "tool_id",
+        "tool_revision",
+        "adapter_id",
+        "adapter_revision",
+        "arguments_hash",
+        "context_hash",
+        "subject_ref",
+        "client_ref",
+        "workspace_ref"
+      ],
+      "properties": {
+        "tool_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "tool_revision": {
+          "type": "string",
+          "minLength": 1
+        },
+        "adapter_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "adapter_revision": {
+          "type": "string",
+          "minLength": 1
+        },
+        "arguments_hash": {
+          "type": "string",
+          "minLength": 1
+        },
+        "context_hash": {
+          "type": "string",
+          "minLength": 1
+        },
+        "subject_ref": {
+          "type": "string",
+          "minLength": 1
+        },
+        "client_ref": {
+          "type": "string",
+          "minLength": 1
+        },
+        "workspace_ref": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "additionalProperties": false
+    },
+    "currency": {
+      "type": "string",
+      "minLength": 1
+    },
+    "estimated_amount": {
+      "type": "number",
+      "minimum": 0
+    },
+    "max_authorized_amount": {
+      "type": "number",
+      "minimum": 0
+    },
+    "remaining_before": {
+      "type": "number",
+      "minimum": 0
+    },
+    "cost_summary_hash": {
+      "type": "string",
+      "minLength": 1
+    },
+    "issued_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "expires_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "integrity": {
+      "type": "object",
+      "required": [
+        "algorithm",
+        "digest"
+      ],
+      "properties": {
+        "algorithm": {
+          "const": "sha256"
+        },
+        "digest": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "additionalProperties": false
+    },
+    "signature": {
+      "type": "object",
+      "required": [
+        "algorithm",
+        "key_id",
+        "value"
+      ],
+      "properties": {
+        "algorithm": {
+          "const": "ed25519"
+        },
+        "key_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "value": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": false
+}

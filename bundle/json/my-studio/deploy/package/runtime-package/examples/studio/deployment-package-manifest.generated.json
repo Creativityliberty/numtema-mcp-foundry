@@ -1,8 +1,8 @@
 {
   "artifact_type": "deployment_package_manifest",
   "artifact_version": "1.2",
-  "project_name": "my-studio",
-  "generated_at": "2026-07-22T21:50:37.783Z",
+  "project_name": "ProcuFlow MCP Studio",
+  "generated_at": "2026-07-22T19:53:34.335Z",
   "source_digest": "ffdcff497d1c3bc54cc0967bd481e1da1ac3c4cd9275e76a1ea2c462da76acf0",
   "files": [
     {
@@ -12,8 +12,8 @@
     },
     {
       "path": "bootstrap.mjs",
-      "sha256": "94ff8d432be7ea2044c7ff98733be89bc269abaf3291878b0a380d52cb75c196",
-      "size_bytes": 3397
+      "sha256": "b9ec4d52e1a087da3383db4c749515139e7e41aa41271f44f194a4807ba58fff",
+      "size_bytes": 3408
     },
     {
       "path": "CHATGPT_CONNECT.md",
@@ -42,8 +42,8 @@
     },
     {
       "path": "README.md",
-      "sha256": "ebc7632a2997a1e97391d3f0aa90c71db30985d5495daabdb8f72945533ef1b1",
-      "size_bytes": 327
+      "sha256": "48135ba56f7a419b7078a9d46786ae0ad620ab6eeca2cc8c0f66f2f1e45c1edb",
+      "size_bytes": 338
     },
     {
       "path": "runtime-package/dist/src/adapters/provider-adapter-compiler.d.ts",
@@ -787,12 +787,12 @@
     },
     {
       "path": "runtime-package/dist/src/oauth/http-gateway.js",
-      "sha256": "bacf27ba04fa68be10b37b1a3933179643412bf9ae4ebec0d6192d8703b19bf6",
-      "size_bytes": 14413
+      "sha256": "76ada7e5c4eb6f622466106f9c9a09069e75f84fb4a845be664affe55848fe98",
+      "size_bytes": 14400
     },
     {
       "path": "runtime-package/dist/src/oauth/http-gateway.js.map",
-      "sha256": "ab58ddfc10037b6e978159e0737c4c6fe621bd216d09c84f3bc5372a36c847cc",
+      "sha256": "3b1fab223e7abcff994103b9f4533235fe05b3c386472fa94dedb2a97fa3f105",
       "size_bytes": 13342
     },
     {
@@ -997,13 +997,13 @@
     },
     {
       "path": "runtime-package/dist/src/studio/deployment-builder.js",
-      "sha256": "4ba9801a67f3dc8580310696af88ede54579913181d505a7e8ac95dd3adcd617",
-      "size_bytes": 13301
+      "sha256": "337d491d957d5ab9c4bfb9e7441bf4403a63bcc1a07dee9872453a274f4d4173",
+      "size_bytes": 12979
     },
     {
       "path": "runtime-package/dist/src/studio/deployment-builder.js.map",
-      "sha256": "7894f880e50eba35f71537a76f6cf352ae9649abbc367c521ca51e5c6a7cebc4",
-      "size_bytes": 7297
+      "sha256": "0bd57080d3a2fc3086307e44488f1fb3a13ce62c4fc78b9f8e8b249bb13dcaaf",
+      "size_bytes": 6978
     },
     {
       "path": "runtime-package/dist/src/studio/pipeline-service.d.ts",
@@ -1361,59 +1361,9 @@
       "size_bytes": 20707
     },
     {
-      "path": "runtime-package/examples/studio/deployment-package-manifest.generated.json",
-      "sha256": "9a1f321ff3de291269f574aafe214834edbdc2fa5008db726dc919f61932f48c",
-      "size_bytes": 60068
-    },
-    {
-      "path": "runtime-package/examples/studio/project/generated/capability-map.json",
-      "sha256": "cecd0152556f152b72001aeb223947b5b255bb33318f5c0e98b2e80ec9888a2d",
-      "size_bytes": 19526
-    },
-    {
-      "path": "runtime-package/examples/studio/project/generated/contract-bundle.json",
-      "sha256": "c11873e8993d6dc1bdc2f3cafb980db8b478e5bd0462206b06e6da8ed400d72c",
-      "size_bytes": 28515
-    },
-    {
-      "path": "runtime-package/examples/studio/project/generated/credential-catalog.json",
-      "sha256": "d8b72b573ce8803bffff5fdb0294c4b48515a89264f48a9054893c16e56fd7c3",
-      "size_bytes": 651
-    },
-    {
-      "path": "runtime-package/examples/studio/project/generated/provider-adapters.json",
-      "sha256": "2cbec0cca3ec694924a696ba886830ca2928b07944ef070cec3c5553a42fd2ab",
-      "size_bytes": 7315
-    },
-    {
-      "path": "runtime-package/examples/studio/project/generated/provider-auth-bindings.json",
-      "sha256": "d3ba1bcf07d10becd7c30c17f152cc74ae481663c6cb41bed97201906a5b8ef0",
-      "size_bytes": 1984
-    },
-    {
-      "path": "runtime-package/examples/studio/project/generated/source-inspection.json",
-      "sha256": "fc8f3526e026809737011eef49a9e9cf5d2cdc8acdb10d0deea80d04a3ad1090",
-      "size_bytes": 20698
-    },
-    {
-      "path": "runtime-package/examples/studio/project/overrides/tool-overrides.json",
-      "sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570",
-      "size_bytes": 3
-    },
-    {
-      "path": "runtime-package/examples/studio/project/source/openapi.json",
-      "sha256": "ffdcff497d1c3bc54cc0967bd481e1da1ac3c4cd9275e76a1ea2c462da76acf0",
-      "size_bytes": 4623
-    },
-    {
-      "path": "runtime-package/examples/studio/project/studio-project.json",
-      "sha256": "297500476368ca20eefe03e64d31c5f069b3c78457d414e8a5665aa8004d30f2",
-      "size_bytes": 1592
-    },
-    {
       "path": "runtime-package/package.json",
-      "sha256": "63250eacb6f6f3691de31819fe46289f2a98b71194d4706c5367aa35d1584ed9",
-      "size_bytes": 7051
+      "sha256": "f79e5f382f550a033358fea3fdcee4dd24dcdb73ed3a47eaa7050654587d3b79",
+      "size_bytes": 6697
     },
     {
       "path": "runtime-package/schemas/approval-contract.schema.json",

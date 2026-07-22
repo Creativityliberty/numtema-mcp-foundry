@@ -1,12 +1,12 @@
 {
   "artifact_type": "studio_project",
   "artifact_version": "1.2",
-  "name": "my-studio",
-  "created_at": "2026-07-22T21:22:32.628Z",
-  "updated_at": "2026-07-22T21:50:37.323Z",
+  "name": "ProcuFlow MCP Studio",
+  "created_at": "2026-07-22T19:53:33.987Z",
+  "updated_at": "2026-07-22T19:53:34.101Z",
   "source": {
     "file": "./source/openapi.json",
-    "imported_at": "2026-07-22T21:22:32.628Z",
+    "imported_at": "2026-07-22T19:53:33.987Z",
     "original_name": "openapi-schema-rich.json"
   },
   "provider": {
@@ -38,7 +38,7 @@
     "deployment_directory": "./deploy/package"
   },
   "last_build": {
-    "completed_at": "2026-07-22T21:50:37.323Z",
+    "completed_at": "2026-07-22T19:53:34.101Z",
     "tool_count": 4,
     "enabled_tool_count": 4,
     "risk_counts": {

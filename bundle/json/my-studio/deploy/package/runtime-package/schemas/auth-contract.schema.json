@@ -1,0 +1,35 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.numtema.dev/foundry/auth-contract.schema.json",
+  "title": "AuthContract",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["id", "version", "transport", "mode", "required_scopes", "tenant_resolution", "token_passthrough"],
+  "properties": {
+    "id": {"type": "string", "minLength": 1},
+    "version": {"type": "string", "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$"},
+    "transport": {"enum": ["http", "stdio", "other"]},
+    "mode": {"enum": ["none", "api_key", "bearer", "basic", "hmac", "oauth2_1", "host_managed"]},
+    "canonical_resource_uri": {"type": "string", "format": "uri"},
+    "authorization_server": {"type": "string", "format": "uri"},
+    "audience_validation": {"type": "boolean", "default": true},
+    "pkce_required": {"type": "boolean", "default": true},
+    "required_scopes": {"type": "array", "items": {"type": "string"}, "uniqueItems": true},
+    "optional_scopes": {"type": "array", "items": {"type": "string"}, "uniqueItems": true},
+    "step_up_authorization": {"type": "boolean", "default": true},
+    "tenant_resolution": {"enum": ["none", "optional", "required"]},
+    "credential_binding_dimensions": {
+      "type": "array",
+      "items": {"enum": ["subject", "client", "workspace", "provider", "provider_account", "scope_set"]},
+      "uniqueItems": true
+    },
+    "token_passthrough": {"const": false},
+    "extensions": {"type": "object", "additionalProperties": true}
+  },
+  "allOf": [
+    {
+      "if": {"properties": {"mode": {"const": "oauth2_1"}}},
+      "then": {"required": ["canonical_resource_uri", "authorization_server"]}
+    }
+  ]
+}

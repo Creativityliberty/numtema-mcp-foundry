@@ -143,7 +143,7 @@ function sendJson(response: ServerResponse, status: number, body: unknown, extra
   response.writeHead(status, { 'Content-Type': 'application/json; charset=utf-8', ...corsHeaders(), ...extra }); response.end(JSON.stringify(body)); return true;
 }
 function sendHtml(response: ServerResponse, status: number, html: string): boolean {
-  response.writeHead(status, { 'Content-Type': 'text/html; charset=utf-8', 'Content-Security-Policy': "default-src 'none'; style-src 'unsafe-inline'; form-action 'self'", 'X-Frame-Options': 'DENY', ...corsHeaders() }); response.end(html); return true;
+  response.writeHead(status, { 'Content-Type': 'text/html; charset=utf-8', 'Content-Security-Policy': "default-src 'none'; style-src 'unsafe-inline'; form-action 'self' https: http:", 'X-Frame-Options': 'DENY', ...corsHeaders() }); response.end(html); return true;
 }
 function corsHeaders(): Record<string, string> { return { 'Access-Control-Allow-Origin': '*', 'Access-Control-Allow-Headers': 'authorization, content-type', 'Access-Control-Allow-Methods': 'GET, POST, OPTIONS' }; }
 function cacheHeaders(): Record<string, string> { return { 'Cache-Control': 'public, max-age=300' }; }

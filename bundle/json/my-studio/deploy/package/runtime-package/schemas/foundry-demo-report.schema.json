@@ -1,0 +1,33 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://numtema.dev/schemas/foundry-demo-report.schema.json",
+  "title": "FoundryDemoReport",
+  "type": "object",
+  "required": ["artifact_type", "artifact_version", "valid", "network_executed", "secret_material_included", "source", "output_directory", "summary"],
+  "properties": {
+    "artifact_type": { "const": "foundry_demo_report" },
+    "artifact_version": { "const": "0.8.1" },
+    "valid": { "type": "boolean" },
+    "network_executed": { "const": false },
+    "secret_material_included": { "const": false },
+    "source": { "type": "string", "minLength": 1 },
+    "output_directory": { "type": ["string", "null"] },
+    "summary": {
+      "type": "object",
+      "required": ["operation_count", "capability_count", "tool_count", "policy_count", "approval_count", "recovery_count", "adapter_count", "error_count", "warning_count"],
+      "properties": {
+        "operation_count": { "type": "integer", "minimum": 0 },
+        "capability_count": { "type": "integer", "minimum": 0 },
+        "tool_count": { "type": "integer", "minimum": 0 },
+        "policy_count": { "type": "integer", "minimum": 0 },
+        "approval_count": { "type": "integer", "minimum": 0 },
+        "recovery_count": { "type": "integer", "minimum": 0 },
+        "adapter_count": { "type": "integer", "minimum": 0 },
+        "error_count": { "type": "integer", "minimum": 0 },
+        "warning_count": { "type": "integer", "minimum": 0 }
+      },
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": false
+}

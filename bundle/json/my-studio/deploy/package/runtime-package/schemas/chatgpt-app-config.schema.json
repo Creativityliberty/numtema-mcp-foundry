@@ -1,0 +1,60 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://numtema.dev/schemas/chatgpt-app-config.schema.json",
+  "title": "ChatGPTAppConfig",
+  "type": "object",
+  "required": ["artifact_type", "artifact_version", "runtime_config", "public_base_url", "server", "oauth", "approvals"],
+  "properties": {
+    "artifact_type": { "const": "chatgpt_app_config" },
+    "artifact_version": { "const": "1.1" },
+    "runtime_config": { "type": "string", "minLength": 1 },
+    "public_base_url": { "type": "string", "format": "uri" },
+    "server": {
+      "type": "object",
+      "required": ["host", "port", "mcp_path", "allowed_origins"],
+      "properties": {
+        "host": { "type": "string", "minLength": 1 },
+        "port": { "type": "integer", "minimum": 1, "maximum": 65535 },
+        "mcp_path": { "type": "string", "pattern": "^/" },
+        "allowed_origins": { "type": "array", "items": { "type": "string" }, "uniqueItems": true },
+        "require_mcp_headers": { "type": "boolean" },
+        "tls": {
+          "type": "object",
+          "required": ["certificate_file", "private_key_file"],
+          "properties": { "certificate_file": { "type": "string" }, "private_key_file": { "type": "string" } },
+          "additionalProperties": false
+        }
+      },
+      "additionalProperties": false
+    },
+    "oauth": {
+      "type": "object",
+      "required": ["storage_directory", "signing_key_id", "private_key_file", "public_key_file", "scopes_supported", "baseline_scopes", "access_token_ttl_seconds", "refresh_token_ttl_seconds", "authorization_code_ttl_seconds", "allow_dynamic_client_registration", "users", "workspaces", "clients"],
+      "properties": {
+        "issuer": { "type": "string", "format": "uri" },
+        "resource": { "type": "string", "format": "uri" },
+        "storage_directory": { "type": "string" },
+        "signing_key_id": { "type": "string", "minLength": 1 },
+        "private_key_file": { "type": "string" },
+        "public_key_file": { "type": "string" },
+        "scopes_supported": { "type": "array", "items": { "type": "string", "minLength": 1 }, "uniqueItems": true },
+        "baseline_scopes": { "type": "array", "items": { "type": "string", "minLength": 1 }, "uniqueItems": true },
+        "access_token_ttl_seconds": { "type": "integer", "minimum": 60 },
+        "refresh_token_ttl_seconds": { "type": "integer", "minimum": 300 },
+        "authorization_code_ttl_seconds": { "type": "integer", "minimum": 30, "maximum": 600 },
+        "allow_dynamic_client_registration": { "type": "boolean" },
+        "users": { "type": "array", "items": { "type": "object", "required": ["id", "username", "display_name", "password_hash", "workspace_refs", "allowed_scopes", "status"] } },
+        "workspaces": { "type": "array", "items": { "type": "object", "required": ["id", "name"] } },
+        "clients": { "type": "array", "items": { "type": "object", "required": ["client_id", "client_name", "redirect_uris", "grant_types", "response_types", "token_endpoint_auth_method", "created_at"] } }
+      },
+      "additionalProperties": false
+    },
+    "approvals": {
+      "type": "object",
+      "required": ["storage_directory", "signing_key_id", "private_key_file"],
+      "properties": { "storage_directory": { "type": "string" }, "signing_key_id": { "type": "string" }, "private_key_file": { "type": "string" } },
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": false
+}

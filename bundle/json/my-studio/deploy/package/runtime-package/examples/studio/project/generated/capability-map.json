@@ -1,0 +1,708 @@
+{
+  "artifact_type": "capability_map",
+  "artifact_version": "0.3",
+  "source_ref": "openapi-schema-rich.json",
+  "source_title": "Schema Rich API",
+  "domains": [
+    {
+      "name": "Customers",
+      "capability_names": [
+        "customer_create",
+        "customer_get",
+        "customer_list"
+      ],
+      "operation_count": 3
+    },
+    {
+      "name": "Files",
+      "capability_names": [
+        "file_upload"
+      ],
+      "operation_count": 1
+    }
+  ],
+  "capabilities": [
+    {
+      "id": "cap:customer_list",
+      "name": "customer_list",
+      "title": "List customers",
+      "description": "GET /customers — List customers",
+      "source_operation_id": "listCustomers",
+      "domain": "Customers",
+      "method": "get",
+      "path": "/customers",
+      "risk_class": "R1",
+      "governance": {
+        "decision": "allow",
+        "approval_mode": "none",
+        "reasons": [
+          "Classified R1 from source inspection signals.",
+          "Authenticated or personal-data read requires least-privilege access."
+        ]
+      },
+      "required_scopes": [],
+      "annotations": {
+        "read_only": true,
+        "destructive": false,
+        "idempotent": true,
+        "open_world": false
+      },
+      "execution": {
+        "mode": "synchronous",
+        "task_support": "forbidden",
+        "idempotency": "not_applicable"
+      },
+      "evidence": [
+        {
+          "code": "READ_HTTP_METHOD",
+          "message": "GET implies a read-oriented operation.",
+          "source": "http_method"
+        },
+        {
+          "code": "PERSONAL_DATA_SIGNAL",
+          "message": "Operation metadata references a person or personal profile.",
+          "source": "operation_metadata"
+        },
+        {
+          "code": "PAGINATION_SIGNAL",
+          "message": "Pagination parameters detected: cursor, limit.",
+          "source": "parameter"
+        }
+      ],
+      "schema": {
+        "parameters": [
+          {
+            "name": "X-Trace-ID",
+            "location": "header",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "deprecated": false
+          },
+          {
+            "name": "cursor",
+            "location": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "deprecated": false
+          },
+          {
+            "name": "limit",
+            "location": "query",
+            "required": false,
+            "schema": {
+              "default": 20,
+              "maximum": 100,
+              "minimum": 1,
+              "type": "integer"
+            },
+            "deprecated": false
+          }
+        ],
+        "success_responses": [
+          {
+            "status": "200",
+            "description": "Customer page",
+            "content": [
+              {
+                "media_type": "application/json",
+                "schema": {
+                  "properties": {
+                    "items": {
+                      "items": {
+                        "properties": {
+                          "email": {
+                            "format": "email",
+                            "type": "string"
+                          },
+                          "id": {
+                            "format": "uuid",
+                            "type": "string"
+                          },
+                          "name": {
+                            "type": "string"
+                          }
+                        },
+                        "required": [
+                          "id",
+                          "email"
+                        ],
+                        "type": "object"
+                      },
+                      "type": "array"
+                    },
+                    "next_cursor": {
+                      "type": [
+                        "string",
+                        "null"
+                      ]
+                    },
+                    "total": {
+                      "type": "integer"
+                    }
+                  },
+                  "required": [
+                    "items"
+                  ],
+                  "type": "object"
+                }
+              }
+            ],
+            "headers": []
+          }
+        ],
+        "error_responses": [
+          {
+            "status": "400",
+            "description": "Invalid cursor",
+            "content": [
+              {
+                "media_type": "application/problem+json",
+                "schema": {
+                  "properties": {
+                    "detail": {
+                      "type": "string"
+                    },
+                    "status": {
+                      "type": "integer"
+                    },
+                    "title": {
+                      "type": "string"
+                    },
+                    "type": {
+                      "format": "uri",
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "type",
+                    "title",
+                    "status"
+                  ],
+                  "type": "object"
+                }
+              }
+            ],
+            "headers": []
+          }
+        ],
+        "other_responses": [],
+        "media": {
+          "request_content_types": [],
+          "response_content_types": [
+            "application/json",
+            "application/problem+json"
+          ],
+          "binary_request": false,
+          "binary_response": false
+        },
+        "pagination": {
+          "style": "cursor",
+          "request_parameters": [
+            "cursor",
+            "limit"
+          ],
+          "response_fields": [
+            "next_cursor",
+            "total"
+          ]
+        },
+        "unresolved_refs": []
+      }
+    },
+    {
+      "id": "cap:customer_create",
+      "name": "customer_create",
+      "title": "Create customer",
+      "description": "POST /customers — Create customer",
+      "source_operation_id": "createCustomer",
+      "domain": "Customers",
+      "method": "post",
+      "path": "/customers",
+      "risk_class": "R2",
+      "governance": {
+        "decision": "allow",
+        "approval_mode": "none",
+        "reasons": [
+          "Classified R2 from source inspection signals.",
+          "Write behavior requires scoped authorization when scopes are declared."
+        ]
+      },
+      "required_scopes": [],
+      "annotations": {
+        "read_only": false,
+        "destructive": false,
+        "idempotent": false,
+        "open_world": false
+      },
+      "execution": {
+        "mode": "synchronous",
+        "task_support": "forbidden",
+        "idempotency": "required"
+      },
+      "evidence": [
+        {
+          "code": "WRITE_HTTP_METHOD",
+          "message": "POST implies server-side effects.",
+          "source": "http_method"
+        },
+        {
+          "code": "PERSONAL_DATA_SIGNAL",
+          "message": "Operation metadata references a person or personal profile.",
+          "source": "operation_metadata"
+        }
+      ],
+      "schema": {
+        "parameters": [],
+        "success_responses": [
+          {
+            "status": "201",
+            "description": "Created",
+            "content": [
+              {
+                "media_type": "application/json",
+                "schema": {
+                  "properties": {
+                    "email": {
+                      "format": "email",
+                      "type": "string"
+                    },
+                    "id": {
+                      "format": "uuid",
+                      "type": "string"
+                    },
+                    "name": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "id",
+                    "email"
+                  ],
+                  "type": "object"
+                }
+              }
+            ],
+            "headers": []
+          }
+        ],
+        "error_responses": [
+          {
+            "status": "422",
+            "description": "Validation error",
+            "content": [
+              {
+                "media_type": "application/problem+json",
+                "schema": {
+                  "properties": {
+                    "detail": {
+                      "type": "string"
+                    },
+                    "status": {
+                      "type": "integer"
+                    },
+                    "title": {
+                      "type": "string"
+                    },
+                    "type": {
+                      "format": "uri",
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "type",
+                    "title",
+                    "status"
+                  ],
+                  "type": "object"
+                }
+              }
+            ],
+            "headers": []
+          }
+        ],
+        "other_responses": [],
+        "media": {
+          "request_content_types": [
+            "application/json"
+          ],
+          "response_content_types": [
+            "application/json",
+            "application/problem+json"
+          ],
+          "binary_request": false,
+          "binary_response": false
+        },
+        "pagination": {
+          "style": "none",
+          "request_parameters": [],
+          "response_fields": []
+        },
+        "unresolved_refs": [],
+        "request_body": {
+          "required": true,
+          "content": [
+            {
+              "media_type": "application/json",
+              "schema": {
+                "additionalProperties": false,
+                "properties": {
+                  "email": {
+                    "format": "email",
+                    "type": "string"
+                  },
+                  "name": {
+                    "minLength": 1,
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "email"
+                ],
+                "type": "object"
+              }
+            }
+          ],
+          "description": "Customer to create"
+        }
+      }
+    },
+    {
+      "id": "cap:customer_get",
+      "name": "customer_get",
+      "title": "Get customer",
+      "description": "GET /customers/{customerId} — Get customer",
+      "source_operation_id": "getCustomer",
+      "domain": "Customers",
+      "method": "get",
+      "path": "/customers/{customerId}",
+      "risk_class": "R1",
+      "governance": {
+        "decision": "allow",
+        "approval_mode": "none",
+        "reasons": [
+          "Classified R1 from source inspection signals.",
+          "Authenticated or personal-data read requires least-privilege access."
+        ]
+      },
+      "required_scopes": [],
+      "annotations": {
+        "read_only": true,
+        "destructive": false,
+        "idempotent": true,
+        "open_world": false
+      },
+      "execution": {
+        "mode": "synchronous",
+        "task_support": "forbidden",
+        "idempotency": "not_applicable"
+      },
+      "evidence": [
+        {
+          "code": "READ_HTTP_METHOD",
+          "message": "GET implies a read-oriented operation.",
+          "source": "http_method"
+        },
+        {
+          "code": "PERSONAL_DATA_SIGNAL",
+          "message": "Operation metadata references a person or personal profile.",
+          "source": "operation_metadata"
+        }
+      ],
+      "schema": {
+        "parameters": [
+          {
+            "name": "customerId",
+            "location": "path",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "type": "string"
+            },
+            "deprecated": false,
+            "description": "Customer UUID"
+          },
+          {
+            "name": "expand",
+            "location": "query",
+            "required": false,
+            "schema": {
+              "items": {
+                "type": "string"
+              },
+              "type": "array"
+            },
+            "deprecated": false,
+            "style": "form",
+            "explode": false
+          }
+        ],
+        "success_responses": [
+          {
+            "status": "200",
+            "description": "Customer",
+            "content": [
+              {
+                "media_type": "application/json",
+                "schema": {
+                  "properties": {
+                    "email": {
+                      "format": "email",
+                      "type": "string"
+                    },
+                    "id": {
+                      "format": "uuid",
+                      "type": "string"
+                    },
+                    "name": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "id",
+                    "email"
+                  ],
+                  "type": "object"
+                }
+              }
+            ],
+            "headers": []
+          }
+        ],
+        "error_responses": [
+          {
+            "status": "404",
+            "description": "Not found",
+            "content": [
+              {
+                "media_type": "application/problem+json",
+                "schema": {
+                  "properties": {
+                    "detail": {
+                      "type": "string"
+                    },
+                    "status": {
+                      "type": "integer"
+                    },
+                    "title": {
+                      "type": "string"
+                    },
+                    "type": {
+                      "format": "uri",
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "type",
+                    "title",
+                    "status"
+                  ],
+                  "type": "object"
+                }
+              }
+            ],
+            "headers": []
+          }
+        ],
+        "other_responses": [],
+        "media": {
+          "request_content_types": [],
+          "response_content_types": [
+            "application/json",
+            "application/problem+json"
+          ],
+          "binary_request": false,
+          "binary_response": false
+        },
+        "pagination": {
+          "style": "none",
+          "request_parameters": [],
+          "response_fields": []
+        },
+        "unresolved_refs": []
+      }
+    },
+    {
+      "id": "cap:file_upload",
+      "name": "file_upload",
+      "title": "Upload file",
+      "description": "POST /files — Upload file",
+      "source_operation_id": "uploadFile",
+      "domain": "Files",
+      "method": "post",
+      "path": "/files",
+      "risk_class": "R2",
+      "governance": {
+        "decision": "allow",
+        "approval_mode": "none",
+        "reasons": [
+          "Classified R2 from source inspection signals.",
+          "Write behavior requires scoped authorization when scopes are declared."
+        ]
+      },
+      "required_scopes": [],
+      "annotations": {
+        "read_only": false,
+        "destructive": false,
+        "idempotent": false,
+        "open_world": false
+      },
+      "execution": {
+        "mode": "asynchronous",
+        "task_support": "required",
+        "idempotency": "required"
+      },
+      "evidence": [
+        {
+          "code": "WRITE_HTTP_METHOD",
+          "message": "POST implies server-side effects.",
+          "source": "http_method"
+        },
+        {
+          "code": "ASYNC_SIGNAL",
+          "message": "Response codes, callbacks, or metadata indicate asynchronous execution.",
+          "source": "response"
+        },
+        {
+          "code": "UPLOAD_SIGNAL",
+          "message": "Request media type or operation metadata indicates upload.",
+          "source": "request_body"
+        }
+      ],
+      "schema": {
+        "parameters": [],
+        "success_responses": [
+          {
+            "status": "202",
+            "description": "Queued",
+            "content": [
+              {
+                "media_type": "application/json",
+                "schema": {
+                  "properties": {
+                    "job_id": {
+                      "type": "string"
+                    },
+                    "status": {
+                      "enum": [
+                        "queued",
+                        "running",
+                        "completed",
+                        "failed"
+                      ],
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "job_id",
+                    "status"
+                  ],
+                  "type": "object"
+                }
+              }
+            ],
+            "headers": []
+          }
+        ],
+        "error_responses": [
+          {
+            "status": "413",
+            "description": "Too large",
+            "content": [
+              {
+                "media_type": "application/problem+json",
+                "schema": {
+                  "properties": {
+                    "detail": {
+                      "type": "string"
+                    },
+                    "status": {
+                      "type": "integer"
+                    },
+                    "title": {
+                      "type": "string"
+                    },
+                    "type": {
+                      "format": "uri",
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "type",
+                    "title",
+                    "status"
+                  ],
+                  "type": "object"
+                }
+              }
+            ],
+            "headers": []
+          }
+        ],
+        "other_responses": [],
+        "media": {
+          "request_content_types": [
+            "multipart/form-data"
+          ],
+          "response_content_types": [
+            "application/json",
+            "application/problem+json"
+          ],
+          "binary_request": true,
+          "binary_response": false
+        },
+        "pagination": {
+          "style": "none",
+          "request_parameters": [],
+          "response_fields": []
+        },
+        "unresolved_refs": [],
+        "request_body": {
+          "required": true,
+          "content": [
+            {
+              "media_type": "multipart/form-data",
+              "schema": {
+                "properties": {
+                  "file": {
+                    "format": "binary",
+                    "type": "string"
+                  },
+                  "label": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "file"
+                ],
+                "type": "object"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "workflow_hints": [],
+  "summary": {
+    "capability_count": 4,
+    "workflow_hint_count": 0,
+    "risk_counts": {
+      "R0": 0,
+      "R1": 2,
+      "R2": 2,
+      "R3": 0,
+      "R4": 0,
+      "R5": 0
+    },
+    "approval_required_count": 0
+  },
+  "limitations": [
+    "Capability candidates are proposals and are not executable ToolContracts.",
+    "Risk and governance classifications require review before compilation.",
+    "Workflow hints represent likely relations, not guaranteed provider state machines."
+  ]
+}
