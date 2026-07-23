@@ -2,7 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { cp, mkdtemp, readFile, writeFile } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
-import { join } from 'node:path';
+import { join, resolve } from 'node:path';
 import type { ContractBundle, ToolContract } from '../src/contracts/types.js';
 import { enrichToolBundle } from '../src/tools/enrichment-engine.js';
 import { createMcpToolRegistry } from '../src/mcp/tool-registry.js';
@@ -11,6 +11,7 @@ import { buildDeploymentPackage } from '../src/studio/deployment-builder.js';
 import { runCli } from '../src/cli/foundry-1.4.js';
 import type { ProviderAdapterBundle } from '../src/adapters/types.js';
 
+const repositoryRoot = process.cwd();
 function customerTool(): ToolContract {
   return {
     id: 'tool:customer_get', name: 'customer_get', version: '1.3.0', title: 'Get customer',
@@ -49,7 +50,7 @@ test('MCP descriptor exposes the enriched input schema and quality metadata', ()
 
 test('Studio build writes catalog and quality artifacts and deployment package includes them', async () => {
   const root = await mkdtemp(join(tmpdir(), 'foundry-v14-')); const project = join(root, 'project');
-  await cp(new URL('../examples/studio/project', import.meta.url), project, { recursive: true });
+  await cp(resolve(repositoryRoot, 'examples/studio/project'), project, { recursive: true });
   const report = await buildStudioProject(project); assert.equal(report.tool_quality.gate.passed, true); assert.ok(report.tool_quality.average_score >= 90);
   const catalog = JSON.parse(await readFile(join(project, 'generated/tool-catalog.json'), 'utf8')) as { summary: { tool_count: number } };
   assert.equal(catalog.summary.tool_count, report.tool_count);
@@ -66,8 +67,8 @@ test('tools audit exits non-zero for an incomplete bundle', async () => {
 });
 
 test('Studio assets expose the tool quality companion', async () => {
-  const companion = await readFile(new URL('../studio/assets/tool-intelligence.js', import.meta.url), 'utf8');
-  const index = await readFile(new URL('../studio/index.html', import.meta.url), 'utf8');
+  const companion = await readFile(resolve(repositoryRoot, 'studio/assets/tool-intelligence.js'), 'utf8');
+  const index = await readFile(resolve(repositoryRoot, 'studio/index.html'), 'utf8');
   assert.match(companion, /toolCatalog/); assert.match(companion, /toolQuality/); assert.match(companion, /Score qualité/);
   assert.match(companion, /Arguments gérés/); assert.match(companion, /Exemples valides/); assert.match(companion, /Erreurs normalisées/);
   assert.match(companion, /\.quality-badge/); assert.match(companion, /\.tool-intelligence/); assert.match(index, /tool-intelligence\.js/);
