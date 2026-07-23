@@ -17,6 +17,7 @@ Nümtema MCP Foundry transforms OpenAPI 3.x services into governed MCP/ChatGPT a
 7. **Runtime dependencies remain zero unless an ADR explicitly justifies a change.**
 8. **All JSON source artifacts must be represented in `bundle/index.json`.**
 9. **A completion claim requires fresh typecheck and full test evidence.**
+10. **Enabled production tools must score at least 85/100; quality bypass is prototype-only.**
 
 ## Repository map
 
@@ -29,6 +30,7 @@ Nümtema MCP Foundry transforms OpenAPI 3.x services into governed MCP/ChatGPT a
 - `src/dispatch/` — durable append-only authorization ledger.
 - `src/apps/` — OAuth gateway, Apps SDK resources, approval flow.
 - `src/studio/` — Studio project store, pipeline, server, deployment builder.
+- `src/tools/` — deterministic tool enrichment, examples, scopes, errors, quality scoring, and catalog audit.
 - `schemas/` — JSON Schemas for public artifacts.
 - `tests/` — `node:test` suites; tests mirror subsystem boundaries.
 - `studio/` — code-native static Studio UI.
@@ -52,6 +54,7 @@ foundry doctor
 foundry demo
 foundry studio init ./tmp-studio --force
 foundry studio build ./tmp-studio
+foundry tools audit ./tmp-studio
 foundry app init ./tmp-app --public-base-url http://127.0.0.1:8788 --force
 ```
 
