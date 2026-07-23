@@ -8,6 +8,7 @@ import { loadOpenApiDocument } from '../inspection/openapi-loader.js';
 import { inspectOpenApi } from '../inspection/source-inspector.js';
 import { mapCapabilities } from '../mapping/capability-mapper.js';
 import type { AuthContract, ContractBundle } from '../contracts/types.js';
+import { enrichToolBundle } from '../tools/enrichment-engine.js';
 import { applyStudioOverrides } from './tool-overrides.js';
 import { loadStudioOverrides, loadStudioProject, resolveStudioPath, saveStudioProject, writeProjectJson } from './project-store.js';
 import type { StudioBuildReport, StudioProject } from './types.js';
@@ -20,18 +21,22 @@ export async function buildStudioProject(directory: string): Promise<StudioBuild
   const rawMap = mapCapabilities(inspection);
   const overrides = await loadStudioOverrides(directory, project);
   const map = applyStudioOverrides(rawMap, overrides);
-  const compilation = compileCapabilityMap(map, { version: '1.2.0', auth_id: 'auth:provider', tenant_resolution: 'required' });
+  const compilation = compileCapabilityMap(map, { version: '1.4.0', auth_id: 'auth:provider', tenant_resolution: 'required' });
   ensureProviderAuth(compilation.bundle, project);
-  const adapters = compileProviderAdapters(compilation.bundle);
-  const authBindings = compileProviderAuthBindings(compilation.bundle, adapters);
-  const credentialCatalog = createCredentialCatalog(project, compilation.bundle.auth);
+  const enriched = enrichToolBundle(compilation.bundle);
+  const bundle = enriched.bundle;
+  const adapters = compileProviderAdapters(bundle);
+  const authBindings = compileProviderAuthBindings(bundle, adapters);
+  const credentialCatalog = createCredentialCatalog(project, bundle.auth);
   const files = [
     await writeProjectJson(directory, project.paths.inspection, inspection),
     await writeProjectJson(directory, project.paths.capability_map, map),
-    await writeProjectJson(directory, project.paths.contract_bundle, compilation.bundle),
+    await writeProjectJson(directory, project.paths.contract_bundle, bundle),
     await writeProjectJson(directory, project.paths.provider_adapters, adapters),
     await writeProjectJson(directory, project.paths.provider_auth_bindings, authBindings),
-    await writeProjectJson(directory, project.paths.credential_catalog, credentialCatalog)
+    await writeProjectJson(directory, project.paths.credential_catalog, credentialCatalog),
+    await writeProjectJson(directory, './generated/tool-catalog.json', enriched.catalog),
+    await writeProjectJson(directory, './generated/tool-quality-report.json', enriched.quality_report)
   ];
   project.last_build = {
     completed_at: new Date().toISOString(), tool_count: rawMap.capabilities.length, enabled_tool_count: map.capabilities.length,
@@ -40,7 +45,8 @@ export async function buildStudioProject(directory: string): Promise<StudioBuild
   await saveStudioProject(directory, project);
   return {
     project: await loadStudioProject(directory), source_title: inspection.source.title, operation_count: inspection.summary.operation_count,
-    capability_count: map.capabilities.length, tool_count: compilation.bundle.tools.length, adapter_count: adapters.adapters.length,
+    capability_count: map.capabilities.length, tool_count: bundle.tools.length, adapter_count: adapters.adapters.length,
+    tool_quality: enriched.quality_report, tool_catalog: enriched.catalog,
     warnings: [...compilation.warnings, ...adapters.warnings, ...authBindings.warnings].map((warning) => ({ code: warning.code, message: warning.message, ...('capability' in warning && warning.capability ? { capability: warning.capability } : {}) })),
     generated_files: files
   };
@@ -63,7 +69,7 @@ function ensureProviderAuth(bundle: ContractBundle, project: StudioProject): voi
   if (project.provider.auth_mode !== 'none' && bundle.auth.length === 0) {
     const scopes = [...new Set(bundle.tools.flatMap((tool) => tool.required_scopes))].sort();
     bundle.auth.push({
-      id: 'auth:provider', version: '1.2.0', transport: 'http', mode: project.provider.auth_mode,
+      id: 'auth:provider', version: '1.4.0', transport: 'http', mode: project.provider.auth_mode,
       required_scopes: scopes, optional_scopes: [], step_up_authorization: true, tenant_resolution: 'required',
       credential_binding_dimensions: ['subject', 'client', 'workspace', 'provider', 'provider_account', 'scope_set'],
       token_passthrough: false
