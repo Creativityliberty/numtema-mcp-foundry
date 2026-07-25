@@ -1,0 +1,31 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import { loadOpenApiDocument } from '../dist/src/inspection/openapi-loader.js';
+import { inspectOpenApi } from '../dist/src/inspection/source-inspector.js';
+import { mapCapabilities } from '../dist/src/mapping/capability-mapper.js';
+import { compileCapabilityMap } from '../dist/src/compiler/tool-contract-compiler.js';
+import { compileProviderAdapters } from '../dist/src/adapters/provider-adapter-compiler.js';
+import { enrichToolBundle } from '../dist/src/tools/enrichment-engine.js';
+import { applyWhatsAppProviderPack, applyWhatsAppAdapterPack } from '../dist/src/providers/whatsapp/provider-pack.js';
+import { createMcpToolRegistry } from '../dist/src/mcp/tool-registry.js';
+import { createApprovalToolRegistrations } from '../dist/src/apps/approval-tools.js';
+import { APPROVAL_WIDGET_URI } from '../dist/src/apps/approval-widget.js';
+
+test('MCP catalog exposes WhatsApp tools with premium descriptions and versioned approval UI', async () => {
+  const document = await loadOpenApiDocument('providers/whatsapp-cloud-api/openapi.json');
+  const compilation = compileCapabilityMap(mapCapabilities(inspectOpenApi(document, 'whatsapp.json')), { version: '1.5.0', auth_id: 'auth:provider', tenant_resolution: 'required' });
+  const enriched = applyWhatsAppProviderPack(enrichToolBundle(compilation.bundle));
+  const adapters = applyWhatsAppAdapterPack(compileProviderAdapters(enriched.bundle));
+  const registry = createMcpToolRegistry(enriched.bundle, adapters, 100, createApprovalToolRegistrations());
+  const tools = registry.list().tools;
+  const names = tools.map((tool) => tool.name);
+  assert.equal(names.some((name) => name.startsWith('customer_') || name === 'file_upload'), false);
+  const send = tools.find((tool) => tool.name === 'whatsapp_message_send_text');
+  assert.match(send.description, /explicitly wants the message sent/i);
+  assert.equal(send._meta.ui.resourceUri, APPROVAL_WIDGET_URI);
+  assert.deepEqual(send._meta.ui.visibility, ['model']);
+  assert.equal(send._meta['openai/outputTemplate'], APPROVAL_WIDGET_URI);
+  assert.equal(send.inputSchema.properties.phone_number_id, undefined);
+  const confirm = tools.find((tool) => tool.name === 'foundry_approval_confirm');
+  assert.deepEqual(confirm._meta.ui.visibility, ['app']);
+});
