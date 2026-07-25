@@ -1,0 +1,11 @@
+{
+  "$schema":"https://json-schema.org/draft/2020-12/schema",
+  "$id":"https://schemas.numtema.dev/foundry/tool-example-set.schema.json",
+  "title":"ToolExampleSet","type":"object","additionalProperties":false,
+  "required":["artifact_type","artifact_version","tool_id","valid","rejected"],
+  "properties":{
+    "artifact_type":{"const":"tool_example_set"},"artifact_version":{"const":"1.0"},"tool_id":{"type":"string","minLength":1},
+    "valid":{"type":"array","items":{"type":"object","additionalProperties":false,"required":["name","arguments"],"properties":{"name":{"type":"string","minLength":1},"arguments":{"type":"object"}}}},
+    "rejected":{"type":"array","items":{"type":"object","additionalProperties":false,"required":["name","arguments","reason"],"properties":{"name":{"type":"string","minLength":1},"arguments":{"type":"object"},"reason":{"type":"string","minLength":1}}}}
+  }
+}

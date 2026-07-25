@@ -1,5 +1,6 @@
 import type { RiskClass } from '../contracts/types.js';
 import type { CapabilityGovernance } from '../inspection/types.js';
+import type { ToolCatalog, ToolQualityReport } from '../tools/types.js';
 
 export type StudioProviderAuthMode = 'none' | 'bearer' | 'api_key' | 'basic' | 'host_managed';
 
@@ -20,24 +21,9 @@ export interface StudioProject {
   name: string;
   created_at: string;
   updated_at: string;
-  source: {
-    file: string;
-    imported_at: string | null;
-    original_name: string | null;
-  };
-  provider: {
-    base_url: string;
-    provider_ref: string;
-    provider_account_ref: string;
-    auth_mode: StudioProviderAuthMode;
-    credential_handle: string;
-    credential_environment: string;
-  };
-  chatgpt_app: {
-    public_base_url: string;
-    allowed_origins: string[];
-    baseline_scopes: string[];
-  };
+  source: { file: string; imported_at: string | null; original_name: string | null };
+  provider: { base_url: string; provider_ref: string; provider_account_ref: string; auth_mode: StudioProviderAuthMode; credential_handle: string; credential_environment: string };
+  chatgpt_app: { public_base_url: string; allowed_origins: string[]; baseline_scopes: string[] };
   paths: {
     overrides: string;
     inspection: string;
@@ -48,13 +34,7 @@ export interface StudioProject {
     credential_catalog: string;
     deployment_directory: string;
   };
-  last_build: {
-    completed_at: string;
-    tool_count: number;
-    enabled_tool_count: number;
-    risk_counts: Record<string, number>;
-    warning_count: number;
-  } | null;
+  last_build: { completed_at: string; tool_count: number; enabled_tool_count: number; risk_counts: Record<string, number>; warning_count: number } | null;
 }
 
 export interface StudioBuildReport {
@@ -64,6 +44,8 @@ export interface StudioBuildReport {
   capability_count: number;
   tool_count: number;
   adapter_count: number;
+  tool_quality: ToolQualityReport;
+  tool_catalog: ToolCatalog;
   warnings: Array<{ code: string; message: string; capability?: string }>;
   generated_files: string[];
 }
@@ -76,11 +58,7 @@ export interface DeploymentPackageManifest {
   source_digest: string;
   files: Array<{ path: string; sha256: string; size_bytes: number }>;
   environment: Array<{ name: string; required: boolean; secret: boolean; description: string }>;
-  endpoints: {
-    mcp: string;
-    health: string;
-    oauth_resource_metadata: string;
-    oauth_authorization_metadata: string;
-  };
+  endpoints: { mcp: string; health: string; oauth_resource_metadata: string; oauth_authorization_metadata: string };
+  tool_quality: ToolQualityReport;
   private_keys_included: false;
 }

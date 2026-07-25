@@ -4,37 +4,18 @@ import { planProviderRequest } from '../adapters/request-planner.js';
 import type { ProviderAdapterBundle } from '../adapters/types.js';
 import { buildDeploymentPackage } from './deployment-builder.js';
 import { buildStudioProject, readStudioGeneratedArtifact } from './pipeline-service.js';
-import {
-  importStudioSource,
-  loadStudioOverrides,
-  loadStudioProject,
-  resolveStudioPath,
-  saveStudioOverrides,
-  saveStudioProject
-} from './project-store.js';
+import { importStudioSource, loadStudioOverrides, loadStudioProject, resolveStudioPath, saveStudioOverrides, saveStudioProject } from './project-store.js';
 import type { StudioToolOverride } from './types.js';
 
-export interface StudioApiContext {
-  projectDirectory: string;
-  csrfToken: string;
-  bodyLimitBytes: number;
-}
-
-export interface StudioApiResult {
-  status: number;
-  body: unknown;
-}
+export interface StudioApiContext { projectDirectory: string; csrfToken: string; bodyLimitBytes: number; }
+export interface StudioApiResult { status: number; body: unknown; }
 
 export async function handleStudioApi(request: IncomingMessage, pathname: string, context: StudioApiContext): Promise<StudioApiResult | null> {
   if (!pathname.startsWith('/api/')) return null;
   const method = request.method ?? 'GET';
-  if (method !== 'GET' && headerValue(request.headers['x-foundry-csrf']) !== context.csrfToken) {
-    return fail(403, 'STUDIO_CSRF_INVALID', 'The Studio write token is missing or invalid.');
-  }
+  if (method !== 'GET' && headerValue(request.headers['x-foundry-csrf']) !== context.csrfToken) return fail(403, 'STUDIO_CSRF_INVALID', 'The Studio write token is missing or invalid.');
   try {
-    if (method === 'GET' && pathname === '/api/health') {
-      return ok({ status: 'ready', project_directory: context.projectDirectory, secret_material_included: false });
-    }
+    if (method === 'GET' && pathname === '/api/health') return ok({ status: 'ready', project_directory: context.projectDirectory, secret_material_included: false });
     if (method === 'GET' && pathname === '/api/project') {
       const project = await loadStudioProject(context.projectDirectory);
       const overrides = await loadStudioOverrides(context.projectDirectory, project);
@@ -44,10 +25,7 @@ export async function handleStudioApi(request: IncomingMessage, pathname: string
     }
     if (method === 'POST' && pathname === '/api/source/import') {
       const payload = await readJsonBody(request, context.bodyLimitBytes);
-      const filename = stringField(payload, 'filename');
-      const content = stringField(payload, 'content');
-      const project = await importStudioSource(context.projectDirectory, filename, content);
-      return ok({ project });
+      return ok({ project: await importStudioSource(context.projectDirectory, stringField(payload, 'filename'), stringField(payload, 'content')) });
     }
     if (method === 'POST' && pathname === '/api/project/configure') {
       const payload = await readJsonBody(request, context.bodyLimitBytes);
@@ -72,9 +50,7 @@ export async function handleStudioApi(request: IncomingMessage, pathname: string
       await saveStudioOverrides(context.projectDirectory, payload.overrides as StudioToolOverride[]);
       return ok({ override_count: payload.overrides.length });
     }
-    if (method === 'POST' && pathname === '/api/pipeline/build') {
-      return ok(await buildStudioProject(context.projectDirectory));
-    }
+    if (method === 'POST' && pathname === '/api/pipeline/build') return ok(await buildStudioProject(context.projectDirectory));
     if (method === 'POST' && pathname === '/api/deployment/build') {
       const manifest = await buildDeploymentPackage(context.projectDirectory);
       const project = await loadStudioProject(context.projectDirectory);
@@ -89,16 +65,11 @@ export async function handleStudioApi(request: IncomingMessage, pathname: string
       const adapter = adapters.adapters.find((candidate) => candidate.tool_name === toolName);
       if (!adapter) return fail(404, 'STUDIO_TOOL_NOT_FOUND', `No adapter exists for ${toolName}.`);
       const plan = planProviderRequest(adapter, args, { baseUrl: project.provider.base_url });
-      return ok({
-        stages: ['arguments_validated', 'provider_plan_created', 'credential_boundary_required', 'policy_preflight_pending', 'network_not_executed'],
-        plan,
-        network_executed: false,
-        secret_material_included: false
-      });
+      return ok({ stages: ['arguments_validated', 'provider_plan_created', 'credential_boundary_required', 'policy_preflight_pending', 'network_not_executed'], plan, network_executed: false, secret_material_included: false });
     }
     if (method === 'GET' && pathname.startsWith('/api/artifact/')) {
       const key = pathname.slice('/api/artifact/'.length);
-      const allowed = ['inspection', 'capability_map', 'contract_bundle', 'provider_adapters', 'provider_auth_bindings', 'credential_catalog'] as const;
+      const allowed = ['inspection', 'capability_map', 'contract_bundle', 'provider_adapters', 'provider_auth_bindings', 'credential_catalog', 'tool_catalog', 'tool_quality_report'] as const;
       if (!allowed.includes(key as typeof allowed[number])) return fail(404, 'STUDIO_ARTIFACT_UNKNOWN', key);
       const project = await loadStudioProject(context.projectDirectory);
       const mapping = {
@@ -107,43 +78,30 @@ export async function handleStudioApi(request: IncomingMessage, pathname: string
         contract_bundle: project.paths.contract_bundle,
         provider_adapters: project.paths.provider_adapters,
         provider_auth_bindings: project.paths.provider_auth_bindings,
-        credential_catalog: project.paths.credential_catalog
+        credential_catalog: project.paths.credential_catalog,
+        tool_catalog: './generated/tool-catalog.json',
+        tool_quality_report: './generated/tool-quality-report.json'
       } as const;
       return ok(JSON.parse(await readFile(resolveStudioPath(context.projectDirectory, mapping[key as keyof typeof mapping]), 'utf8')) as unknown);
     }
     return fail(404, 'STUDIO_ROUTE_NOT_FOUND', `${method} ${pathname}`);
-  } catch (error) {
-    return fail(400, errorCode(error), errorMessage(error));
-  }
+  } catch (error) { return fail(400, errorCode(error), errorMessage(error)); }
 }
 
 function ok(data: unknown): StudioApiResult { return { status: 200, body: { ok: true, data, issues: [], trace_id: traceId() } }; }
 function fail(status: number, code: string, message: string): StudioApiResult { return { status, body: { ok: false, data: null, issues: [{ code, message }], trace_id: traceId() } }; }
-
 async function readJsonBody(request: IncomingMessage, limit: number): Promise<Record<string, unknown>> {
-  let value = '';
-  let size = 0;
+  let value = ''; let size = 0;
   await new Promise<void>((resolvePromise, reject) => {
-    request.on('data', (chunk) => {
-      size += chunk.byteLength;
-      if (size > limit) { reject(new Error('STUDIO_BODY_TOO_LARGE: request body exceeds the configured limit.')); return; }
-      value += chunk.toString('utf8');
-    });
-    request.on('end', resolvePromise);
-    request.on('error', reject);
+    request.on('data', (chunk) => { size += chunk.byteLength; if (size > limit) { reject(new Error('STUDIO_BODY_TOO_LARGE: request body exceeds the configured limit.')); return; } value += chunk.toString('utf8'); });
+    request.on('end', resolvePromise); request.on('error', reject);
   });
   if (value.length === 0) return {};
   const parsed = JSON.parse(value) as unknown;
   if (!isRecord(parsed)) throw new Error('STUDIO_BODY_INVALID: expected a JSON object.');
   return parsed;
 }
-
-function stringField(value: Record<string, unknown>, name: string): string {
-  const selected = value[name];
-  if (typeof selected !== 'string' || selected.length === 0) throw new Error(`STUDIO_FIELD_REQUIRED: ${name}`);
-  return selected;
-}
-
+function stringField(value: Record<string, unknown>, name: string): string { const selected = value[name]; if (typeof selected !== 'string' || selected.length === 0) throw new Error(`STUDIO_FIELD_REQUIRED: ${name}`); return selected; }
 function headerValue(value: string | string[] | undefined): string | undefined { return Array.isArray(value) ? value[0] : value; }
 function isRecord(value: unknown): value is Record<string, unknown> { return typeof value === 'object' && value !== null && !Array.isArray(value); }
 function isAuthMode(value: unknown): value is 'none' | 'bearer' | 'api_key' | 'basic' | 'host_managed' { return ['none','bearer','api_key','basic','host_managed'].includes(String(value)); }

@@ -7,7 +7,7 @@ import { loadStudioProject, resolveStudioPath } from './project-store.js';
 import type { DeploymentPackageManifest } from './types.js';
 
 export async function buildDeploymentPackage(directory: string): Promise<DeploymentPackageManifest> {
-  await buildStudioProject(directory);
+  const buildReport = await buildStudioProject(directory);
   const project = await loadStudioProject(directory);
   const output = resolveStudioPath(directory, project.paths.deployment_directory);
   await rm(output, { recursive: true, force: true });
@@ -19,6 +19,8 @@ export async function buildDeploymentPackage(directory: string): Promise<Deploym
     [project.paths.provider_adapters, 'provider-adapters.json'],
     [project.paths.provider_auth_bindings, 'provider-auth-bindings.json'],
     [project.paths.credential_catalog, 'credential-catalog.json'],
+    ['./generated/tool-catalog.json', 'tool-catalog.json'],
+    ['./generated/tool-quality-report.json', 'tool-quality-report.json'],
     [project.source.file, 'openapi-source.json']
   ];
   for (const [source, name] of artifactCopies) {
@@ -56,6 +58,7 @@ export async function buildDeploymentPackage(directory: string): Promise<Deploym
       oauth_resource_metadata: `${base}/.well-known/oauth-protected-resource`,
       oauth_authorization_metadata: `${base}/.well-known/oauth-authorization-server`
     },
+    tool_quality: buildReport.tool_quality,
     private_keys_included: false
   };
   await writeFile(join(output, 'deployment-manifest.json'), `${JSON.stringify(manifest, null, 2)}\n`, 'utf8');
@@ -86,8 +89,8 @@ async function inventory(root: string, ignored: string[]): Promise<DeploymentPac
       const info = await stat(absolute);
       if (info.isDirectory()) await visit(absolute);
       else if (info.isFile()) {
-        const content = await readFile(absolute, 'utf8');
-        entries.push({ path: rel, sha256: createHash('sha256').update(content).digest('hex'), size_bytes: content.length });
+        const content = await readFile(absolute);
+        entries.push({ path: rel, sha256: createHash('sha256').update(content).digest('hex'), size_bytes: content.byteLength });
       }
     }
   }
@@ -96,11 +99,11 @@ async function inventory(root: string, ignored: string[]): Promise<DeploymentPac
 }
 
 function dockerfile(): string {
-  return `FROM node:22-alpine\nWORKDIR /opt/foundry\nCOPY runtime-package/ ./\nWORKDIR /opt/app\nCOPY template/ ./template/\nCOPY bootstrap.mjs healthcheck.mjs ./\nENV HOST=0.0.0.0 PORT=8788 DATA_DIR=/data\nVOLUME [\"/data\"]\nEXPOSE 8788\nHEALTHCHECK --interval=20s --timeout=5s --start-period=20s --retries=5 CMD [\"node\", \"healthcheck.mjs\"]\nCMD [\"node\", \"bootstrap.mjs\"]\n`;
+  return `FROM node:22-alpine\nWORKDIR /opt/foundry\nCOPY runtime-package/ ./\nWORKDIR /opt/app\nCOPY template/ ./template/\nCOPY bootstrap.mjs healthcheck.mjs ./\nENV HOST=0.0.0.0 PORT=8788 DATA_DIR=/data\nVOLUME ["/data"]\nEXPOSE 8788\nHEALTHCHECK --interval=20s --timeout=5s --start-period=20s --retries=5 CMD ["node", "healthcheck.mjs"]\nCMD ["node", "bootstrap.mjs"]\n`;
 }
 
 function composeFile(credentialEnvironment: string): string {
-  return `services:\n  foundry-app:\n    build: .\n    restart: unless-stopped\n    environment:\n      - SERVICE_URL_FOUNDRY_8788\n      - PUBLIC_BASE_URL=\${PUBLIC_BASE_URL:?}\n      - PROVIDER_BASE_URL=\${PROVIDER_BASE_URL:?}\n      - ${credentialEnvironment}=\${${credentialEnvironment}:?}\n      - ADMIN_USERNAME=\${ADMIN_USERNAME:?}\n      - ADMIN_PASSWORD=\${ADMIN_PASSWORD:?}\n      - PORT=8788\n      - HOST=0.0.0.0\n    expose:\n      - \"8788\"\n    volumes:\n      - foundry-data:/data\n    healthcheck:\n      test: [\"CMD\", \"node\", \"healthcheck.mjs\"]\n      interval: 20s\n      timeout: 5s\n      retries: 5\n      start_period: 20s\nvolumes:\n  foundry-data:\n`;
+  return `services:\n  foundry-app:\n    build: .\n    restart: unless-stopped\n    environment:\n      - SERVICE_URL_FOUNDRY_8788\n      - PUBLIC_BASE_URL=\${PUBLIC_BASE_URL:?}\n      - PROVIDER_BASE_URL=\${PROVIDER_BASE_URL:?}\n      - ${credentialEnvironment}=\${${credentialEnvironment}:?}\n      - ADMIN_USERNAME=\${ADMIN_USERNAME:?}\n      - ADMIN_PASSWORD=\${ADMIN_PASSWORD:?}\n      - PORT=8788\n      - HOST=0.0.0.0\n    expose:\n      - "8788"\n    volumes:\n      - foundry-data:/data\n    healthcheck:\n      test: ["CMD", "node", "healthcheck.mjs"]\n      interval: 20s\n      timeout: 5s\n      retries: 5\n      start_period: 20s\nvolumes:\n  foundry-data:\n`;
 }
 
 function envExample(project: Awaited<ReturnType<typeof loadStudioProject>>): string {
@@ -109,7 +112,7 @@ function envExample(project: Awaited<ReturnType<typeof loadStudioProject>>): str
 
 function bootstrapScript(project: Awaited<ReturnType<typeof loadStudioProject>>): string {
   const metadata = getPackageMetadata();
-  return `import { copyFile, mkdir, readFile, writeFile } from 'node:fs/promises';\nimport { existsSync } from 'node:fs';\nimport { join } from 'node:path';\nimport { spawn } from 'node:child_process';\nimport { randomBytes, scryptSync } from 'node:crypto';\n\nconst dataDir = process.env.DATA_DIR || '/data';\nconst runtimeDir = join(dataDir, 'runtime');\nconst foundry = '/opt/foundry/dist/src/cli/foundry.js';\nconst publicBaseUrl = required('PUBLIC_BASE_URL').replace(/\\\/$/, '');\nconst providerBaseUrl = required('PROVIDER_BASE_URL').replace(/\\\/$/, '');\nconst adminUsername = required('ADMIN_USERNAME');\nconst adminPassword = required('ADMIN_PASSWORD');\nif (adminPassword.length < 8) throw new Error('ADMIN_PASSWORD must contain at least 8 characters.');\nawait mkdir(runtimeDir, { recursive: true });\nif (!existsSync(join(runtimeDir, 'chatgpt-app-config.json'))) {\n  await run(process.execPath, [foundry, 'app', 'init', runtimeDir, '--public-base-url', publicBaseUrl, '--force']);\n}\nfor (const name of ['contract-bundle.json','provider-adapters.json','provider-auth-bindings.json','credential-catalog.json']) {\n  await copyFile(join('/opt/app/template/artifacts', name), join(runtimeDir, name));\n}\nconst runtimePath = join(runtimeDir, 'runtime-config.json');\nconst runtime = JSON.parse(await readFile(runtimePath, 'utf8'));\nruntime.server.name = ${JSON.stringify(slug(project.name))};\nruntime.server.version = ${JSON.stringify(metadata.version)};\nruntime.provider.base_url = providerBaseUrl;\nruntime.artifacts.contract_bundle = './contract-bundle.json';\nruntime.artifacts.provider_adapter_bundle = './provider-adapters.json';\nruntime.artifacts.provider_auth_binding_bundle = './provider-auth-bindings.json';\nruntime.artifacts.credential_catalog = './credential-catalog.json';\nruntime.context.provider_ref = ${JSON.stringify(project.provider.provider_ref)};\nruntime.context.provider_account_ref = ${JSON.stringify(project.provider.provider_account_ref)};\nruntime.credentials.environment_by_handle = { ${JSON.stringify(project.provider.credential_handle)}: ${JSON.stringify(project.provider.credential_environment)} };\nawait writeFile(runtimePath, JSON.stringify(runtime, null, 2) + '\\n');\nconst appPath = join(runtimeDir, 'chatgpt-app-config.json');\nconst app = JSON.parse(await readFile(appPath, 'utf8'));\napp.public_base_url = publicBaseUrl;\napp.server.host = process.env.HOST || '0.0.0.0';\napp.server.port = Number(process.env.PORT || 8788);\napp.server.allowed_origins = ['https://chatgpt.com'];\napp.oauth.issuer = publicBaseUrl;\napp.oauth.resource = publicBaseUrl + '/mcp';\napp.oauth.users[0].username = adminUsername;\napp.oauth.users[0].display_name = 'Foundry Owner';\napp.oauth.users[0].password_hash = hashPassword(adminPassword);\nawait writeFile(appPath, JSON.stringify(app, null, 2) + '\\n');\nconst child = spawn(process.execPath, [foundry, 'app', 'serve', '--config', appPath], { stdio: 'inherit', env: process.env });\nchild.on('exit', (code) => { process.exitCode = code ?? 1; });\n\nfunction required(name) { const value = process.env[name]; if (!value) throw new Error(name + ' is required.'); return value; }\nfunction hashPassword(password) { const salt = randomBytes(16).toString('hex'); const digest = scryptSync(password, salt, 32).toString('hex'); return 'scrypt$' + salt + '$' + digest; }\nfunction run(command, args) { return new Promise((resolve, reject) => { const child = spawn(command, args, { stdio: 'inherit', env: process.env }); child.on('error', reject); child.on('exit', (code) => code === 0 ? resolve() : reject(new Error('Command failed with exit ' + code))); }); }\n`;
+  return `import { copyFile, mkdir, readFile, writeFile } from 'node:fs/promises';\nimport { existsSync } from 'node:fs';\nimport { join } from 'node:path';\nimport { spawn } from 'node:child_process';\nimport { randomBytes, scryptSync } from 'node:crypto';\n\nconst dataDir = process.env.DATA_DIR || '/data';\nconst runtimeDir = join(dataDir, 'runtime');\nconst foundry = '/opt/foundry/dist/src/cli/foundry-1.4.js';\nconst publicBaseUrl = required('PUBLIC_BASE_URL').replace(/\\\/$/, '');\nconst providerBaseUrl = required('PROVIDER_BASE_URL').replace(/\\\/$/, '');\nconst adminUsername = required('ADMIN_USERNAME');\nconst adminPassword = required('ADMIN_PASSWORD');\nif (adminPassword.length < 8) throw new Error('ADMIN_PASSWORD must contain at least 8 characters.');\nawait mkdir(runtimeDir, { recursive: true });\nif (!existsSync(join(runtimeDir, 'chatgpt-app-config.json'))) {\n  await run(process.execPath, [foundry, 'app', 'init', runtimeDir, '--public-base-url', publicBaseUrl, '--force']);\n}\nfor (const name of ['contract-bundle.json','provider-adapters.json','provider-auth-bindings.json','credential-catalog.json','tool-catalog.json','tool-quality-report.json']) {\n  await copyFile(join('/opt/app/template/artifacts', name), join(runtimeDir, name));\n}\nconst runtimePath = join(runtimeDir, 'runtime-config.json');\nconst runtime = JSON.parse(await readFile(runtimePath, 'utf8'));\nruntime.server.name = ${JSON.stringify(slug(project.name))};\nruntime.server.version = ${JSON.stringify(metadata.version)};\nruntime.provider.base_url = providerBaseUrl;\nruntime.artifacts.contract_bundle = './contract-bundle.json';\nruntime.artifacts.provider_adapter_bundle = './provider-adapters.json';\nruntime.artifacts.provider_auth_binding_bundle = './provider-auth-bindings.json';\nruntime.artifacts.credential_catalog = './credential-catalog.json';\nruntime.context.provider_ref = ${JSON.stringify(project.provider.provider_ref)};\nruntime.context.provider_account_ref = ${JSON.stringify(project.provider.provider_account_ref)};\nruntime.credentials.environment_by_handle = { ${JSON.stringify(project.provider.credential_handle)}: ${JSON.stringify(project.provider.credential_environment)} };\nawait writeFile(runtimePath, JSON.stringify(runtime, null, 2) + '\\n');\nconst appPath = join(runtimeDir, 'chatgpt-app-config.json');\nconst app = JSON.parse(await readFile(appPath, 'utf8'));\napp.public_base_url = publicBaseUrl;\napp.server.host = process.env.HOST || '0.0.0.0';\napp.server.port = Number(process.env.PORT || 8788);\napp.server.allowed_origins = ['https://chatgpt.com'];\napp.oauth.issuer = publicBaseUrl;\napp.oauth.resource = publicBaseUrl + '/mcp';\napp.oauth.users[0].username = adminUsername;\napp.oauth.users[0].display_name = 'Foundry Owner';\napp.oauth.users[0].password_hash = hashPassword(adminPassword);\nawait writeFile(appPath, JSON.stringify(app, null, 2) + '\\n');\nconst child = spawn(process.execPath, [foundry, 'app', 'serve', '--config', appPath], { stdio: 'inherit', env: process.env });\nchild.on('exit', (code) => { process.exitCode = code ?? 1; });\n\nfunction required(name) { const value = process.env[name]; if (!value) throw new Error(name + ' is required.'); return value; }\nfunction hashPassword(password) { const salt = randomBytes(16).toString('hex'); const digest = scryptSync(password, salt, 32).toString('hex'); return 'scrypt$' + salt + '$' + digest; }\nfunction run(command, args) { return new Promise((resolvePromise, reject) => { const child = spawn(command, args, { stdio: 'inherit', env: process.env }); child.on('error', reject); child.on('exit', (code) => code === 0 ? resolvePromise() : reject(new Error('Command failed with exit ' + code))); }); }\n`;
 }
 
 function healthcheckScript(): string {
@@ -130,7 +133,7 @@ function chatGptGuide(project: Awaited<ReturnType<typeof loadStudioProject>>): s
 }
 
 function packageReadme(project: Awaited<ReturnType<typeof loadStudioProject>>): string {
-  return `# ${project.name} — Deployment Package\n\nGenerated by Nümtema MCP Foundry Studio v1.3.\n\n- Dockerfile included\n- Coolify Compose included\n- Runtime is self-contained\n- Private keys are generated only on first container start\n- Provider secrets are read from environment variables only\n\nRead COOLIFY.md, VPS.md, and CHATGPT_CONNECT.md.\n`;
+  return `# ${project.name} — Deployment Package\n\nGenerated by Nümtema MCP Foundry Studio v1.4.\n\n- Tool quality gate passed\n- ToolCatalog and ToolQualityReport included\n- Dockerfile included\n- Coolify Compose included\n- Runtime is self-contained\n- Private keys are generated only on first container start\n- Provider secrets are read from environment variables only\n\nRead COOLIFY.md, VPS.md, and CHATGPT_CONNECT.md.\n`;
 }
 
 function slug(value: string): string { return value.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '') || 'numtema-foundry-app'; }
