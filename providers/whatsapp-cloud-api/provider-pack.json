@@ -1,0 +1,15 @@
+{
+  "provider_pack": "whatsapp-cloud-api",
+  "version": "1.5.0",
+  "provider": "Meta WhatsApp Business Platform Cloud API",
+  "base_url": "https://graph.facebook.com",
+  "credential_environment": "WHATSAPP_ACCESS_TOKEN",
+  "runtime_environment": {
+    "graph_api_version": "WHATSAPP_GRAPH_API_VERSION",
+    "phone_number_id": "WHATSAPP_PHONE_NUMBER_ID",
+    "waba_id": "WHATSAPP_BUSINESS_ACCOUNT_ID"
+  },
+  "tool_count": 10,
+  "waha_included": false,
+  "webhook_receiver_included": false
+}
