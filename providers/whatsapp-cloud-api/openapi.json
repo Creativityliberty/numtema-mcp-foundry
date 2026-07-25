@@ -1,0 +1,134 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "Meta WhatsApp Business Platform Cloud API Provider Pack",
+    "version": "1.5.0",
+    "description": "Governed OpenAPI source used by Nümtema MCP Foundry. Meta identifiers are runtime-managed and removed from model-facing schemas by the WhatsApp provider pack."
+  },
+  "servers": [{ "url": "https://graph.facebook.com" }],
+  "security": [{ "metaBearer": [] }],
+  "paths": {
+    "/{graph_api_version}/{phone_number_id}/messages/text": {
+      "post": {
+        "operationId": "whatsapp_message_send_text",
+        "tags": ["WhatsApp Messages"],
+        "summary": "Send WhatsApp text",
+        "parameters": [{ "$ref": "#/components/parameters/GraphVersion" }, { "$ref": "#/components/parameters/PhoneNumberId" }],
+        "requestBody": { "required": true, "content": { "application/json": { "schema": { "$ref": "#/components/schemas/SendTextInput" } } } },
+        "responses": { "200": { "$ref": "#/components/responses/MessageAccepted" }, "400": { "$ref": "#/components/responses/MetaError" } }
+      }
+    },
+    "/{graph_api_version}/{phone_number_id}/messages/template": {
+      "post": {
+        "operationId": "whatsapp_message_send_template",
+        "tags": ["WhatsApp Messages"],
+        "summary": "Send WhatsApp template",
+        "parameters": [{ "$ref": "#/components/parameters/GraphVersion" }, { "$ref": "#/components/parameters/PhoneNumberId" }],
+        "requestBody": { "required": true, "content": { "application/json": { "schema": { "$ref": "#/components/schemas/SendTemplateInput" } } } },
+        "responses": { "200": { "$ref": "#/components/responses/MessageAccepted" }, "400": { "$ref": "#/components/responses/MetaError" } }
+      }
+    },
+    "/{graph_api_version}/{phone_number_id}/messages/media": {
+      "post": {
+        "operationId": "whatsapp_message_send_media",
+        "tags": ["WhatsApp Messages"],
+        "summary": "Send WhatsApp media",
+        "parameters": [{ "$ref": "#/components/parameters/GraphVersion" }, { "$ref": "#/components/parameters/PhoneNumberId" }],
+        "requestBody": { "required": true, "content": { "application/json": { "schema": { "$ref": "#/components/schemas/SendMediaInput" } } } },
+        "responses": { "200": { "$ref": "#/components/responses/MessageAccepted" }, "400": { "$ref": "#/components/responses/MetaError" } }
+      }
+    },
+    "/{graph_api_version}/{phone_number_id}/messages/interactive": {
+      "post": {
+        "operationId": "whatsapp_message_send_interactive",
+        "tags": ["WhatsApp Messages"],
+        "summary": "Send interactive WhatsApp message",
+        "parameters": [{ "$ref": "#/components/parameters/GraphVersion" }, { "$ref": "#/components/parameters/PhoneNumberId" }],
+        "requestBody": { "required": true, "content": { "application/json": { "schema": { "$ref": "#/components/schemas/SendInteractiveInput" } } } },
+        "responses": { "200": { "$ref": "#/components/responses/MessageAccepted" }, "400": { "$ref": "#/components/responses/MetaError" } }
+      }
+    },
+    "/{graph_api_version}/{phone_number_id}/messages/read": {
+      "post": {
+        "operationId": "whatsapp_message_mark_read",
+        "tags": ["WhatsApp Messages"],
+        "summary": "Mark WhatsApp message read",
+        "parameters": [{ "$ref": "#/components/parameters/GraphVersion" }, { "$ref": "#/components/parameters/PhoneNumberId" }],
+        "requestBody": { "required": true, "content": { "application/json": { "schema": { "$ref": "#/components/schemas/MarkReadInput" } } } },
+        "responses": { "200": { "description": "Read state updated", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Success" } } } }, "400": { "$ref": "#/components/responses/MetaError" } }
+      }
+    },
+    "/{graph_api_version}/{phone_number_id}/media": {
+      "post": {
+        "operationId": "whatsapp_media_upload",
+        "tags": ["WhatsApp Media"],
+        "summary": "Upload WhatsApp media",
+        "parameters": [{ "$ref": "#/components/parameters/GraphVersion" }, { "$ref": "#/components/parameters/PhoneNumberId" }],
+        "requestBody": { "required": true, "content": { "multipart/form-data": { "schema": { "$ref": "#/components/schemas/MediaUploadInput" } } } },
+        "responses": { "200": { "description": "Media uploaded", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/MediaId" } } } }, "400": { "$ref": "#/components/responses/MetaError" } }
+      }
+    },
+    "/{graph_api_version}/{media_id}": {
+      "get": {
+        "operationId": "whatsapp_media_get",
+        "tags": ["WhatsApp Media"],
+        "summary": "Get WhatsApp media",
+        "parameters": [{ "$ref": "#/components/parameters/GraphVersion" }, { "$ref": "#/components/parameters/MediaId" }],
+        "responses": { "200": { "description": "Media metadata", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/MediaMetadata" } } } }, "404": { "$ref": "#/components/responses/MetaError" } }
+      },
+      "delete": {
+        "operationId": "whatsapp_media_delete",
+        "tags": ["WhatsApp Media"],
+        "summary": "Delete WhatsApp media",
+        "parameters": [{ "$ref": "#/components/parameters/GraphVersion" }, { "$ref": "#/components/parameters/MediaId" }],
+        "responses": { "200": { "description": "Media deleted", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Success" } } } }, "404": { "$ref": "#/components/responses/MetaError" } }
+      }
+    },
+    "/{graph_api_version}/{waba_id}/message_templates": {
+      "get": {
+        "operationId": "whatsapp_template_list",
+        "tags": ["WhatsApp Templates"],
+        "summary": "List WhatsApp templates",
+        "parameters": [{ "$ref": "#/components/parameters/GraphVersion" }, { "$ref": "#/components/parameters/WabaId" }, { "name": "status", "in": "query", "schema": { "type": "string" } }, { "name": "name", "in": "query", "schema": { "type": "string" } }, { "name": "limit", "in": "query", "schema": { "type": "integer", "minimum": 1, "maximum": 100, "default": 20 } }],
+        "responses": { "200": { "description": "Template page", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/TemplatePage" } } } }, "400": { "$ref": "#/components/responses/MetaError" } }
+      }
+    },
+    "/{graph_api_version}/{phone_number_id}/whatsapp_business_profile": {
+      "get": {
+        "operationId": "whatsapp_business_profile_get",
+        "tags": ["WhatsApp Business Profile"],
+        "summary": "Get WhatsApp business profile",
+        "parameters": [{ "$ref": "#/components/parameters/GraphVersion" }, { "$ref": "#/components/parameters/PhoneNumberId" }, { "name": "fields", "in": "query", "style": "form", "explode": false, "schema": { "type": "array", "items": { "type": "string" } } }],
+        "responses": { "200": { "description": "Business profile", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/BusinessProfile" } } } }, "400": { "$ref": "#/components/responses/MetaError" } }
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": { "metaBearer": { "type": "http", "scheme": "bearer" } },
+    "parameters": {
+      "GraphVersion": { "name": "graph_api_version", "in": "path", "required": true, "schema": { "type": "string" } },
+      "PhoneNumberId": { "name": "phone_number_id", "in": "path", "required": true, "schema": { "type": "string" } },
+      "WabaId": { "name": "waba_id", "in": "path", "required": true, "schema": { "type": "string" } },
+      "MediaId": { "name": "media_id", "in": "path", "required": true, "schema": { "type": "string" } }
+    },
+    "responses": {
+      "MessageAccepted": { "description": "Message accepted", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/MessageAccepted" } } } },
+      "MetaError": { "description": "Meta provider error", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/MetaError" } } } }
+    },
+    "schemas": {
+      "SendTextInput": { "type": "object", "required": ["to", "message"], "properties": { "to": { "type": "string" }, "message": { "type": "string" }, "preview_url": { "type": "boolean" } } },
+      "SendTemplateInput": { "type": "object", "required": ["to", "template_name", "language_code"], "properties": { "to": { "type": "string" }, "template_name": { "type": "string" }, "language_code": { "type": "string" }, "components": { "type": "array", "items": { "type": "object", "additionalProperties": true } } } },
+      "SendMediaInput": { "type": "object", "required": ["to", "media_type"], "properties": { "to": { "type": "string" }, "media_type": { "type": "string" }, "media_id": { "type": "string" }, "link": { "type": "string", "format": "uri" }, "caption": { "type": "string" }, "filename": { "type": "string" } } },
+      "SendInteractiveInput": { "type": "object", "required": ["to", "interactive"], "properties": { "to": { "type": "string" }, "interactive": { "type": "object", "additionalProperties": true } } },
+      "MarkReadInput": { "type": "object", "required": ["message_id"], "properties": { "message_id": { "type": "string" } } },
+      "MediaUploadInput": { "type": "object", "required": ["artifact_id", "mime_type"], "properties": { "artifact_id": { "type": "string" }, "mime_type": { "type": "string" }, "filename": { "type": "string" } } },
+      "MessageAccepted": { "type": "object", "properties": { "messaging_product": { "type": "string" }, "contacts": { "type": "array", "items": { "type": "object" } }, "messages": { "type": "array", "items": { "type": "object", "properties": { "id": { "type": "string" } } } } } },
+      "MediaId": { "type": "object", "required": ["id"], "properties": { "id": { "type": "string" } } },
+      "MediaMetadata": { "type": "object", "properties": { "url": { "type": "string", "format": "uri" }, "mime_type": { "type": "string" }, "sha256": { "type": "string" }, "file_size": { "type": "integer" }, "id": { "type": "string" } } },
+      "TemplatePage": { "type": "object", "properties": { "data": { "type": "array", "items": { "type": "object" } }, "paging": { "type": "object" } } },
+      "BusinessProfile": { "type": "object", "properties": { "data": { "type": "array", "items": { "type": "object" } } } },
+      "Success": { "type": "object", "properties": { "success": { "type": "boolean" } } },
+      "MetaError": { "type": "object", "properties": { "error": { "type": "object", "properties": { "message": { "type": "string" }, "type": { "type": "string" }, "code": { "type": "integer" }, "error_subcode": { "type": "integer" }, "fbtrace_id": { "type": "string" } } } } }
+    }
+  }
+}
