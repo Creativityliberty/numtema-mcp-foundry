@@ -1,0 +1,14 @@
+{
+  "extends": "./tsconfig.tools.json",
+  "compilerOptions": { "outDir": "dist", "rootDir": "." },
+  "include": [
+    "src/tools/**/*.ts",
+    "src/providers/**/*.ts",
+    "src/cli/foundry-1.5.ts",
+    "src/cli/foundry.d.ts",
+    "src/studio/**/*.d.ts",
+    "src/system/**/*.d.ts",
+    "src/contracts/**/*.d.ts",
+    "src/node-shims.d.ts"
+  ]
+}
