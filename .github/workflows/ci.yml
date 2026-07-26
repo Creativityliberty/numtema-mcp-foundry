@@ -1,22 +1,37 @@
 name: CI
+
 on:
-  push:
-    branches: [main]
   pull_request:
+  workflow_dispatch:
+
 permissions:
   contents: read
+
 jobs:
   verify:
     runs-on: ubuntu-latest
     timeout-minutes: 20
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
-        with:
-          node-version: 22
-          cache: npm
-      - run: npm install
-      - run: npm run typecheck
-      - run: npm test
-      - run: ./scripts/audit-secrets.sh
-      - run: npm pack --dry-run
+      - name: Clone pull request branch
+        shell: bash
+        run: |
+          set -euo pipefail
+          git clone --depth 1 --branch "$GITHUB_HEAD_REF" "https://github.com/$GITHUB_REPOSITORY.git" repository
+      - name: Verify Node.js
+        working-directory: repository
+        run: node --version
+      - name: Install dependencies
+        working-directory: repository
+        run: npm install
+      - name: Type check
+        working-directory: repository
+        run: npm run typecheck
+      - name: Test
+        working-directory: repository
+        run: npm test
+      - name: Audit secrets
+        working-directory: repository
+        run: ./scripts/audit-secrets.sh
+      - name: Package dry run
+        working-directory: repository
+        run: npm pack --dry-run
